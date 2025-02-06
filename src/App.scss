@@ -1,0 +1,11 @@
+.App {
+  padding: 0 16px;
+
+  @media (min-width: 576px) {
+    width: 500px;
+    min-height: 100vh;
+    margin: 0 auto;
+    border-left: 1px solid lightgrey;
+    border-right: 1px solid lightgrey;
+  }
+}
