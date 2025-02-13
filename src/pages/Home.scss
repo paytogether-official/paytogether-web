@@ -2,4 +2,16 @@
   &__header {
     height: 48px;
   }
+
+  .arrow-icon {
+    width: 44px;
+    height: 44px;
+    display: flex;
+    background: white;
+    color: #343942;
+    justify-content: center;
+    align-items: center;
+    font-size: 22px;
+    border-radius: 50%;
+  }
 }

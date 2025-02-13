@@ -1,3 +1,4 @@
+import { HiOutlineArrowRight } from "react-icons/hi";
 import "./Home.scss";
 
 export const Home = () => {
@@ -11,7 +12,12 @@ export const Home = () => {
             <br />
             준비하고 있다면
           </div>
-          <button className="font-bold mb-4">여정 생성하기</button>
+          <div className="font-bold mb-3">여정 생성하기</div>
+          <div className="flex justify-end">
+            <div className="arrow-icon">
+              <HiOutlineArrowRight />
+            </div>
+          </div>
         </div>
         <div className="flex gap-2">
           <div className="flex-1 pt-4 pl-4 pr-2 pb-2 bg-[#DCEAFF] rounded-3xl">
@@ -20,7 +26,12 @@ export const Home = () => {
               <br />
               여정이 있다면
             </div>
-            <button className="font-bold mb-4">여정 참여하기</button>
+            <div className="font-bold mb-3">여정 참여하기</div>
+            <div className="flex justify-end">
+              <div className="arrow-icon">
+                <HiOutlineArrowRight />
+              </div>
+            </div>
           </div>
           <div className="flex-1 pt-4 pl-4 pr-2 pb-2 bg-[#FAFAFB] rounded-3xl">
             <div className="text-sm mb-0.5">
@@ -28,7 +39,12 @@ export const Home = () => {
               <br />
               확인하고 싶다면?
             </div>
-            <button className="font-bold mb-4">지난 여정</button>
+            <div className="font-bold mb-3">지난 여정</div>
+            <div className="flex justify-end">
+              <div className="arrow-icon">
+                <HiOutlineArrowRight />
+              </div>
+            </div>
           </div>
         </div>
       </div>
