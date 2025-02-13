@@ -1,0 +1,24 @@
+.header {
+  margin-left: -16px;
+  display: flex;
+  align-items: center;
+  height: 48px;
+
+  &__left,
+  &__right {
+    width: 48px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 22px;
+  }
+
+  &__title {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex: 1;
+    font-weight: 700;
+    font-size: 16px;
+  }
+}

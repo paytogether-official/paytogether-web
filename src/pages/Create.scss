@@ -1,0 +1,22 @@
+.create {
+  &__date {
+    padding: 4px 8px;
+    justify-content: center;
+    align-items: center;
+    color: #2c7eff;
+    font-size: 14px;
+    font-weight: 600;
+    border-radius: 40px;
+    border: 1px solid #2c7eff;
+    background: #dceaff;
+  }
+
+  &__date-modal {
+    .rdrCalendarWrapper {
+      width: 100%;
+    }
+    .rdrMonth {
+      width: 100%;
+    }
+  }
+}
