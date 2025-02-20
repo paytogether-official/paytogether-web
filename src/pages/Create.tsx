@@ -1,8 +1,10 @@
 import dayjs from "dayjs";
 import { useEffect, useState } from "react";
-import { Form, Modal } from "react-bootstrap";
+import { Form } from "react-bootstrap";
 import { DateRange, Range, RangeKeyDict } from "react-date-range";
 import { HiOutlineCalendar } from "react-icons/hi";
+import { useNavigate } from "react-router";
+import { BottomSheet } from "../components/BottomSheet";
 import { Header } from "../components/Header";
 import "./Create.scss";
 
@@ -13,6 +15,8 @@ export const Create = () => {
     endDate: new Date(),
     key: "selection"
   });
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     setSelectionRange({
@@ -29,7 +33,13 @@ export const Create = () => {
 
   return (
     <div className="create">
-      <Header leftType="back" title="여정 참여하기" />
+      <Header
+        leftType="back"
+        title="여정 참여하기"
+        onClickLeft={() => {
+          navigate("/");
+        }}
+      />
       <div className="pt-4">
         <Form>
           <Form.Group className="mb-[20px]">
@@ -49,38 +59,33 @@ export const Create = () => {
         </Form>
       </div>
 
-      <Modal
-        className="create__date-modal"
-        show={showDateModal}
-        onHide={() => setShowDateModal(false)}
+      <BottomSheet
+        title="여행기간 설정"
+        isOpen={showDateModal}
+        onClose={() => setShowDateModal(false)}
       >
-        <Modal.Header closeButton>
-          <Modal.Title>여행기간 설정</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <div className="mb-3">
-            <span className="create__date">
-              {dayjs(selectionRange.startDate).format("YY.MM.DD")} -{" "}
-              {dayjs(selectionRange.endDate).format("YY.MM.DD")}
-            </span>
-            <span className="ml-2 create__date">
-              {dayjs(selectionRange.endDate).diff(
-                dayjs(selectionRange.startDate),
-                "days"
-              ) + 1}
-              일
-            </span>
-          </div>
+        <div className="mb-3">
+          <span className="create__date">
+            {dayjs(selectionRange.startDate).format("YY.MM.DD")} -{" "}
+            {dayjs(selectionRange.endDate).format("YY.MM.DD")}
+          </span>
+          <span className="ml-2 create__date">
+            {dayjs(selectionRange.endDate).diff(
+              dayjs(selectionRange.startDate),
+              "days"
+            ) + 1}
+            일
+          </span>
+        </div>
 
-          <div className="flex justify-center">
-            <DateRange
-              showDateDisplay={false}
-              ranges={[selectionRange]}
-              onChange={handleSelect}
-            />
-          </div>
-        </Modal.Body>
-      </Modal>
+        <div className="flex justify-center">
+          <DateRange
+            showDateDisplay={false}
+            ranges={[selectionRange]}
+            onChange={handleSelect}
+          />
+        </div>
+      </BottomSheet>
     </div>
   );
 };
