@@ -10,9 +10,10 @@ import "./Create.scss";
 
 export const Create = () => {
   const [showDateModal, setShowDateModal] = useState(false);
+  const [name, setName] = useState("");
   const [selectionRange, setSelectionRange] = useState<Range>({
-    startDate: new Date(),
-    endDate: new Date(),
+    startDate: undefined,
+    endDate: undefined,
     key: "selection"
   });
 
@@ -20,11 +21,11 @@ export const Create = () => {
 
   useEffect(() => {
     setSelectionRange({
-      startDate: new Date(),
-      endDate: new Date(),
+      startDate: undefined,
+      endDate: undefined,
       key: "selection"
     });
-  }, [showDateModal]);
+  }, []);
 
   const handleSelect = (ranges: RangeKeyDict) => {
     console.log(ranges); // native Date object
@@ -44,7 +45,12 @@ export const Create = () => {
         <Form>
           <Form.Group className="mb-[20px]">
             <Form.Label>여정명</Form.Label>
-            <Form.Control type="text" placeholder="어떤 여정인가요?" />
+            <Form.Control
+              type="text"
+              placeholder="어떤 여정인가요?"
+              value={name}
+              onChange={e => setName(e.target.value)}
+            />
           </Form.Group>
           <Form.Group className="mb-[20px]">
             <Form.Label>여행기간</Form.Label>
@@ -52,7 +58,15 @@ export const Create = () => {
               className="form-control flex justify-between items-center cursor-pointer"
               onClick={() => setShowDateModal(true)}
             >
-              <span className="text-[#B1B8C0]">언제 여행을 떠나시나요?</span>
+              {selectionRange.endDate && selectionRange.startDate ? (
+                <div>
+                  {`${dayjs(selectionRange.startDate).format(
+                    "YY.MM.DD"
+                  )} -${dayjs(selectionRange.endDate).format("YY.MM.DD")}`}
+                </div>
+              ) : (
+                <span className="text-[#B1B8C0]">언제 여행을 떠나시나요?</span>
+              )}
               <HiOutlineCalendar className="text-[22px]" />
             </div>
           </Form.Group>
@@ -65,17 +79,22 @@ export const Create = () => {
         onClose={() => setShowDateModal(false)}
       >
         <div className="mb-3">
-          <span className="create__date">
-            {dayjs(selectionRange.startDate).format("YY.MM.DD")} -{" "}
-            {dayjs(selectionRange.endDate).format("YY.MM.DD")}
-          </span>
-          <span className="ml-2 create__date">
-            {dayjs(selectionRange.endDate).diff(
-              dayjs(selectionRange.startDate),
-              "days"
-            ) + 1}
-            일
-          </span>
+          {selectionRange.endDate && selectionRange.startDate && (
+            <span className="create__date">
+              {`${dayjs(selectionRange.startDate).format("YY.MM.DD")} -${dayjs(
+                selectionRange.endDate
+              ).format("YY.MM.DD")}`}
+            </span>
+          )}
+          {selectionRange.endDate && selectionRange.startDate && (
+            <span className="ml-2 create__date">
+              {dayjs(selectionRange.endDate).diff(
+                dayjs(selectionRange.startDate),
+                "days"
+              ) + 1}
+              일
+            </span>
+          )}
         </div>
 
         <div className="flex justify-center">
