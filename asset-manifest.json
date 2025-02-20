@@ -1,44 +1,15 @@
 {
   "files": {
     "main.css": "/paytogether-web/static/css/main.07d59265.css",
-    "main.js": "/paytogether-web/static/js/main.949579df.js",
+    "main.js": "/paytogether-web/static/js/main.f0c83b46.js",
     "static/js/453.3b1b5a29.chunk.js": "/paytogether-web/static/js/453.3b1b5a29.chunk.js",
-    "static/media/parse.cjs": "/paytogether-web/static/media/parse.24b944273bab034d7452.cjs",
-    "static/media/format.cjs": "/paytogether-web/static/media/format.c96d3138777b7161e387.cjs",
     "index.html": "/paytogether-web/index.html",
-    "static/media/differenceInDays.cjs": "/paytogether-web/static/media/differenceInDays.25feda917f5ddf30afed.cjs",
-    "static/media/differenceInCalendarDays.cjs": "/paytogether-web/static/media/differenceInCalendarDays.10634f5b54e237ba0d3f.cjs",
-    "static/media/en-US.cjs": "/paytogether-web/static/media/en-US.c3a6319ea4f219498e6f.cjs",
-    "static/media/eachDayOfInterval.cjs": "/paytogether-web/static/media/eachDayOfInterval.5deea439fb7fa047bcc3.cjs",
-    "static/media/addMonths.cjs": "/paytogether-web/static/media/addMonths.9f365dadb26c90bd5a56.cjs",
-    "static/media/endOfWeek.cjs": "/paytogether-web/static/media/endOfWeek.3e1f41fc72a833c27935.cjs",
-    "static/media/startOfWeek.cjs": "/paytogether-web/static/media/startOfWeek.d119a247b97b2438a69c.cjs",
-    "static/media/setMonth.cjs": "/paytogether-web/static/media/setMonth.73337651daa6ad094370.cjs",
-    "static/media/max.cjs": "/paytogether-web/static/media/max.641d26476c68049abda8.cjs",
-    "static/media/min.cjs": "/paytogether-web/static/media/min.8101e9f0c55e2cb430a5.cjs",
-    "static/media/differenceInCalendarMonths.cjs": "/paytogether-web/static/media/differenceInCalendarMonths.42379f6557060df5a1d9.cjs",
-    "static/media/isWithinInterval.cjs": "/paytogether-web/static/media/isWithinInterval.070d3b8611eed03e319b.cjs",
-    "static/media/isSameDay.cjs": "/paytogether-web/static/media/isSameDay.eee31281909c3fc18e52.cjs",
-    "static/media/addDays.cjs": "/paytogether-web/static/media/addDays.6216a541f75a7c8306c1.cjs",
-    "static/media/setYear.cjs": "/paytogether-web/static/media/setYear.ac739d752291ce9937ca.cjs",
-    "static/media/isSameMonth.cjs": "/paytogether-web/static/media/isSameMonth.80881fb874d3032aad74.cjs",
-    "static/media/endOfMonth.cjs": "/paytogether-web/static/media/endOfMonth.14f0a1d7b72b3431e15d.cjs",
-    "static/media/isValid.cjs": "/paytogether-web/static/media/isValid.b64964897424a51fec83.cjs",
-    "static/media/startOfMonth.cjs": "/paytogether-web/static/media/startOfMonth.bd1510c2af155ad5c1dc.cjs",
-    "static/media/startOfDay.cjs": "/paytogether-web/static/media/startOfDay.d5388fd70b18c503effe.cjs",
-    "static/media/endOfDay.cjs": "/paytogether-web/static/media/endOfDay.57c5d5349b095b5d36d4.cjs",
-    "static/media/isWeekend.cjs": "/paytogether-web/static/media/isWeekend.b9c05f9cc15993b83f97.cjs",
-    "static/media/isBefore.cjs": "/paytogether-web/static/media/isBefore.d1a71f05e0b10264ab27.cjs",
-    "static/media/isEqual.cjs": "/paytogether-web/static/media/isEqual.9be6bc43fb7eff039191.cjs",
-    "static/media/isAfter.cjs": "/paytogether-web/static/media/isAfter.b4989c90e7b0d4f1ddb9.cjs",
-    "static/media/subMonths.cjs": "/paytogether-web/static/media/subMonths.47e809c1676e2e413ffd.cjs",
-    "static/media/addYears.cjs": "/paytogether-web/static/media/addYears.156c22f232a250728760.cjs",
     "main.07d59265.css.map": "/paytogether-web/static/css/main.07d59265.css.map",
-    "main.949579df.js.map": "/paytogether-web/static/js/main.949579df.js.map",
+    "main.f0c83b46.js.map": "/paytogether-web/static/js/main.f0c83b46.js.map",
     "453.3b1b5a29.chunk.js.map": "/paytogether-web/static/js/453.3b1b5a29.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.07d59265.css",
-    "static/js/main.949579df.js"
+    "static/js/main.f0c83b46.js"
   ]
 }
