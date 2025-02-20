@@ -1,0 +1,1 @@
+"use strict";exports.isWeekend=isWeekend;var _index=require("./toDate.cjs");function isWeekend(e,t){const n=(0,_index.toDate)(e,t?.in).getDay();return 0===n||6===n}
