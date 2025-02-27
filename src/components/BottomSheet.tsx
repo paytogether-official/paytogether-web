@@ -4,6 +4,7 @@ import { Sheet } from "react-modal-sheet";
 import "./BottomSheet.scss";
 
 interface Props {
+  className?: string;
   title?: string;
   isOpen: boolean;
   onClose: () => void;
@@ -13,7 +14,7 @@ interface Props {
 export const BottomSheet = (props: Props) => {
   return (
     <Sheet
-      className="bottom-sheet"
+      className={"bottom-sheet " + props.className}
       isOpen={props.isOpen}
       onClose={props.onClose}
       detent="content-height"

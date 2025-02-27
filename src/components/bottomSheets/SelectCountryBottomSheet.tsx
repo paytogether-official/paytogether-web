@@ -37,6 +37,7 @@ export const SelectCountryBottomSheet = (props: Props) => {
 
   return (
     <BottomSheet
+      className="select-country-bottom-sheet"
       title="여행지 설정"
       isOpen={props.show}
       onClose={props.onClose}
@@ -53,12 +54,7 @@ export const SelectCountryBottomSheet = (props: Props) => {
         </InputGroup.Text>
       </InputGroup>
 
-      <Tabs
-        id="controlled-tab-example"
-        activeKey={tab}
-        onSelect={k => setTab(k!)}
-        className="mb-3"
-      >
+      <Tabs activeKey={tab} onSelect={k => setTab(k!)} className="mb-3">
         <Tab eventKey="ALL" title="전체" />
         {tabs.map(t => (
           <Tab key={t.key} eventKey={t.key} title={t.name} />

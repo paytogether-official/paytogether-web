@@ -1,4 +1,19 @@
 .select-country-bottom-sheet {
+  .nav-tabs {
+    justify-content: space-between;
+    padding-left: 4px;
+    padding-right: 4px;
+
+    .nav-item {
+      .nav-link {
+        padding-left: 2px;
+        padding-right: 2px;
+        margin-left: 0px;
+        margin-right: 0px;
+      }
+    }
+  }
+
   &__item {
     cursor: pointer;
     padding: 0 4px;
