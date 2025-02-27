@@ -29,9 +29,38 @@
   }
 }
 
+.input-group-text {
+  border-radius: 16px;
+}
+
 .react-modal-sheet-container {
   @media (min-width: 576px) {
     width: 500px !important;
     left: calc(50% - 250px) !important;
+  }
+}
+
+.nav-tabs {
+  border: 0;
+
+  .nav-item {
+    .nav-link {
+      font-size: 14px;
+      font-style: normal;
+      font-weight: 600;
+      line-height: 140%;
+      color: #6d7582;
+      border: 0;
+      padding-left: 2px;
+      padding-right: 2px;
+      margin-left: 8px;
+      margin-right: 8px;
+
+      &.active {
+        color: #2c7eff;
+        font-weight: 700;
+        border-bottom: 2px solid #2c7eff;
+      }
+    }
   }
 }

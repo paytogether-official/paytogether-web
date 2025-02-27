@@ -2,15 +2,19 @@ import dayjs from "dayjs";
 import { useEffect, useState } from "react";
 import { Form } from "react-bootstrap";
 import { DateRange, Range, RangeKeyDict } from "react-date-range";
+import { FaCaretDown } from "react-icons/fa6";
 import { HiOutlineCalendar } from "react-icons/hi";
 import { useNavigate } from "react-router";
 import { BottomSheet } from "../components/BottomSheet";
 import { Header } from "../components/Header";
+import { SelectCountryBottomSheet } from "../components/bottomSheets/SelectCountryBottomSheet";
 import "./Create.scss";
 
 export const Create = () => {
   const [showDateModal, setShowDateModal] = useState(false);
+  const [showCountryModal, setShowCountryModal] = useState(false);
   const [name, setName] = useState("");
+  const [country, setCountry] = useState("");
   const [selectionRange, setSelectionRange] = useState<Range>({
     startDate: undefined,
     endDate: undefined,
@@ -70,6 +74,22 @@ export const Create = () => {
               <HiOutlineCalendar className="text-[22px]" />
             </div>
           </Form.Group>
+          <Form.Group className="mb-[20px]">
+            <Form.Label>국가설정</Form.Label>
+            <div
+              className="form-control flex justify-between items-center cursor-pointer"
+              onClick={() => setShowCountryModal(true)}
+            >
+              {country ? (
+                <div>{country}</div>
+              ) : (
+                <span className="text-[#B1B8C0]">
+                  어디로 여행을 떠나시나요?
+                </span>
+              )}
+              <FaCaretDown className="text-[22px]" />
+            </div>
+          </Form.Group>
         </Form>
       </div>
 
@@ -105,6 +125,12 @@ export const Create = () => {
           />
         </div>
       </BottomSheet>
+
+      <SelectCountryBottomSheet
+        show={showCountryModal}
+        onChangeCountry={setCountry}
+        onClose={() => setShowCountryModal(false)}
+      />
     </div>
   );
 };

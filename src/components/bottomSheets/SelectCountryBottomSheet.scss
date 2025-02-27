@@ -1,0 +1,37 @@
+.select-country-bottom-sheet {
+  &__item {
+    cursor: pointer;
+    padding: 0 4px;
+
+    &:hover {
+      background: #fafafb;
+    }
+
+    &:not(:last-child) {
+      margin-bottom: 8px;
+    }
+
+    &-name {
+      color: #151719;
+
+      /* pay together/Mobile/Body/Content Accent */
+      font-family: Pretendard;
+      font-size: 14px;
+      font-style: normal;
+      font-weight: 600;
+      line-height: 140%; /* 19.6px */
+    }
+
+    &-code {
+      color: #6d7582;
+      text-align: right;
+
+      /* pay together/Mobile/Body/Content Accent */
+      font-family: Pretendard;
+      font-size: 14px;
+      font-style: normal;
+      font-weight: 600;
+      line-height: 140%; /* 19.6px */
+    }
+  }
+}
