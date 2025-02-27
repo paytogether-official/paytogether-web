@@ -1,15 +1,15 @@
 {
   "files": {
-    "main.css": "/paytogether-web/static/css/main.9a6eec5a.css",
-    "main.js": "/paytogether-web/static/js/main.18eefc46.js",
+    "main.css": "/paytogether-web/static/css/main.e73556a6.css",
+    "main.js": "/paytogether-web/static/js/main.f3807412.js",
     "static/js/453.3b1b5a29.chunk.js": "/paytogether-web/static/js/453.3b1b5a29.chunk.js",
     "index.html": "/paytogether-web/index.html",
-    "main.9a6eec5a.css.map": "/paytogether-web/static/css/main.9a6eec5a.css.map",
-    "main.18eefc46.js.map": "/paytogether-web/static/js/main.18eefc46.js.map",
+    "main.e73556a6.css.map": "/paytogether-web/static/css/main.e73556a6.css.map",
+    "main.f3807412.js.map": "/paytogether-web/static/js/main.f3807412.js.map",
     "453.3b1b5a29.chunk.js.map": "/paytogether-web/static/js/453.3b1b5a29.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.9a6eec5a.css",
-    "static/js/main.18eefc46.js"
+    "static/css/main.e73556a6.css",
+    "static/js/main.f3807412.js"
   ]
 }
