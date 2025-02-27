@@ -5,7 +5,15 @@ import "./Home.scss";
 export const Home = () => {
   return (
     <div className="home">
-      <div className="home__header flex items-center font-bold">Pay To</div>
+      <div className="home__header flex items-center font-bold">
+        <img
+          src={`${process.env.PUBLIC_URL}/logo.png`}
+          width={36}
+          height={24}
+          alt={"logo"}
+        />
+        <div className="ml-1.5">Pay To</div>
+      </div>
       <div className="pt-[22px]">
         <Link to="/create">
           <div className="mb-2 pt-4 pl-4 pr-2 pb-2 bg-[#2C7EFF] text-white rounded-3xl">

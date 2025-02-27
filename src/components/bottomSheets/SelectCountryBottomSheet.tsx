@@ -80,6 +80,7 @@ export const SelectCountryBottomSheet = (props: Props) => {
                 src={`${process.env.PUBLIC_URL}/flags/${item.image}`}
                 width={48}
                 height={32}
+                alt={item.name}
               />
               <div className="select-country-bottom-sheet__item-name ml-2">
                 {item.name}
