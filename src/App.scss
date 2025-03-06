@@ -29,8 +29,14 @@
   }
 }
 
-.input-group-text {
-  border-radius: 16px;
+.input-group:has(.input-group-text) {
+  .form-control {
+    border-right: 0;
+  }
+
+  .input-group-text {
+    border-radius: 16px;
+  }
 }
 
 .react-modal-sheet-container {

@@ -7,7 +7,7 @@ import "./SelectCountryBottomSheet.scss";
 
 interface Props {
   show: boolean;
-  onChangeCountry: (v: string) => void;
+  onChangeCountry: (v: Country) => void;
   onClose: () => void;
 }
 
@@ -67,7 +67,7 @@ export const SelectCountryBottomSheet = (props: Props) => {
             key={item.name}
             className="select-country-bottom-sheet__item flex justify-between items-center h-[40px]"
             onClick={() => {
-              props.onChangeCountry(item.name);
+              props.onChangeCountry(item);
               props.onClose();
             }}
           >
@@ -94,7 +94,7 @@ export const SelectCountryBottomSheet = (props: Props) => {
   );
 };
 
-interface Country {
+export interface Country {
   name: string;
   image: string;
   code: string;
