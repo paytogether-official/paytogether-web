@@ -10,6 +10,17 @@
   }
 }
 
+.footer {
+  position: fixed;
+  bottom: 0;
+  padding: 1rem;
+
+  @media (min-width: 576px) {
+    width: 500px;
+    left: calc(50% - 250px);
+  }
+}
+
 .form-label {
   margin-bottom: 4px;
   font-weight: 600;
@@ -31,6 +42,10 @@
 
 .btn {
   border-radius: 16px;
+
+  &.btn-primary {
+    font-weight: 700;
+  }
 
   &.btn-outline-primary {
     border: 1px solid var(--Color-Primary-Normal, #2c7eff);

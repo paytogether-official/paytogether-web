@@ -77,7 +77,7 @@ export const Create = () => {
   };
 
   return (
-    <div className="create">
+    <div className="create pb-16">
       <Header
         leftType="back"
         title="여정 참여하기"
@@ -193,6 +193,23 @@ export const Create = () => {
             )}
           </Form.Group>
         </Form>
+      </div>
+
+      <div className="footer">
+        <button
+          type="button"
+          className="btn btn-primary w-full text-center h-[48px] py-0"
+          disabled={
+            !name ||
+            !selectionRange.startDate ||
+            !selectionRange.endDate ||
+            !country ||
+            !exchangeRate ||
+            memberList.some(member => member === "")
+          }
+        >
+          생성하기
+        </button>
       </div>
 
       <BottomSheet
