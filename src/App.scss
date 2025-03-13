@@ -29,6 +29,16 @@
   }
 }
 
+.btn {
+  border-radius: 16px;
+
+  &.btn-outline-primary {
+    border: 1px solid var(--Color-Primary-Normal, #2c7eff);
+    background: var(--Component-Fill-Primary, #dceaff);
+    color: #2c7eff;
+  }
+}
+
 .input-group:has(.input-group-text) {
   .form-control {
     border-right: 0;

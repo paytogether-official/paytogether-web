@@ -1,10 +1,13 @@
 import dayjs from "dayjs";
+import _ from "lodash";
 import { useEffect, useState } from "react";
 import { Form, InputGroup } from "react-bootstrap";
 import { DateRange, Range, RangeKeyDict } from "react-date-range";
+import { AiFillCloseCircle } from "react-icons/ai";
 import { FaEquals } from "react-icons/fa";
 import { FaCaretDown } from "react-icons/fa6";
 import { HiOutlineCalendar } from "react-icons/hi";
+import { IoAddCircleOutline } from "react-icons/io5";
 import { useNavigate } from "react-router";
 import { BottomSheet } from "../components/BottomSheet";
 import { Header } from "../components/Header";
@@ -25,6 +28,7 @@ export const Create = () => {
     endDate: undefined,
     key: "selection"
   });
+  const [memberList, setMemberList] = useState<string[]>([""]);
 
   const navigate = useNavigate();
 
@@ -39,6 +43,37 @@ export const Create = () => {
   const handleSelect = (ranges: RangeKeyDict) => {
     console.log(ranges); // native Date object
     setSelectionRange(ranges["selection"]);
+  };
+
+  const handleClickNewMember = () => {
+    let newMemberName = "";
+    if (memberList.every(member => member !== "")) {
+      const lastNameList: string[] = [
+        "정산",
+        "페이",
+        "나눔",
+        "돈",
+        "머니",
+        "여행"
+      ];
+      const firstNameList: string[] = [
+        "빌런",
+        "귀신",
+        "도둑",
+        "거지",
+        "만수르",
+        "부자",
+        "마법사",
+        "요정"
+      ];
+
+      const nameList = _.flatMap(lastNameList, a =>
+        _.map(firstNameList, b => `${a}${b}`)
+      );
+      newMemberName = _.without(_.shuffle(nameList), ...memberList)[0];
+    }
+
+    setMemberList([...memberList, newMemberName]);
   };
 
   return (
@@ -110,6 +145,7 @@ export const Create = () => {
                   <Form.Control
                     type="number"
                     value={exchangeRate}
+                    min={0}
                     onChange={e => setExchangeRate(e.target.value)}
                   />
                   <InputGroup.Text>원</InputGroup.Text>
@@ -117,6 +153,45 @@ export const Create = () => {
               </div>
             </Form.Group>
           )}
+          <Form.Group className="mb-[20px]">
+            <Form.Label>인원설정</Form.Label>
+            {memberList.map((member, i) => (
+              <div className="relative" key={i}>
+                <Form.Control
+                  className="text-center px-5 text-[14px] mb-2 h-[40px]"
+                  type="text"
+                  placeholder="이름을 입력해주세요"
+                  value={member}
+                  onChange={e => {
+                    const newMemberList = [...memberList];
+                    newMemberList[i] = e.target.value;
+                    setMemberList(newMemberList);
+                  }}
+                />
+                <AiFillCloseCircle
+                  className="text-[28px] text-[#343942] absolute top-[6px] right-[6px] cursor-pointer"
+                  onClick={() => {
+                    if (memberList.length === 1) {
+                      setMemberList([""]);
+                    } else {
+                      const newMemberList = [...memberList];
+                      newMemberList.splice(i, 1);
+                      setMemberList(newMemberList);
+                    }
+                  }}
+                />
+              </div>
+            ))}
+            {memberList.length < 30 && (
+              <button
+                type="button"
+                className="btn btn-outline-primary w-full text-center h-[40px] py-0"
+                onClick={handleClickNewMember}
+              >
+                <IoAddCircleOutline className="text-[28px] inline-block" />
+              </button>
+            )}
+          </Form.Group>
         </Form>
       </div>
 

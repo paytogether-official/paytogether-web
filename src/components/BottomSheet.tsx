@@ -14,7 +14,7 @@ interface Props {
 export const BottomSheet = (props: Props) => {
   return (
     <Sheet
-      className={"bottom-sheet " + props.className}
+      className={"bottom-sheet pointer-events-auto" + (props.className ?? "")}
       isOpen={props.isOpen}
       onClose={props.onClose}
       detent="content-height"
