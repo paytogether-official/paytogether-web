@@ -7,6 +7,7 @@ import { Create } from "./pages/Create";
 import { History } from "./pages/History";
 import { Home } from "./pages/Home";
 import { Join } from "./pages/Join";
+import { Journey } from "./pages/Journey";
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
         <Route path="/create" element={<Create />} />
         <Route path="/join" element={<Join />} />
         <Route path="/history" element={<History />} />
+        <Route path="/journey" element={<Journey />} />
       </Routes>
     </div>
   );
