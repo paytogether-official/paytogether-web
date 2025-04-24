@@ -19,15 +19,20 @@ import { ReactComponent as MemoNormalButton } from "../assets/svg/status=memo.sv
 import { ReactComponent as MemoCheckedButton } from "../assets/svg/status=memo_on.svg";
 import { CategoryButton } from "../components/CategoryButton";
 import { SvgButton } from "../components/SvgButton";
+import { Tab, Tabs } from "react-bootstrap";
+import { Link } from "react-router-dom";
+import "./JourneyAddExpense.scss";
 
 export const JourneyAddExpense = () => {
   const [showDateModal, setShowDateModal] = React.useState(false);
   const [expenseDate, setExpenseDate] = React.useState<Date>(new Date());
   const [category, setCategory] = React.useState<string>("기타");
   const [payerName, setPayerName] = React.useState<string>("");
+  const [tab, setTab] = React.useState("1/N");
+  const [amount, setAmount] = React.useState<number>(0);
 
   return (
-    <div className="journey-add-item">
+    <div className="journey-add-expense pb-16">
       <Form.Group className="mb-2">
         <div
           className="form-control flex justify-between items-center cursor-pointer"
@@ -101,6 +106,61 @@ export const JourneyAddExpense = () => {
             onClick={() => console.log("Clicked")}
           />
         </div>
+      </div>
+      <Tabs activeKey={tab} onSelect={k => setTab(k!)} className="mb-3">
+        <Tab eventKey="1/N" title="1/N 하기" />
+        <Tab eventKey="DIRECT" title="직접입력" />
+      </Tabs>
+
+      {tab === "1/N" && (
+        <div>
+          <Form.Group className="mb-[16px] border-b-2 border-[#2C7EFF]">
+            <Form.Control
+              className="text-[28px] mb-1 transparent"
+              type="number"
+              placeholder="금액(JPN)"
+              value={amount || ""}
+              max={9999999999}
+              onChange={e => setAmount(Number(e.target.value))}
+            />
+          </Form.Group>
+          <div className="text-right">
+            <Link
+              to="/journey/expense-setting"
+              className="inline-flex justify-between items-center h-[20px] rounded-lg bg-[#DCEAFF] px-2 text-[14px] text-[#2C7EFF] font-semibold"
+            >
+              정산설정
+            </Link>
+          </div>
+          <div className="flex flex-col gap-2">
+            <div className="journey-add-expense__user">
+              <div className="flex gap-2">
+                <span className="journey-add-expense__user-name">가망이</span>
+                <span className="journey-add-expense__calculate-badge">
+                  계산
+                </span>
+              </div>
+            </div>
+            <div className="journey-add-expense__user">
+              <span className="journey-add-expense__user-name">나망이</span>
+            </div>
+            <div className="journey-add-expense__user">
+              <span className="journey-add-expense__user-name">다망이</span>
+            </div>
+            <div className="journey-add-expense__user">
+              <span className="journey-add-expense__user-name">라망이</span>
+            </div>
+          </div>
+        </div>
+      )}
+
+      <div className="footer">
+        <button
+          type="button"
+          className="btn btn-primary w-full text-center h-[48px] py-0"
+        >
+          지출추가
+        </button>
       </div>
 
       <DateBottomSheet

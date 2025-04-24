@@ -1,0 +1,31 @@
+.journey-add-expense {
+  &__user {
+    display: flex;
+    height: 40px;
+    padding: 6px 16px;
+    justify-content: space-between;
+    align-items: center;
+    align-self: stretch;
+    border-radius: 16px;
+    background: #fafafb;
+
+    &-name {
+      font-size: 14px;
+      font-weight: 600;
+    }
+  }
+
+  &__calculate-badge {
+    display: flex;
+    height: 20px;
+    padding: 0px 8px;
+    justify-content: center;
+    align-items: center;
+    border-radius: 8px;
+    background: #2c7eff;
+    color: #fff;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 600;
+  }
+}
