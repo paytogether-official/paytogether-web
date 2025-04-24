@@ -9,6 +9,7 @@ import { Home } from "./pages/Home";
 import { Join } from "./pages/Join";
 import { Journey } from "./pages/Journey";
 import { ExpenseSetting } from "./pages/ExpenseSetting";
+import { Navigate } from "react-router-dom";
 
 function App() {
   return (
@@ -18,7 +19,8 @@ function App() {
         <Route path="/create" element={<Create />} />
         <Route path="/join" element={<Join />} />
         <Route path="/history" element={<History />} />
-        <Route path="/journey" element={<Journey />} />
+        <Route path="/journey" element={<Navigate to="/journey/-1" />} />
+        <Route path="/journey/:id" element={<Journey />} />
         <Route path="/journey/expense-setting" element={<ExpenseSetting />} />
       </Routes>
     </div>

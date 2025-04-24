@@ -1,10 +1,16 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Header } from "../components/Header";
 import { Tab, Tabs } from "react-bootstrap";
 import { JourneyAddExpense } from "./JourneyAddExpense";
+import { useParams } from "react-router-dom";
 
 export const Journey = () => {
+  const { id } = useParams<{ id: string }>();
   const [tab, setTab] = React.useState("ADD");
+
+  useEffect(() => {
+    console.log(id);
+  }, []);
 
   return (
     <div className="journey">
