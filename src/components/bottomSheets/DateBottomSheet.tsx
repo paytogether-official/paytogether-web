@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { BottomSheet } from "../BottomSheet";
 import { Calendar } from "react-date-range";
 
