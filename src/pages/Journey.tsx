@@ -10,7 +10,7 @@ export const Journey = () => {
 
   useEffect(() => {
     console.log(id);
-  }, []);
+  }, [id]);
 
   return (
     <div className="journey">
