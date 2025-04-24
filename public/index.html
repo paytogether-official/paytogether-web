@@ -45,7 +45,7 @@
       // the correct url will be waiting in the browser's history for
       // the single page app to route accordingly.
       (function (l) {
-        if (l.search.startsWith("?")) {
+        if (l.search[1] === "/") {
           var decoded = l.search
             .slice(1)
             .split("&")
@@ -56,7 +56,7 @@
           window.history.replaceState(
             null,
             null,
-            l.pathname + decoded + l.hash
+            l.pathname.slice(0, -1) + decoded + l.hash
           );
         }
       })(window.location);
