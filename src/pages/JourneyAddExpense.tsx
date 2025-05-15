@@ -22,6 +22,7 @@ import { SvgButton } from "../components/SvgButton";
 import { Tab, Tabs } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import "./JourneyAddExpense.scss";
+import { MemoBottomSheet } from "../components/bottomSheets/MemoBottomSheet";
 
 export const JourneyAddExpense = () => {
   const [showDateModal, setShowDateModal] = React.useState(false);
@@ -30,6 +31,7 @@ export const JourneyAddExpense = () => {
   const [payerName, setPayerName] = React.useState<string>("");
   const [tab, setTab] = React.useState("1/N");
   const [amount, setAmount] = React.useState<number>(0);
+  const [showMemoModal, setShowMemoModal] = React.useState(false);
 
   return (
     <div className="journey-add-expense pb-16">
@@ -103,7 +105,7 @@ export const JourneyAddExpense = () => {
           <SvgButton
             normalSvg={<MemoNormalButton />}
             hoverSvg={<MemoCheckedButton />}
-            onClick={() => console.log("Clicked")}
+            onClick={() => setShowMemoModal(true)}
           />
         </div>
       </div>
@@ -175,6 +177,12 @@ export const JourneyAddExpense = () => {
         showModal={showDateModal}
         onChange={setExpenseDate}
         onClose={() => setShowDateModal(false)}
+      />
+
+      <MemoBottomSheet
+        showModal={showMemoModal}
+        onClose={() => setShowMemoModal(false)}
+        onChange={memo => console.log(memo)}
       />
     </div>
   );
