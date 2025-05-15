@@ -112,18 +112,19 @@ export const JourneyAddExpense = () => {
         <Tab eventKey="DIRECT" title="직접입력" />
       </Tabs>
 
-      {tab === "1/N" && (
-        <div>
-          <Form.Group className="mb-[16px] border-b-2 border-[#2C7EFF]">
-            <Form.Control
-              className="text-[28px] mb-1 transparent"
-              type="number"
-              placeholder="금액(JPN)"
-              value={amount || ""}
-              max={9999999999}
-              onChange={e => setAmount(Number(e.target.value))}
-            />
-          </Form.Group>
+      <div>
+        <Form.Group className="mb-[16px] border-b-2 border-[#2C7EFF]">
+          <Form.Control
+            className="text-[28px] mb-1 transparent"
+            type="number"
+            placeholder="금액(JPN)"
+            value={amount || ""}
+            max={9999999999}
+            onChange={e => setAmount(Number(e.target.value))}
+          />
+        </Form.Group>
+
+        <div className="flex flex-col gap-2">
           <div className="text-right">
             <Link
               to="/journey/expense-setting"
@@ -132,27 +133,33 @@ export const JourneyAddExpense = () => {
               정산설정
             </Link>
           </div>
-          <div className="flex flex-col gap-2">
-            <div className="journey-add-expense__user">
-              <div className="flex gap-2">
-                <span className="journey-add-expense__user-name">가망이</span>
-                <span className="journey-add-expense__calculate-badge">
-                  계산
-                </span>
-              </div>
+          <div className="journey-add-expense__user">
+            <div className="flex gap-2">
+              <span className="journey-add-expense__user-name">가망이</span>
+              <span className="journey-add-expense__calculate-badge">계산</span>
             </div>
-            <div className="journey-add-expense__user">
+            <div className="journey-add-expense__user-amount">3,423</div>
+          </div>
+          <div className="journey-add-expense__user">
+            <div className="flex gap-2">
               <span className="journey-add-expense__user-name">나망이</span>
             </div>
-            <div className="journey-add-expense__user">
+            <div className="journey-add-expense__user-amount">3,423</div>
+          </div>
+          <div className="journey-add-expense__user">
+            <div className="flex gap-2">
               <span className="journey-add-expense__user-name">다망이</span>
             </div>
-            <div className="journey-add-expense__user">
+            <div className="journey-add-expense__user-amount">3,423</div>
+          </div>
+          <div className="journey-add-expense__user">
+            <div className="flex gap-2">
               <span className="journey-add-expense__user-name">라망이</span>
             </div>
+            <div className="journey-add-expense__user-amount">3,423</div>
           </div>
         </div>
-      )}
+      </div>
 
       <div className="footer">
         <button
