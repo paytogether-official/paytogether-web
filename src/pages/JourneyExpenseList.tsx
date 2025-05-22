@@ -21,7 +21,7 @@ export const JourneyExpenseList = () => {
         총 123,432 <HiChevronDown />
       </div>
       <div className="text-[12px] mb-3">24년 4월 13일 - 4월 17일</div>
-      <div className="bg-[#F3F4F8] h-[4px] absolute left-0 right-0" />
+      <div className="bg-[#F3F4F8] h-[4px] ml-[-16px] mr-[-16px]" />
       {/* Add your content here */}
     </div>
   );
