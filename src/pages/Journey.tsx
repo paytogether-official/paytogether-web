@@ -3,6 +3,7 @@ import { Header } from "../components/Header";
 import { Tab, Tabs } from "react-bootstrap";
 import { JourneyAddExpense } from "./JourneyAddExpense";
 import { useParams } from "react-router-dom";
+import { JourneyExpenseList } from "./JourneyExpenseList";
 
 export const Journey = () => {
   const { id } = useParams<{ id: string }>();
@@ -21,6 +22,7 @@ export const Journey = () => {
           <Tab eventKey="LIST" title="목록 보기" />
         </Tabs>
         {tab === "ADD" && <JourneyAddExpense />}
+        {tab === "LIST" && <JourneyExpenseList />}
       </div>
     </div>
   );

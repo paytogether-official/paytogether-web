@@ -1,0 +1,21 @@
+.toggle-switch {
+  border-radius: 99px;
+  background: #fafafb;
+  display: inline-flex;
+  gap: 4px;
+  padding: 4px 4.5px;
+
+  &__label {
+    color: #b1b8c0;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 600;
+    padding: 0px 8px;
+
+    &.active {
+      border-radius: 8px;
+      color: #fff;
+      background: #2c7eff;
+    }
+  }
+}
