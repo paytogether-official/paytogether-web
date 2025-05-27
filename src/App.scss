@@ -83,9 +83,14 @@
 
 .nav-tabs {
   border: 0;
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding-bottom: 1px;
+  flex-wrap: nowrap;
 
   .nav-item {
     .nav-link {
+      white-space: nowrap;
       font-size: 14px;
       font-style: normal;
       font-weight: 600;
