@@ -2,12 +2,24 @@ import React, { useEffect } from "react";
 import { Header } from "../components/Header";
 import { Tab, Tabs } from "react-bootstrap";
 import { JourneyAddExpense } from "./JourneyAddExpense";
-import { useParams } from "react-router-dom";
+import { useParams, useLocation, useNavigate } from "react-router-dom";
 import { JourneyExpenseList } from "./JourneyExpenseList";
 
 export const Journey = () => {
   const { id } = useParams<{ id: string }>();
+  const location = useLocation(); // 현재 URL 정보 가져오기
+  const navigate = useNavigate();
+
   const [tab, setTab] = React.useState("ADD");
+
+  useEffect(() => {
+    const queryParams = new URLSearchParams(location.search); // 쿼리 문자열 파싱
+    const menuParam = queryParams.get("menu"); // ?example=value 읽기
+    if (menuParam) {
+      setTab(menuParam);
+      navigate(location.pathname, { replace: true }); // URL에서 쿼리 문자열 제거
+    }
+  }, []);
 
   useEffect(() => {
     console.log(id);

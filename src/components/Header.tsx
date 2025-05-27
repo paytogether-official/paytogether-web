@@ -1,13 +1,16 @@
 import classNames from "classnames";
 import { HiMenuAlt2, HiOutlineChevronLeft } from "react-icons/hi";
 import "./Header.scss";
+import { HiDotsVertical } from "react-icons/hi";
 
-export type HeaderType = "back" | "menu";
+export type HeaderType = "back" | "menu" | "kebab";
 
 interface Props {
   title?: string;
   leftType?: HeaderType;
+  rightType?: HeaderType;
   onClickLeft?: () => void;
+  onClickRight?: () => void;
 }
 
 export const Header = (props: Props) => {
@@ -23,7 +26,14 @@ export const Header = (props: Props) => {
         </div>
       </div>
       <div className="header__title">{props.title}</div>
-      <div className="header__right" />
+      <div className="header__right">
+        <div
+          onClick={props.onClickRight}
+          className={classNames(props.rightType && "cursor-pointer")}
+        >
+          {props.rightType === "kebab" && <HiDotsVertical />}
+        </div>
+      </div>
     </div>
   );
 };
