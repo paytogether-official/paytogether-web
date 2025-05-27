@@ -10,6 +10,7 @@ import { Join } from "./pages/Join";
 import { Journey } from "./pages/Journey";
 import { ExpenseSetting } from "./pages/ExpenseSetting";
 import { Navigate } from "react-router-dom";
+import { JourneyExpense } from "./pages/JourneyExpense";
 
 function App() {
   return (
@@ -21,6 +22,10 @@ function App() {
         <Route path="/history" element={<History />} />
         <Route path="/journey" element={<Navigate to="/journey/-1" />} />
         <Route path="/journey/:id" element={<Journey />} />
+        <Route
+          path="/journey/:id/:journeyExpenseId"
+          element={<JourneyExpense />}
+        />
         <Route path="/journey/expense-setting" element={<ExpenseSetting />} />
       </Routes>
     </div>

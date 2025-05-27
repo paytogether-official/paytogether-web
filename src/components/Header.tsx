@@ -5,7 +5,7 @@ import "./Header.scss";
 export type HeaderType = "back" | "menu";
 
 interface Props {
-  title: string;
+  title?: string;
   leftType?: HeaderType;
   onClickLeft?: () => void;
 }

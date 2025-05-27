@@ -5,8 +5,12 @@ import { Tab, Tabs } from "react-bootstrap";
 import { FaCaretDown } from "react-icons/fa";
 import { SortBottomSheet } from "../components/bottomSheets/SortBottomSheet";
 import { ReactComponent as ShotCutIcon } from "../assets/svg/shotcut.svg";
+import { useNavigate, useParams } from "react-router-dom";
 
 export const JourneyExpenseList = () => {
+  const { id } = useParams<{ id: string }>();
+  const navigate = useNavigate();
+
   const [tab, setTab] = React.useState("ALL");
   const [showSortModal, setShowSortModal] = React.useState(false);
 
@@ -55,7 +59,12 @@ export const JourneyExpenseList = () => {
       </div>
 
       <div className="text-[12px] font-semibold mb-2">4월 13일</div>
-      <div className="py-2 px-3 rounded-2xl bg-[#FAFAFB] mb-2">
+      <div
+        className="py-2 px-3 rounded-2xl bg-[#FAFAFB] mb-2 cursor-pointer"
+        onClick={() => {
+          navigate(`/journey/${id}/1`);
+        }}
+      >
         <div className="flex justify-between items-center">
           <div>
             <div className="flex items-center">
