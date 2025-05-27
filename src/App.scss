@@ -14,10 +14,13 @@
   position: fixed;
   bottom: 0;
   padding: 1rem;
+  left: 0;
+  right: 0;
 
   @media (min-width: 576px) {
     width: 500px;
     left: calc(50% - 250px);
+    right: unset;
   }
 }
 
@@ -109,12 +112,4 @@
       }
     }
   }
-}
-
-.w-full {
-  width: 100% !important;
-}
-
-.w-100 {
-  width: 100% !important;
 }
