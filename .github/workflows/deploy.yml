@@ -31,13 +31,15 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@v3
         with:
-          node-version: '22'
+          node-version: "22"
 
       - name: Install dependencies
         run: npm install
 
       - name: Build project
         run: npm run build
+        env:
+          CI: false
 
       - name: Setup GitHub Pages
         uses: actions/configure-pages@v5
@@ -45,7 +47,7 @@ jobs:
       - name: Upload build artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: './build'
+          path: "./build"
 
       - name: Deploy to GitHub Pages
         id: deployment
