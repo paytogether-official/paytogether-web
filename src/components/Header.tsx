@@ -3,7 +3,7 @@ import { HiMenuAlt2, HiOutlineChevronLeft } from "react-icons/hi";
 import "./Header.scss";
 import { HiDotsVertical } from "react-icons/hi";
 
-export type HeaderType = "back" | "menu" | "kebab";
+export type HeaderType = "back" | "menu" | "kebab" | "edit";
 
 interface Props {
   title?: string;
@@ -32,6 +32,11 @@ export const Header = (props: Props) => {
           className={classNames(props.rightType && "cursor-pointer")}
         >
           {props.rightType === "kebab" && <HiDotsVertical />}
+          {props.rightType === "edit" && (
+            <span className="text-[14px] text-[#2C7EFF] font-semibold pr-2">
+              수정
+            </span>
+          )}
         </div>
       </div>
     </div>

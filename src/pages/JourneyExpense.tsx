@@ -83,7 +83,13 @@ export const JourneyExpense = () => {
       </div>
 
       <BottomSheet isOpen={showModal} onClose={() => setShowModal(false)}>
-        <div className="rounded-lg bg-[#FAFAFB] text-[#151719] text-[14px] py-3 text-center font-medium mb-2 cursor-pointer">
+        <div
+          className="rounded-lg bg-[#FAFAFB] text-[#151719] text-[14px] py-3 text-center font-medium mb-2 cursor-pointer"
+          onClick={() => {
+            setShowModal(false);
+            navigate(`/journey/${id}/${journeyExpenseId}/edit`); // 항목 수정 페이지로 이동
+          }}
+        >
           항목 수정하기
         </div>
         <div className="rounded-lg bg-[#FAFAFB] text-[#151719] text-[14px] py-3 text-center font-medium mb-2 cursor-pointer">

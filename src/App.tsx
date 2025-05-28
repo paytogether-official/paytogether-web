@@ -11,6 +11,7 @@ import { Journey } from "./pages/Journey";
 import { ExpenseSetting } from "./pages/ExpenseSetting";
 import { Navigate } from "react-router-dom";
 import { JourneyExpense } from "./pages/JourneyExpense";
+import { JourneyExpenseEdit } from "./pages/JourneyExpenseEdit";
 
 function App() {
   return (
@@ -25,6 +26,10 @@ function App() {
         <Route
           path="/journey/:id/:journeyExpenseId"
           element={<JourneyExpense />}
+        />
+        <Route
+          path="/journey/:id/:journeyExpenseId/edit"
+          element={<JourneyExpenseEdit />}
         />
         <Route path="/journey/expense-setting" element={<ExpenseSetting />} />
       </Routes>
