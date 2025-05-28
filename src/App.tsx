@@ -18,9 +18,9 @@ function App() {
     <div className="App">
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/create" element={<Create />} />
         <Route path="/join" element={<Join />} />
         <Route path="/history" element={<History />} />
+        <Route path="/journey/create" element={<Create />} />
         <Route path="/journey" element={<Navigate to="/journey/-1" />} />
         <Route path="/journey/:id" element={<Journey />} />
         <Route

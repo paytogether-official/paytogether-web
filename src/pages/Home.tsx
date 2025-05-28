@@ -15,7 +15,7 @@ export const Home = () => {
         <div className="ml-1.5">Pay To</div>
       </div>
       <div className="pt-[22px]">
-        <Link to="/create">
+        <Link to="/journey/create">
           <div className="mb-2 pt-4 pl-4 pr-2 pb-2 bg-[#2C7EFF] text-white rounded-3xl">
             <div className="text-sm mb-0.5">
               새로운 여행을

@@ -65,6 +65,24 @@
     background: var(--Component-Fill-Primary, #dceaff);
     color: #2c7eff;
   }
+
+  &.btn-info {
+    background: #dceaff;
+    color: #2c7eff;
+    border: 0;
+    font-weight: 700;
+
+    &:hover {
+      opacity: 0.8;
+    }
+
+    &:active {
+      opacity: 0.9;
+      background: #dceaff;
+      color: #2c7eff;
+      border: 0;
+    }
+  }
 }
 
 .input-group:has(.input-group-text) {

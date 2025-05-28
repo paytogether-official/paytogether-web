@@ -1,0 +1,56 @@
+.side-modal {
+  &__backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.2);
+    z-index: 999; // Ensure backdrop is above other content
+
+    // Transition for smooth opening and closing
+    transition: opacity 0.3s ease-in-out;
+    &.HIDE {
+      opacity: 0;
+      pointer-events: none; // Prevent interaction when hidden
+    }
+    &.SHOW {
+      opacity: 1;
+      pointer-events: auto; // Allow interaction when visible
+    }
+  }
+
+  &__container {
+    overflow: hidden;
+
+    @media (min-width: 576px) {
+      width: 500px;
+      min-height: 100vh;
+      margin: 0 auto;
+      border-left: 1px solid lightgrey;
+      border-right: 1px solid lightgrey;
+    }
+  }
+
+  &__body {
+    padding: 54px 20px;
+    position: relative;
+    top: 0;
+    height: 100vh;
+    background: white;
+    border-radius: 0 24px 24px 0;
+    border-right: 1px solid lightgrey;
+    width: 270px;
+
+    // Transition for smooth opening and closing
+    transition: left 0.3s ease-in-out;
+
+    &.HIDE {
+      left: -250px;
+    }
+
+    &.SHOW {
+      left: 0;
+    }
+  }
+}
