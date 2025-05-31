@@ -9,13 +9,13 @@ import { FaCaretDown } from "react-icons/fa6";
 import { HiOutlineCalendar } from "react-icons/hi";
 import { IoAddCircleOutline } from "react-icons/io5";
 import { useNavigate } from "react-router";
+import { useCurrency } from "store/useCurrency";
 import { BottomSheet } from "../components/BottomSheet";
 import { Header } from "../components/Header";
 import { SelectCountryBottomSheet } from "../components/bottomSheets/SelectCountryBottomSheet";
-import "./Create.scss";
-import axios from "axios";
 import { Locale } from "../interfaces/Locale";
 import { useCreateJourney } from "../store/useCreateJourney";
+import "./Create.scss";
 
 export const Create = () => {
   const [showDateModal, setShowDateModal] = useState(false);
@@ -30,7 +30,8 @@ export const Create = () => {
   });
   const [memberList, setMemberList] = useState<string[]>([""]);
 
-  const { locales, fetchLocales } = useCreateJourney();
+  const { fetchLocales } = useCreateJourney();
+  const { currencies, fetchCurrency } = useCurrency();
 
   const navigate = useNavigate();
 
@@ -42,6 +43,20 @@ export const Create = () => {
       key: "selection"
     });
   }, []);
+
+  useEffect(() => {
+    if (country && !currencies[country.currency]) {
+      fetchCurrency(country.currency);
+    }
+  }, [country, currencies]);
+
+  useEffect(() => {
+    if (country?.currency && currencies[country?.currency!]) {
+      setExchangeRate(
+        currencies[country.currency]?.exchangeRate?.toString() ?? ""
+      );
+    }
+  }, [currencies, country]);
 
   const handleSelect = (ranges: RangeKeyDict) => {
     console.log(ranges); // native Date object

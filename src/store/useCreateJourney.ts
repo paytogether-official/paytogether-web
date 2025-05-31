@@ -1,7 +1,7 @@
+import axios from "api";
 import { create } from "zustand";
 import { Locale } from "../interfaces/Locale";
 import { mockLocales } from "./mockLocales";
-import axios from "api";
 
 interface State {
   locales: Locale[];
@@ -17,7 +17,6 @@ export const useCreateJourney = create<State>(set => ({
         "https://api.paytogether.kr/locales"
       );
       if (response.status === 200) {
-        console.log("Locales fetched successfully:", response.data);
         set(() => ({
           locales: response.data
         }));
