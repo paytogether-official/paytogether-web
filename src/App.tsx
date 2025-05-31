@@ -1,18 +1,18 @@
 import "bootstrap/dist/css/bootstrap.min.css";
+import { LoadingLayer } from "components/LoadingLayer";
+import { ToastLayer } from "components/ToastLayer";
 import "react-date-range/dist/styles.css"; // main style file
 import "react-date-range/dist/theme/default.css"; // theme css file
-import { Route, Routes } from "react-router-dom";
+import { Navigate, Route, Routes } from "react-router-dom";
 import "./App.scss";
 import { Create } from "./pages/Create";
+import { ExpenseSetting } from "./pages/ExpenseSetting";
 import { History } from "./pages/History";
 import { Home } from "./pages/Home";
 import { Join } from "./pages/Join";
 import { Journey } from "./pages/Journey";
-import { ExpenseSetting } from "./pages/ExpenseSetting";
-import { Navigate } from "react-router-dom";
 import { JourneyExpense } from "./pages/JourneyExpense";
 import { JourneyExpenseEdit } from "./pages/JourneyExpenseEdit";
-import { LoadingLayer } from "components/LoadingLayer";
 
 function App() {
   return (
@@ -35,6 +35,7 @@ function App() {
         <Route path="/journey/expense-setting" element={<ExpenseSetting />} />
       </Routes>
       <LoadingLayer />
+      <ToastLayer />
     </div>
   );
 }

@@ -1,0 +1,13 @@
+.toast-layer {
+  &.toast-layer {
+    z-index: 100000000;
+  }
+
+  .toast {
+    font-size: 14px;
+    font-weight: bold;
+    border-radius: 16px;
+    background: rgba(0, 0, 0, 0.8);
+    color: #fff;
+  }
+}
