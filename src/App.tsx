@@ -12,6 +12,7 @@ import { ExpenseSetting } from "./pages/ExpenseSetting";
 import { Navigate } from "react-router-dom";
 import { JourneyExpense } from "./pages/JourneyExpense";
 import { JourneyExpenseEdit } from "./pages/JourneyExpenseEdit";
+import { LoadingLayer } from "components/LoadingLayer";
 
 function App() {
   return (
@@ -33,6 +34,7 @@ function App() {
         />
         <Route path="/journey/expense-setting" element={<ExpenseSetting />} />
       </Routes>
+      <LoadingLayer />
     </div>
   );
 }
