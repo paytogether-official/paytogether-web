@@ -18,9 +18,9 @@ export const useCurrency = create<State>((set, get) => ({
         `https://api.paytogether.kr/exchange-rate?currency=${currency}`
       );
       if (response.status === 200) {
-        set(() => ({
+        set(state => ({
           currencies: {
-            ...get().currencies,
+            ...state.currencies,
             [currency]: response.data
           }
         }));

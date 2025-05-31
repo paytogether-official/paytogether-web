@@ -20,22 +20,21 @@ import "./Create.scss";
 export const Create = () => {
   const [showDateModal, setShowDateModal] = useState(false);
   const [showCountryModal, setShowCountryModal] = useState(false);
-  const [name, setName] = useState("");
   const [country, setCountry] = useState<Locale | null>(null);
-  const [exchangeRate, setExchangeRate] = useState("");
   const [selectionRange, setSelectionRange] = useState<Range>({
     startDate: undefined,
     endDate: undefined,
     key: "selection"
   });
-  const [memberList, setMemberList] = useState<string[]>([""]);
 
-  const { fetchLocales } = useCreateJourney();
+  const { createJourneyData, initialize, fetchLocales, changeData } =
+    useCreateJourney();
   const { currencies, fetchCurrency } = useCurrency();
 
   const navigate = useNavigate();
 
   useEffect(() => {
+    initialize();
     fetchLocales();
     setSelectionRange({
       startDate: undefined,
@@ -52,7 +51,8 @@ export const Create = () => {
 
   useEffect(() => {
     if (country?.currency && currencies[country?.currency!]) {
-      setExchangeRate(
+      changeData(
+        "exchangeRate",
         currencies[country.currency]?.exchangeRate?.toString() ?? ""
       );
     }
@@ -65,7 +65,7 @@ export const Create = () => {
 
   const handleClickNewMember = () => {
     let newMemberName = "";
-    if (memberList.every(member => member !== "")) {
+    if (createJourneyData.members.every(member => member.name !== "")) {
       const lastNameList: string[] = [
         "정산",
         "페이",
@@ -88,10 +88,16 @@ export const Create = () => {
       const nameList = _.flatMap(lastNameList, a =>
         _.map(firstNameList, b => `${a}${b}`)
       );
-      newMemberName = _.without(_.shuffle(nameList), ...memberList)[0];
+      newMemberName = _.without(
+        _.shuffle(nameList),
+        ...createJourneyData.members.map(member => member.name)
+      )[0];
     }
 
-    setMemberList([...memberList, newMemberName]);
+    changeData("members", [
+      ...createJourneyData.members,
+      { name: newMemberName }
+    ]);
   };
 
   return (
@@ -110,8 +116,8 @@ export const Create = () => {
             <Form.Control
               type="text"
               placeholder="어떤 여정인가요?"
-              value={name}
-              onChange={e => setName(e.target.value)}
+              value={createJourneyData.title}
+              onChange={e => changeData("title", e.target.value)}
             />
           </Form.Group>
           <Form.Group className="mb-[20px]">
@@ -162,9 +168,9 @@ export const Create = () => {
                 <InputGroup className="flex-1">
                   <Form.Control
                     type="number"
-                    value={exchangeRate}
+                    value={createJourneyData.exchangeRate}
                     min={0}
-                    onChange={e => setExchangeRate(e.target.value)}
+                    onChange={e => changeData("exchangeRate", e.target.value)}
                   />
                   <InputGroup.Text>원</InputGroup.Text>
                 </InputGroup>
@@ -173,34 +179,34 @@ export const Create = () => {
           )}
           <Form.Group className="mb-[20px]">
             <Form.Label>인원설정</Form.Label>
-            {memberList.map((member, i) => (
+            {createJourneyData.members.map((member, i) => (
               <div className="relative" key={i}>
                 <Form.Control
                   className="text-center px-5 text-[14px] mb-2 h-[40px]"
                   type="text"
                   placeholder="이름을 입력해주세요"
-                  value={member}
+                  value={member.name}
                   onChange={e => {
-                    const newMemberList = [...memberList];
-                    newMemberList[i] = e.target.value;
-                    setMemberList(newMemberList);
+                    const newMemberList = [...createJourneyData.members];
+                    newMemberList[i].name = e.target.value;
+                    changeData("members", newMemberList);
                   }}
                 />
                 <AiFillCloseCircle
                   className="text-[28px] text-[#343942] absolute top-[6px] right-[6px] cursor-pointer"
                   onClick={() => {
-                    if (memberList.length === 1) {
-                      setMemberList([""]);
+                    if (createJourneyData.members.length === 1) {
+                      changeData("members", [{ name: "" }]);
                     } else {
-                      const newMemberList = [...memberList];
+                      const newMemberList = [...createJourneyData.members];
                       newMemberList.splice(i, 1);
-                      setMemberList(newMemberList);
+                      changeData("members", newMemberList);
                     }
                   }}
                 />
               </div>
             ))}
-            {memberList.length < 30 && (
+            {createJourneyData.members.length < 30 && (
               <button
                 type="button"
                 className="btn btn-outline-primary w-full text-center h-[40px] py-0"
@@ -218,12 +224,12 @@ export const Create = () => {
           type="button"
           className="btn btn-primary w-full text-center h-[48px] py-0"
           disabled={
-            !name ||
+            !createJourneyData.title ||
             !selectionRange.startDate ||
             !selectionRange.endDate ||
             !country ||
-            !exchangeRate ||
-            memberList.some(member => member === "")
+            !createJourneyData.exchangeRate ||
+            createJourneyData.members.some(member => member.name === "")
           }
         >
           생성하기
@@ -266,9 +272,9 @@ export const Create = () => {
       <SelectCountryBottomSheet
         show={showCountryModal}
         onChangeCountry={v => {
-          // TODO: set exchange rate
-          setExchangeRate("1");
           setCountry(v);
+          changeData("baseCurrency", v.currency);
+          changeData("localeCode", v.localeCode);
         }}
         onClose={() => setShowCountryModal(false)}
       />

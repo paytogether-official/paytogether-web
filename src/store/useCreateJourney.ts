@@ -1,16 +1,31 @@
 import axios from "api";
+import {
+  CreateJourneyRequestDto,
+  initialCreateJourneyRequestDto
+} from "interfaces/CreateJourneyRequestDto";
 import { create } from "zustand";
 import { Locale } from "../interfaces/Locale";
 import { mockLocales } from "./mockLocales";
 
 interface State {
   locales: Locale[];
+  createJourneyData: CreateJourneyRequestDto;
+  ///////////////////////////////////////////////////////////////////////////////////////////////
+  initialize: () => void;
   fetchLocales: () => void;
+  changeData: (key: keyof CreateJourneyRequestDto, value: any) => void;
+  createJourney: () => void;
 }
 
 export const useCreateJourney = create<State>(set => ({
   locales: [],
+  createJourneyData: { ...initialCreateJourneyRequestDto },
   ///////////////////////////////////////////////////////////////////////////////////////////////
+  initialize: () => {
+    set(() => ({
+      createJourneyData: { ...initialCreateJourneyRequestDto }
+    }));
+  },
   fetchLocales: async () => {
     try {
       const response = await axios.get<Locale[]>(
@@ -34,5 +49,16 @@ export const useCreateJourney = create<State>(set => ({
         locales: mockLocales
       }));
     }
+  },
+  changeData: (key, value) => {
+    set(state => ({
+      createJourneyData: {
+        ...state.createJourneyData,
+        [key]: value
+      }
+    }));
+  },
+  createJourney: async () => {
+    // TODO
   }
 }));
