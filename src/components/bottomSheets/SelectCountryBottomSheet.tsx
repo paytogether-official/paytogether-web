@@ -45,7 +45,7 @@ export const SelectCountryBottomSheet = (props: Props) => {
     }
 
     return _.sortBy(list, ["order"]);
-  }, [tab, search]);
+  }, [tab, search, locales]);
 
   return (
     <BottomSheet
