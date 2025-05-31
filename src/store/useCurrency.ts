@@ -1,6 +1,7 @@
 import axios from "api";
 import { Currency } from "interfaces/Currency";
 import { create } from "zustand";
+import { useCommon } from "./useCommon";
 
 interface State {
   currencies: Record<string, Currency>;
@@ -25,11 +26,17 @@ export const useCurrency = create<State>((set, get) => ({
           }
         }));
       } else {
-        // TODO: error notify
+        useCommon.getState().addToast({
+          type: "error",
+          text: "환율 정보를 가져오는 데 실패했습니다."
+        });
       }
     } catch (error) {
       console.error("Failed to fetch locales:", error);
-      // TODO: error notify
+      useCommon.getState().addToast({
+        type: "error",
+        text: "환율 정보를 가져오는 데 실패했습니다."
+      });
     }
   }
 }));

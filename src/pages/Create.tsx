@@ -9,6 +9,7 @@ import { FaCaretDown } from "react-icons/fa6";
 import { HiOutlineCalendar } from "react-icons/hi";
 import { IoAddCircleOutline } from "react-icons/io5";
 import { useNavigate } from "react-router";
+import { useCommon } from "store/useCommon";
 import { useCurrency } from "store/useCurrency";
 import { BottomSheet } from "../components/BottomSheet";
 import { Header } from "../components/Header";
@@ -22,9 +23,15 @@ export const Create = () => {
   const [showCountryModal, setShowCountryModal] = useState(false);
   const [country, setCountry] = useState<Locale | null>(null);
 
-  const { createJourneyData, initialize, fetchLocales, changeData } =
-    useCreateJourney();
+  const {
+    createJourneyData,
+    initialize,
+    fetchLocales,
+    changeData,
+    createJourney
+  } = useCreateJourney();
   const { currencies, fetchCurrency } = useCurrency();
+  const { addToast } = useCommon();
 
   const navigate = useNavigate();
 
@@ -110,6 +117,23 @@ export const Create = () => {
       ...createJourneyData.members,
       { name: newMemberName }
     ]);
+  };
+
+  const handleClickCreateJourney = () => {
+    // 에러 체크
+    // 이름 중복
+    if (
+      createJourneyData.members.length !==
+      _.uniqBy(createJourneyData.members, "name").length
+    ) {
+      addToast({
+        type: "error",
+        text: "인원이 중복됩니다."
+      });
+      return;
+    }
+
+    createJourney();
   };
 
   return (
@@ -243,6 +267,7 @@ export const Create = () => {
             !createJourneyData.exchangeRate ||
             createJourneyData.members.some(member => member.name === "")
           }
+          onClick={handleClickCreateJourney}
         >
           생성하기
         </button>
