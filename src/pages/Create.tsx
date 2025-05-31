@@ -1,8 +1,8 @@
 import dayjs from "dayjs";
 import _ from "lodash";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Form, InputGroup } from "react-bootstrap";
-import { DateRange, Range, RangeKeyDict } from "react-date-range";
+import { DateRange, RangeKeyDict } from "react-date-range";
 import { AiFillCloseCircle } from "react-icons/ai";
 import { FaEquals } from "react-icons/fa";
 import { FaCaretDown } from "react-icons/fa6";
@@ -21,11 +21,6 @@ export const Create = () => {
   const [showDateModal, setShowDateModal] = useState(false);
   const [showCountryModal, setShowCountryModal] = useState(false);
   const [country, setCountry] = useState<Locale | null>(null);
-  const [selectionRange, setSelectionRange] = useState<Range>({
-    startDate: undefined,
-    endDate: undefined,
-    key: "selection"
-  });
 
   const { createJourneyData, initialize, fetchLocales, changeData } =
     useCreateJourney();
@@ -33,14 +28,21 @@ export const Create = () => {
 
   const navigate = useNavigate();
 
+  const selectionRange = useMemo(() => {
+    return {
+      startDate: createJourneyData.startDate
+        ? new Date(createJourneyData.startDate)
+        : undefined,
+      endDate: createJourneyData.endDate
+        ? new Date(createJourneyData.endDate)
+        : undefined,
+      key: "selection"
+    };
+  }, [createJourneyData.startDate, createJourneyData.endDate]);
+
   useEffect(() => {
     initialize();
     fetchLocales();
-    setSelectionRange({
-      startDate: undefined,
-      endDate: undefined,
-      key: "selection"
-    });
   }, []);
 
   useEffect(() => {
@@ -59,8 +61,18 @@ export const Create = () => {
   }, [currencies, country]);
 
   const handleSelect = (ranges: RangeKeyDict) => {
-    console.log(ranges); // native Date object
-    setSelectionRange(ranges["selection"]);
+    changeData(
+      "startDate",
+      ranges["selection"].startDate
+        ? dayjs(ranges["selection"].startDate).format("YYYY-MM-DD")
+        : ""
+    );
+    changeData(
+      "endDate",
+      ranges["selection"].endDate
+        ? dayjs(ranges["selection"].endDate).format("YYYY-MM-DD")
+        : ""
+    );
   };
 
   const handleClickNewMember = () => {
@@ -244,7 +256,7 @@ export const Create = () => {
         <div className="mb-3">
           {selectionRange.endDate && selectionRange.startDate && (
             <span className="create__date">
-              {`${dayjs(selectionRange.startDate).format("YY.MM.DD")} -${dayjs(
+              {`${dayjs(selectionRange.startDate).format("YY.MM.DD")} - ${dayjs(
                 selectionRange.endDate
               ).format("YY.MM.DD")}`}
             </span>
