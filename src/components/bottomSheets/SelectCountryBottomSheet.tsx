@@ -4,16 +4,20 @@ import { Form, InputGroup, Tab, Tabs } from "react-bootstrap";
 import { HiOutlineSearch } from "react-icons/hi";
 import { BottomSheet } from "../BottomSheet";
 import "./SelectCountryBottomSheet.scss";
+import { useCreateJourney } from "../../store/useCreateJourney";
+import { Locale } from "../../interfaces/Locale";
 
 interface Props {
   show: boolean;
-  onChangeCountry: (v: Country) => void;
+  onChangeCountry: (v: Locale) => void;
   onClose: () => void;
 }
 
 export const SelectCountryBottomSheet = (props: Props) => {
   const [tab, setTab] = useState("ALL");
   const [search, setSearch] = useState("");
+
+  const { locales } = useCreateJourney();
 
   useEffect(() => {
     if (props.show) {
@@ -22,17 +26,25 @@ export const SelectCountryBottomSheet = (props: Props) => {
     }
   }, [props.show]);
 
-  const currentCountryList = useMemo(() => {
-    let list: Country[] =
+  const tabs: string[] = useMemo(() => {
+    return _.uniq(locales.map(locale => locale.continent));
+  }, [locales]);
+
+  const currentCountryList: Locale[] = useMemo(() => {
+    let list: Locale[] =
       tab === "ALL"
-        ? Object.values(countrys).flat()
-        : countrys[tab as ContinentType];
+        ? locales
+        : locales.filter(locale => locale.continent === tab);
 
     if (search) {
-      list = list.filter(item => item.name.includes(search));
+      list = list.filter(
+        item =>
+          item.countryKoreanName.toLowerCase().includes(search.toLowerCase()) ||
+          item.countryEnglishName.toLowerCase().includes(search.toLowerCase())
+      );
     }
 
-    return _.sortBy(list, ["name"]);
+    return _.sortBy(list, ["order"]);
   }, [tab, search]);
 
   return (
@@ -57,14 +69,14 @@ export const SelectCountryBottomSheet = (props: Props) => {
       <Tabs activeKey={tab} onSelect={k => setTab(k!)} className="mb-3">
         <Tab eventKey="ALL" title="전체" />
         {tabs.map(t => (
-          <Tab key={t.key} eventKey={t.key} title={t.name} />
+          <Tab key={t} eventKey={t} title={t} />
         ))}
       </Tabs>
 
       <div className="h-[40vh] overflow-y-auto">
         {currentCountryList.map(item => (
           <div
-            key={item.name}
+            key={item.localeCode}
             className="select-country-bottom-sheet__item flex justify-between items-center h-[40px]"
             onClick={() => {
               props.onChangeCountry(item);
@@ -73,18 +85,18 @@ export const SelectCountryBottomSheet = (props: Props) => {
           >
             <div className="flex justify-between items-center">
               <img
-                src={`${process.env.PUBLIC_URL}/flags/${item.image}`}
+                src={item.imageUrl}
                 width={48}
                 height={32}
-                alt={item.name}
+                alt={item.countryKoreanName}
               />
               <div className="select-country-bottom-sheet__item-name ml-2">
-                {item.name}
+                {item.countryKoreanName}
               </div>
             </div>
             <div>
               <div className="select-country-bottom-sheet__item-code">
-                {item.code}
+                {item.currency}
               </div>
             </div>
           </div>
@@ -93,72 +105,3 @@ export const SelectCountryBottomSheet = (props: Props) => {
     </BottomSheet>
   );
 };
-
-export interface Country {
-  name: string;
-  image: string;
-  code: string;
-}
-
-type ContinentType = "Asia" | "Europe" | "Oceania" | "America" | "Africa";
-
-const countrys: Record<ContinentType, Country[]> = {
-  Asia: [
-    {
-      name: "대한민국",
-      image: "Korea.png",
-      code: "KRW"
-    }
-  ],
-  Europe: [
-    {
-      name: "영국",
-      image: "British.png",
-      code: "GBP"
-    }
-  ],
-  Oceania: [
-    {
-      name: "뉴질랜드",
-      image: "NewZealand.png",
-      code: "NZD"
-    }
-  ],
-  America: [
-    {
-      name: "미국",
-      image: "America.png",
-      code: "USD"
-    }
-  ],
-  Africa: [
-    {
-      name: "사우디아라비아",
-      image: "SaudiArabia.png",
-      code: "SAR"
-    }
-  ]
-};
-
-const tabs: { key: ContinentType; name: string }[] = [
-  {
-    key: "Asia",
-    name: "아시아"
-  },
-  {
-    key: "Europe",
-    name: "유럽"
-  },
-  {
-    key: "Oceania",
-    name: "오세아니아"
-  },
-  {
-    key: "America",
-    name: "아메리카"
-  },
-  {
-    key: "Africa",
-    name: "아프리카"
-  }
-];
