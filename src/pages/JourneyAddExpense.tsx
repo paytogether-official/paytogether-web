@@ -53,6 +53,7 @@ export const JourneyAddExpense = () => {
           amount: memberAmount
         }))
       );
+
       let remainingAmount = newValue;
       addJourneyExpenseData.members.forEach(() => {
         remainingAmount =
@@ -60,6 +61,24 @@ export const JourneyAddExpense = () => {
       });
       changeData("remainingAmount", remainingAmount);
     }
+  };
+
+  const handleChangeMemberAmount = (name: string, value: number) => {
+    const newValue = Math.floor(value * 100) / 100;
+    const members = addJourneyExpenseData.members.map(member => {
+      if (member.name === name) {
+        return { ...member, amount: newValue };
+      }
+      return member;
+    });
+    changeData("members", members);
+
+    let amount = 0;
+    members.forEach(member => {
+      amount = Math.round((amount + member.amount) * 100) / 100;
+    });
+    changeData("amount", amount);
+    changeData("remainingAmount", 0);
   };
 
   return (
@@ -189,9 +208,27 @@ export const JourneyAddExpense = () => {
                   </span>
                 )}
               </div>
-              <div className="journey-add-expense__user-amount">
-                {member.amount}
-              </div>
+              {tab === "1/N" && (
+                <div className="journey-add-expense__user-amount">
+                  {member.amount}
+                </div>
+              )}
+              {tab === "DIRECT" && (
+                <Form.Control
+                  className="journey-add-expense__user-amount w-unset transparent pr-0"
+                  type="number"
+                  value={member.amount || ""}
+                  max={9999999999}
+                  onChange={e => {
+                    if (Number(e.target.value) <= 9999999999) {
+                      handleChangeMemberAmount(
+                        member.name,
+                        Number(e.target.value)
+                      );
+                    }
+                  }}
+                />
+              )}
             </div>
           ))}
         </div>
