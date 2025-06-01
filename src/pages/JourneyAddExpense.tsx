@@ -1,37 +1,38 @@
-import React from "react";
-import { Form } from "react-bootstrap";
 import dayjs from "dayjs";
+import React from "react";
+import { Form, Tab, Tabs } from "react-bootstrap";
 import { HiOutlineCalendar } from "react-icons/hi";
-import { DateBottomSheet } from "../components/bottomSheets/DateBottomSheet";
-import { ReactComponent as EtcNormalButton } from "../assets/svg/status=icn_input.svg";
-import { ReactComponent as EtcCheckedButton } from "../assets/svg/status=icn_input_on.svg";
-import { ReactComponent as FoodNormalButton } from "../assets/svg/status=icn_food.svg";
-import { ReactComponent as FoodCheckedButton } from "../assets/svg/status=icn_food_on.svg";
+import { Link } from "react-router-dom";
+import { useAddJourneyExpense } from "store/useAddJourneyExpense";
 import { ReactComponent as BusNormalButton } from "../assets/svg/status=icn_bus.svg";
 import { ReactComponent as BusCheckedButton } from "../assets/svg/status=icn_bus_on.svg";
-import { ReactComponent as TicketNormalButton } from "../assets/svg/status=icn_ticket.svg";
-import { ReactComponent as TicketCheckedButton } from "../assets/svg/status=icn_ticket_on.svg";
-import { ReactComponent as ShoppingNormalButton } from "../assets/svg/status=icn_shopping.svg";
-import { ReactComponent as ShoppingCheckedButton } from "../assets/svg/status=icn_shopping_on.svg";
+import { ReactComponent as FoodNormalButton } from "../assets/svg/status=icn_food.svg";
+import { ReactComponent as FoodCheckedButton } from "../assets/svg/status=icn_food_on.svg";
 import { ReactComponent as HotelNormalButton } from "../assets/svg/status=icn_hotel.svg";
 import { ReactComponent as HotelCheckedButton } from "../assets/svg/status=icn_hotel_on.svg";
+import { ReactComponent as EtcNormalButton } from "../assets/svg/status=icn_input.svg";
+import { ReactComponent as EtcCheckedButton } from "../assets/svg/status=icn_input_on.svg";
+import { ReactComponent as ShoppingNormalButton } from "../assets/svg/status=icn_shopping.svg";
+import { ReactComponent as ShoppingCheckedButton } from "../assets/svg/status=icn_shopping_on.svg";
+import { ReactComponent as TicketNormalButton } from "../assets/svg/status=icn_ticket.svg";
+import { ReactComponent as TicketCheckedButton } from "../assets/svg/status=icn_ticket_on.svg";
 import { ReactComponent as MemoNormalButton } from "../assets/svg/status=memo.svg";
 import { ReactComponent as MemoCheckedButton } from "../assets/svg/status=memo_on.svg";
+import { DateBottomSheet } from "../components/bottomSheets/DateBottomSheet";
+import { MemoBottomSheet } from "../components/bottomSheets/MemoBottomSheet";
 import { CategoryButton } from "../components/CategoryButton";
 import { SvgButton } from "../components/SvgButton";
-import { Tab, Tabs } from "react-bootstrap";
-import { Link } from "react-router-dom";
 import "./JourneyAddExpense.scss";
-import { MemoBottomSheet } from "../components/bottomSheets/MemoBottomSheet";
 
 export const JourneyAddExpense = () => {
   const [showDateModal, setShowDateModal] = React.useState(false);
-  const [expenseDate, setExpenseDate] = React.useState<Date>(new Date());
   const [category, setCategory] = React.useState<string>("기타");
   const [payerName, setPayerName] = React.useState<string>("");
   const [tab, setTab] = React.useState("1/N");
   const [amount, setAmount] = React.useState<number>(0);
   const [showMemoModal, setShowMemoModal] = React.useState(false);
+
+  const { addJourneyExpenseData, changeData } = useAddJourneyExpense();
 
   return (
     <div className="journey-add-expense pb-16">
@@ -40,7 +41,11 @@ export const JourneyAddExpense = () => {
           className="form-control flex justify-between items-center cursor-pointer"
           onClick={() => setShowDateModal(true)}
         >
-          <div>{dayjs(expenseDate).format("YY.MM.DD")}</div>
+          <div>
+            {addJourneyExpenseData.expenseDate
+              ? dayjs(addJourneyExpenseData.expenseDate).format("YY.MM.DD")
+              : ""}
+          </div>
           <HiOutlineCalendar className="text-[22px]" />
         </div>
       </Form.Group>
@@ -173,9 +178,16 @@ export const JourneyAddExpense = () => {
       </div>
 
       <DateBottomSheet
-        selectedDate={expenseDate}
+        selectedDate={
+          addJourneyExpenseData.expenseDate
+            ? new Date(addJourneyExpenseData.expenseDate)
+            : undefined
+        }
         showModal={showDateModal}
-        onChange={setExpenseDate}
+        onChange={date => {
+          changeData("expenseDate", dayjs(date).format("YYYY-MM-DD"));
+          setShowDateModal(false);
+        }}
         onClose={() => setShowDateModal(false)}
       />
 

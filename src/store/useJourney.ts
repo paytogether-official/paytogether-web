@@ -1,6 +1,7 @@
 import axios from "api";
 import { Journey } from "interfaces/Journey";
 import { create } from "zustand";
+import { useAddJourneyExpense } from "./useAddJourneyExpense";
 import { useCommon } from "./useCommon";
 
 interface State {
@@ -21,6 +22,13 @@ export const useJourney = create<State>((set, get) => ({
         set(() => ({
           journey: response.data
         }));
+
+        useAddJourneyExpense.getState().initialize(
+          response.data.members.map(member => ({
+            name: member.name,
+            amount: 0
+          }))
+        );
       } else {
         useCommon.getState().addToast({
           type: "error",

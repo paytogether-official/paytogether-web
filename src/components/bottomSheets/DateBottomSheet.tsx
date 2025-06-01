@@ -1,9 +1,8 @@
-import React from "react";
-import { BottomSheet } from "../BottomSheet";
 import { Calendar } from "react-date-range";
+import { BottomSheet } from "../BottomSheet";
 
 interface Props {
-  selectedDate: Date;
+  selectedDate: Date | undefined;
   showModal: boolean;
   onChange: (date: Date) => void;
   onClose: () => void;
