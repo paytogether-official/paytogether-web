@@ -63,7 +63,7 @@ export const JourneyExpense = () => {
         />
       </div>
       <div className="text-[12px] text-[#6D7582] mb-2">{`${
-        journeyExpense?.payerName
+        journeyExpense?.payerName ?? ""
       } 외 ${(journeyExpense?.members.length ?? 1) - 1}명`}</div>
       <div className="mb-3">
         <span className="text-[24px] font-bold text-[#2C7EFF] mr-1">

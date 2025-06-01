@@ -126,7 +126,7 @@ export const JourneyExpenseList = () => {
         />
       </div>
       <div className="text-[12px] font-semibold mb-2">{`${
-        journey?.members[0].name
+        journey?.members[0].name ?? ""
       } 외 ${(journey?.members.length ?? 1) - 1}명`}</div>
       <div className="text-[24px] font-bold flex items-center gap-1">
         총 {totalAmount.toLocaleString()} <HiChevronDown />
