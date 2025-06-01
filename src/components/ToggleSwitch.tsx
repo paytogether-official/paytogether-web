@@ -1,6 +1,5 @@
-import React from "react";
-import "./ToggleSwitch.scss";
 import classNames from "classnames";
+import "./ToggleSwitch.scss";
 
 interface Props {
   options: { label: string; value: string }[];
@@ -15,7 +14,8 @@ export const ToggleSwitch = (props: Props) => {
         <div
           key={option.value}
           className={classNames("toggle-switch__label", {
-            active: props.value === option.value
+            active: props.value === option.value,
+            "cursor-pointer": props.value !== option.value
           })}
           onClick={() => props.onChange(option.value)}
         >

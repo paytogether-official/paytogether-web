@@ -1,11 +1,20 @@
-import React from "react";
-import { ToggleSwitch } from "../components/ToggleSwitch";
-import { HiChevronDown } from "react-icons/hi2";
+import dayjs from "dayjs";
+import { JourneyExpense } from "interfaces/JourneyExpense";
+import _ from "lodash";
+import React, { useEffect, useMemo } from "react";
 import { Tab, Tabs } from "react-bootstrap";
 import { FaCaretDown } from "react-icons/fa";
-import { SortBottomSheet } from "../components/bottomSheets/SortBottomSheet";
-import { ReactComponent as ShotCutIcon } from "../assets/svg/shotcut.svg";
+import { HiChevronDown } from "react-icons/hi2";
 import { useNavigate, useParams } from "react-router-dom";
+import { useJourney } from "store/useJourney";
+import { useJourneyExpense } from "store/useJourneyExpense";
+import { ReactComponent as ShotCutIcon } from "../assets/svg/shotcut.svg";
+import {
+  SortBottomSheet,
+  SortOption,
+  sortStringMap
+} from "../components/bottomSheets/SortBottomSheet";
+import { ToggleSwitch } from "../components/ToggleSwitch";
 
 export const JourneyExpenseList = () => {
   const { id } = useParams<{ id: string }>();
@@ -13,40 +22,116 @@ export const JourneyExpenseList = () => {
 
   const [tab, setTab] = React.useState("ALL");
   const [showSortModal, setShowSortModal] = React.useState(false);
+  const [currency, setCurrency] = React.useState("");
+  const [sort, setSort] = React.useState<SortOption>("oldest");
+
+  const { journey } = useJourney();
+  const { journeyExpenseList, fetchJourneyExpenseList } = useJourneyExpense(); // Assuming this is a custom hook to fetch journey expense data
+
+  useEffect(() => {
+    if (journey?.baseCurrency) {
+      setCurrency(journey.baseCurrency);
+      fetchJourneyExpenseList(id!, journey.baseCurrency);
+    }
+  }, [journey?.baseCurrency]);
+
+  const handleChangeCurrency = (newCurrency: string) => {
+    setCurrency(newCurrency);
+  };
+
+  const totalAmount = useMemo(() => {
+    let total = 0;
+    journeyExpenseList.forEach(expense => {
+      if (expense.amount) {
+        total = Math.round((total + expense.amount) * 100) / 100; // 소수점 둘째 자리에서 버림
+      }
+    });
+    return total;
+  }, [journeyExpenseList]);
+
+  const journeyDate = useMemo(() => {
+    if (!journey?.startDate || !journey?.endDate) return "";
+
+    const start = dayjs(journey?.startDate);
+    const end = dayjs(journey?.endDate);
+    return `${start.format("YY년 M월 D일")} - ${
+      start.year === end.year
+        ? end.format("M월 D일")
+        : end.format("YY년 M월 D일")
+    }`;
+  }, [journey?.startDate, journey?.endDate]);
+
+  const tabList = useMemo(() => {
+    if (!journey?.startDate || !journey?.endDate) return [];
+
+    const days = [];
+    // delta start ~ end
+    const diff =
+      dayjs(journey.endDate).diff(dayjs(journey.startDate), "day") + 1;
+
+    for (let i = 1; i <= diff; i++) {
+      days.push(i);
+    }
+    return ["ALL", ...days, "ETC"].map(item => ({
+      key: item,
+      title: item === "ALL" ? "전체" : item === "ETC" ? "그외" : `${item}일차`
+    }));
+  }, [journey]);
+
+  const expenseList = useMemo(() => {
+    let list: JourneyExpense[] = [];
+    if (tab === "ALL") {
+      list = journeyExpenseList;
+    } else if (tab === "ETC") {
+      list = journeyExpenseList.filter(
+        expense =>
+          expense.expenseDate < journey?.startDate! ||
+          expense.expenseDate > journey?.endDate!
+      );
+    } else {
+      const day = Number(tab);
+      if (isNaN(day)) return [];
+      const date = dayjs(journey?.startDate)
+        .add(day - 1, "day")
+        .format("YYYY-MM-DD");
+      list = journeyExpenseList.filter(expense => expense.expenseDate === date);
+    }
+
+    if (sort === "oldest") {
+      list = _.sortBy(list, "expenseDate");
+    } else if (sort === "latest") {
+      list = _.sortBy(list, "expenseDate").reverse();
+    }
+
+    return _.groupBy(list, "expenseDate");
+  }, [journeyExpenseList, tab, sort, journey]);
 
   return (
     <div className="journey-expense-list">
       <div className="flex justify-between items-center">
-        <div className="text-[16px] font-bold">여정제목</div>
+        <div className="text-[16px] font-bold">{journey?.title}</div>
         <ToggleSwitch
           options={[
-            { label: "KRW", value: "KRW" },
-            { label: "JPY", value: "JPY" }
+            { label: journey?.quoteCurrency!, value: journey?.quoteCurrency! },
+            { label: journey?.baseCurrency!, value: journey?.baseCurrency! }
           ]}
-          value="JPY"
-          onChange={() => {}}
+          value={currency}
+          onChange={handleChangeCurrency}
         />
       </div>
-      <div className="text-[12px] font-semibold mb-2">여정 생산자 외 3명</div>
+      <div className="text-[12px] font-semibold mb-2">{`${
+        journey?.members[0].name
+      } 외 ${(journey?.members.length ?? 1) - 1}명`}</div>
       <div className="text-[24px] font-bold flex items-center gap-1">
-        총 123,432 <HiChevronDown />
+        총 {totalAmount.toLocaleString()} <HiChevronDown />
       </div>
-      <div className="text-[12px] mb-3">24년 4월 13일 - 4월 17일</div>
+      <div className="text-[12px] mb-3">{journeyDate}</div>
       <div className="bg-[#F3F4F8] h-[4px] ml-[-16px] mr-[-16px]" />
       <div className="text-[16px] font-bold pt-3 pb-2">상세내역</div>
       <Tabs activeKey={tab} onSelect={t => setTab(t!)}>
-        <Tab eventKey="ALL" title="전체" />
-        <Tab eventKey="D1" title="1일차" />
-        <Tab eventKey="D2" title="2일차" />
-        <Tab eventKey="D3" title="3일차" />
-        <Tab eventKey="D4" title="4일차" />
-        <Tab eventKey="D5" title="5일차" />
-        <Tab eventKey="D6" title="6일차" />
-        <Tab eventKey="D7" title="7일차" />
-        <Tab eventKey="D8" title="8일차" />
-        <Tab eventKey="D9" title="9일차" />
-        <Tab eventKey="D10" title="10일차" />
-        <Tab eventKey="D11" title="11일차" />
+        {tabList.map(tabItem => (
+          <Tab key={tabItem.key} eventKey={tabItem.key} title={tabItem.title} />
+        ))}
       </Tabs>
       <div className="bg-[#F3F4F8] h-[1px] ml-[-16px] mr-[-16px] mb-2" />
       <div className="text-right text-[12px] font-semibold flex justify-end mb-2">
@@ -54,121 +139,55 @@ export const JourneyExpenseList = () => {
           className="flex items-center gap-1 cursor-pointer"
           onClick={() => setShowSortModal(true)}
         >
-          오래된 순 <FaCaretDown />
+          {sortStringMap[sort]} <FaCaretDown />
         </div>
       </div>
 
-      <div className="text-[12px] font-semibold mb-2">4월 13일</div>
-      <div
-        className="py-2 px-3 rounded-2xl bg-[#FAFAFB] mb-2 cursor-pointer"
-        onClick={() => {
-          navigate(`/journey/${id}/1`);
-        }}
-      >
-        <div className="flex justify-between items-center">
-          <div>
-            <div className="flex items-center">
-              <ShotCutIcon className="mr-2" />
-              <span className="text-[14px] font-semibold">항목명</span>
-            </div>
-            <div className="text-[12px] text-[#343942]">
-              정산 입력자 외 몇명
-            </div>
+      {Object.entries(expenseList).map(([date, expenses]) => (
+        <div key={date} className="mb-4">
+          <div className="text-[12px] font-semibold mb-3">
+            {dayjs(date).format("M월 D일")}
           </div>
-          <div className="flex items-center">
-            <span className="text-[20px] font-bold mr-1">343,123</span>
-            <span className="rounded-lg bg-[#343942] text-[#fff] text-[10px] font-semibold p-1">
-              JPY
-            </span>
-          </div>
+          {expenses.map(expense => (
+            <div
+              key={expense.journeyExpenseId}
+              className="py-2 px-3 rounded-2xl bg-[#FAFAFB] mb-2 cursor-pointer"
+              onClick={() => {
+                navigate(`/journey/${id}/${expense.journeyExpenseId}`);
+              }}
+            >
+              <div className="flex justify-between items-center">
+                <div>
+                  <div className="flex items-center">
+                    <ShotCutIcon className="mr-2" />
+                    <span className="text-[14px] font-semibold">항목명</span>
+                  </div>
+                  <div className="text-[12px] text-[#343942]">
+                    {`${expense.payerName} 외 ${
+                      (expense.members.length ?? 1) - 1
+                    }명`}
+                  </div>
+                </div>
+                <div className="flex items-center">
+                  <span className="text-[20px] font-bold mr-1">
+                    {expense.amount.toLocaleString()}
+                  </span>
+                  <span className="rounded-lg bg-[#343942] text-[#fff] text-[10px] font-semibold p-1">
+                    {expense.quoteCurrency}
+                  </span>
+                </div>
+              </div>
+            </div>
+          ))}
         </div>
-      </div>
-      <div className="py-2 px-3 rounded-2xl bg-[#FAFAFB] mb-2">
-        <div className="flex justify-between items-center">
-          <div>
-            <div className="flex items-center">
-              <ShotCutIcon className="mr-2" />
-              <span className="text-[14px] font-semibold">항목명</span>
-            </div>
-            <div className="text-[12px] text-[#343942]">
-              정산 입력자 외 몇명
-            </div>
-          </div>
-          <div className="flex items-center">
-            <span className="text-[20px] font-bold mr-1">343,123</span>
-            <span className="rounded-lg bg-[#343942] text-[#fff] text-[10px] font-semibold p-1">
-              JPY
-            </span>
-          </div>
-        </div>
-      </div>
-      <div className="py-2 px-3 rounded-2xl bg-[#FAFAFB] mb-3">
-        <div className="flex justify-between items-center">
-          <div>
-            <div className="flex items-center">
-              <ShotCutIcon className="mr-2" />
-              <span className="text-[14px] font-semibold">항목명</span>
-            </div>
-            <div className="text-[12px] text-[#343942]">
-              정산 입력자 외 몇명
-            </div>
-          </div>
-          <div className="flex items-center">
-            <span className="text-[20px] font-bold mr-1">343,123</span>
-            <span className="rounded-lg bg-[#343942] text-[#fff] text-[10px] font-semibold p-1">
-              JPY
-            </span>
-          </div>
-        </div>
-      </div>
-
-      <div className="text-[12px] font-semibold mb-2">4월 14일</div>
-      <div className="py-2 px-3 rounded-2xl bg-[#FAFAFB] mb-2">
-        <div className="flex justify-between items-center">
-          <div>
-            <div className="flex items-center">
-              <ShotCutIcon className="mr-2" />
-              <span className="text-[14px] font-semibold">항목명</span>
-            </div>
-            <div className="text-[12px] text-[#343942]">
-              정산 입력자 외 몇명
-            </div>
-          </div>
-          <div className="flex items-center">
-            <span className="text-[20px] font-bold mr-1">343,123</span>
-            <span className="rounded-lg bg-[#343942] text-[#fff] text-[10px] font-semibold p-1">
-              JPY
-            </span>
-          </div>
-        </div>
-      </div>
-      <div className="py-2 px-3 rounded-2xl bg-[#FAFAFB] mb-2">
-        <div className="flex justify-between items-center">
-          <div>
-            <div className="flex items-center">
-              <ShotCutIcon className="mr-2" />
-              <span className="text-[14px] font-semibold">항목명</span>
-            </div>
-            <div className="text-[12px] text-[#343942]">
-              정산 입력자 외 몇명
-            </div>
-          </div>
-          <div className="flex items-center">
-            <span className="text-[20px] font-bold mr-1">343,123</span>
-            <span className="rounded-lg bg-[#343942] text-[#fff] text-[10px] font-semibold p-1">
-              JPY
-            </span>
-          </div>
-        </div>
-      </div>
+      ))}
 
       <SortBottomSheet
         showModal={showSortModal}
         onClose={() => setShowSortModal(false)}
-        defaultSort="oldest"
+        defaultSort={sort}
         onChange={sort => {
-          console.log("Selected sort:", sort);
-          setShowSortModal(false);
+          setSort(sort);
         }}
       />
     </div>
