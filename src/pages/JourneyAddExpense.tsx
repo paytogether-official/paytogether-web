@@ -215,7 +215,7 @@ export const JourneyAddExpense = () => {
               )}
               {tab === "DIRECT" && (
                 <Form.Control
-                  className="journey-add-expense__user-amount w-unset transparent pr-0"
+                  className="journey-add-expense__user-amount w-[unset] transparent pr-0"
                   type="number"
                   value={member.amount || ""}
                   max={9999999999}
@@ -238,6 +238,9 @@ export const JourneyAddExpense = () => {
         <button
           type="button"
           className="btn btn-primary w-full text-center h-[48px] py-0"
+          disabled={
+            !addJourneyExpenseData.amount || addJourneyExpenseData.amount <= 0
+          }
         >
           지출추가
         </button>
