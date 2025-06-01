@@ -1,10 +1,12 @@
-import React from "react";
-import { Header } from "../components/Header";
-import { useNavigate, useParams } from "react-router-dom";
-import { ToggleSwitch } from "../components/ToggleSwitch";
-import { BottomSheet } from "../components/BottomSheet";
+import React, { useEffect } from "react";
 import { Modal } from "react-bootstrap";
+import { useNavigate, useParams } from "react-router-dom";
+import { useJourney } from "store/useJourney";
+import { useJourneyExpense } from "store/useJourneyExpense";
 import { ReactComponent as DeleteIcon } from "../assets/svg/Delete.svg";
+import { BottomSheet } from "../components/BottomSheet";
+import { Header } from "../components/Header";
+import { ToggleSwitch } from "../components/ToggleSwitch";
 
 export const JourneyExpense = () => {
   const navigate = useNavigate();
@@ -14,73 +16,93 @@ export const JourneyExpense = () => {
     journeyExpenseId: string;
   }>();
 
+  const [currency, setCurrency] = React.useState("");
   const [showModal, setShowModal] = React.useState(false);
   const [showDeleteModal, setShowDeleteModal] = React.useState(false);
+
+  const { journey, fetchJourney } = useJourney();
+  const { journeyExpense, fetchJourneyExpense } = useJourneyExpense();
+
+  useEffect(() => {
+    if (!journey) {
+      fetchJourney(id!); // 여정 정보가 없으면 가져오기
+    }
+  }, []);
+
+  useEffect(() => {
+    if (journey?.baseCurrency) {
+      setCurrency(journey.baseCurrency);
+      fetchJourneyExpense(id!, journeyExpenseId!, journey.baseCurrency);
+    }
+  }, [journey?.baseCurrency]);
+
+  const handleChangeCurrency = (newCurrency: string) => {
+    setCurrency(newCurrency);
+    fetchJourneyExpense(id!, journeyExpenseId!, newCurrency);
+  };
 
   return (
     <div className="journey-expense">
       <Header
         leftType="back"
         onClickLeft={() => {
-          navigate(`/journey/${id}`); // 여정 페이지로 돌아가기
+          navigate(`/journey/${id}?menu=LIST`); // 여정 페이지로 돌아가기
         }}
         rightType="kebab" // TODO: 완료된 아이콘은 표시 안함
         onClickRight={() => setShowModal(true)}
       />
       <div className="flex justify-between items-center mt-2">
-        <div className="text-[18px] font-bold">여정제목</div>
+        <div className="text-[18px] font-bold">항목명</div>
         <ToggleSwitch
           options={[
-            { label: "KRW", value: "KRW" },
-            { label: "JPY", value: "JPY" }
+            { label: journey?.quoteCurrency!, value: journey?.quoteCurrency! },
+            { label: journey?.baseCurrency!, value: journey?.baseCurrency! }
           ]}
-          value="JPY"
-          onChange={() => {}}
+          value={currency}
+          onChange={handleChangeCurrency}
         />
       </div>
-      <div className="text-[12px] text-[#6D7582] mb-2">여정 생산자 외 3명</div>
+      <div className="text-[12px] text-[#6D7582] mb-2">{`${
+        journeyExpense?.payerName
+      } 외 ${(journeyExpense?.members.length ?? 1) - 1}명`}</div>
       <div className="mb-3">
         <span className="text-[24px] font-bold text-[#2C7EFF] mr-1">
-          321,212
+          {journeyExpense?.amount?.toLocaleString()}
         </span>
-        <span className="text-[14px] font-bold text-[#343942]">KRW</span>
+        <span className="text-[14px] font-bold text-[#343942]">
+          {journeyExpense?.quoteCurrency}
+        </span>
       </div>
 
       <div className="flex flex-col gap-2 mb-3">
-        <div className="journey-add-expense__user">
-          <div className="flex gap-2">
-            <span className="journey-add-expense__user-name">가망이</span>
-            <span className="journey-add-expense__calculate-badge">계산</span>
+        {journeyExpense?.members.map(member => (
+          <div className="journey-add-expense__user">
+            <div className="flex gap-2">
+              <span className="journey-add-expense__user-name">
+                {member.name}
+              </span>
+              {journeyExpense?.payerName === member.name && (
+                <span className="journey-add-expense__calculate-badge">
+                  계산
+                </span>
+              )}
+            </div>
+            <div className="journey-add-expense__user-amount">
+              {member.amount.toLocaleString()}
+            </div>
           </div>
-          <div className="journey-add-expense__user-amount">3,423</div>
-        </div>
-        <div className="journey-add-expense__user">
-          <div className="flex gap-2">
-            <span className="journey-add-expense__user-name">나망이</span>
-          </div>
-          <div className="journey-add-expense__user-amount">3,423</div>
-        </div>
-        <div className="journey-add-expense__user">
-          <div className="flex gap-2">
-            <span className="journey-add-expense__user-name">다망이</span>
-          </div>
-          <div className="journey-add-expense__user-amount">3,423</div>
-        </div>
-        <div className="journey-add-expense__user">
-          <div className="flex gap-2">
-            <span className="journey-add-expense__user-name">라망이</span>
-          </div>
-          <div className="journey-add-expense__user-amount">3,423</div>
-        </div>
+        ))}
       </div>
 
-      <div className="rounded-2xl bg-[#FAFAFB] flex items-center p-5 text-[14px] text-[#343942] font-semibold mb-3">
-        고기는 대철님이 먹기위해서 구매했음
-      </div>
-
-      <div className="rounded-2xl bg-[#FAFAFB] flex justify-center items-center p-5 text-[14px] text-[#B1B8C0] font-semibold mb-3">
-        기록된 메모가 없습니다.
-      </div>
+      {journeyExpense?.memo ? (
+        <div className="rounded-2xl bg-[#FAFAFB] flex items-center p-5 text-[14px] text-[#343942] font-semibold mb-3">
+          {journeyExpense.memo}
+        </div>
+      ) : (
+        <div className="rounded-2xl bg-[#FAFAFB] flex justify-center items-center p-5 text-[14px] text-[#B1B8C0] font-semibold mb-3">
+          기록된 메모가 없습니다.
+        </div>
+      )}
 
       <BottomSheet isOpen={showModal} onClose={() => setShowModal(false)}>
         <div

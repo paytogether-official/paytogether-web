@@ -27,7 +27,7 @@
 //       }
 //     ]
 //   }
-import { Member } from "./Member";
+import { ExpenseMember } from "./Member";
 
 export interface JourneyExpense {
   journeyExpenseId: number; // Unique identifier for the expense
@@ -40,5 +40,5 @@ export interface JourneyExpense {
   amount: number; // Total amount of the expense
   remainingAmount: number; // Remaining amount to be settled, if any
   memo: string; // Optional memo or note about the expense
-  members: Array<Member>; // List of members with their names and amounts owed
+  members: Array<ExpenseMember>; // List of members with their names and amounts owed
 }
