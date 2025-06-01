@@ -39,11 +39,13 @@ export const JourneyAddExpense = () => {
   const { journeyExpenseSettingData } = useJourneyExpenseSetting();
 
   const handleChangeAmount = (value: number) => {
-    changeData("amount", value);
+    const newValue = Math.floor(value * 100) / 100;
+    changeData("amount", newValue);
     if (tab === "1/N") {
       // 소수점 둘째 자리에서 버림
       const memberAmount =
-        Math.floor((value / addJourneyExpenseData.members.length) * 100) / 100;
+        Math.floor((newValue / addJourneyExpenseData.members.length) * 100) /
+        100;
       changeData(
         "members",
         addJourneyExpenseData.members.map(member => ({
@@ -51,7 +53,7 @@ export const JourneyAddExpense = () => {
           amount: memberAmount
         }))
       );
-      let remainingAmount = value;
+      let remainingAmount = newValue;
       addJourneyExpenseData.members.forEach(() => {
         remainingAmount =
           Math.round((remainingAmount - memberAmount) * 100) / 100;
@@ -157,7 +159,11 @@ export const JourneyAddExpense = () => {
             placeholder={`금액입력(${addJourneyExpenseData.currency})`}
             value={addJourneyExpenseData.amount || ""}
             max={9999999999}
-            onChange={e => handleChangeAmount(Number(e.target.value))}
+            onChange={e => {
+              if (Number(e.target.value) <= 9999999999) {
+                handleChangeAmount(Number(e.target.value));
+              }
+            }}
             disabled={tab === "DIRECT"}
           />
         </Form.Group>
