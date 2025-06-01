@@ -26,7 +26,6 @@ import "./JourneyAddExpense.scss";
 
 export const JourneyAddExpense = () => {
   const [showDateModal, setShowDateModal] = React.useState(false);
-  const [category, setCategory] = React.useState<string>("기타");
   const [payerName, setPayerName] = React.useState<string>("");
   const [tab, setTab] = React.useState("1/N");
   const [amount, setAmount] = React.useState<number>(0);
@@ -54,48 +53,48 @@ export const JourneyAddExpense = () => {
           label="기타"
           normalSvg={<EtcNormalButton />}
           checkedSvg={<EtcCheckedButton />}
-          checked={category === "기타"}
-          onClick={() => setCategory("기타")}
+          checked={addJourneyExpenseData.category === "기타"}
+          onClick={() => changeData("category", "기타")}
         />
 
         <CategoryButton
           label="식비"
           normalSvg={<FoodNormalButton />}
           checkedSvg={<FoodCheckedButton />}
-          checked={category === "식비"}
-          onClick={() => setCategory("식비")}
+          checked={addJourneyExpenseData.category === "식비"}
+          onClick={() => changeData("category", "식비")}
         />
 
         <CategoryButton
           label="교통"
           normalSvg={<BusNormalButton />}
           checkedSvg={<BusCheckedButton />}
-          checked={category === "교통"}
-          onClick={() => setCategory("교통")}
+          checked={addJourneyExpenseData.category === "교통"}
+          onClick={() => changeData("category", "교통")}
         />
 
         <CategoryButton
           label="관광"
           normalSvg={<TicketNormalButton />}
           checkedSvg={<TicketCheckedButton />}
-          checked={category === "관광"}
-          onClick={() => setCategory("관광")}
+          checked={addJourneyExpenseData.category === "관광"}
+          onClick={() => changeData("category", "관광")}
         />
 
         <CategoryButton
           label="쇼핑"
           normalSvg={<ShoppingNormalButton />}
           checkedSvg={<ShoppingCheckedButton />}
-          checked={category === "쇼핑"}
-          onClick={() => setCategory("쇼핑")}
+          checked={addJourneyExpenseData.category === "쇼핑"}
+          onClick={() => changeData("category", "쇼핑")}
         />
 
         <CategoryButton
           label="숙소"
           normalSvg={<HotelNormalButton />}
           checkedSvg={<HotelCheckedButton />}
-          checked={category === "숙소"}
-          onClick={() => setCategory("숙소")}
+          checked={addJourneyExpenseData.category === "숙소"}
+          onClick={() => changeData("category", "숙소")}
         />
       </div>
       <div className="d-flex mb-2">

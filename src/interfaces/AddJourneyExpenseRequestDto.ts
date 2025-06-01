@@ -30,7 +30,7 @@ export interface AddJourneyExpenseRequestDto {
 
 export const initialAddJourneyExpenseRequestDto: AddJourneyExpenseRequestDto = {
   payerName: "",
-  category: "",
+  category: "기타", // Default category set to "기타"
   expenseDate: "",
   currency: "",
   amount: 0,
