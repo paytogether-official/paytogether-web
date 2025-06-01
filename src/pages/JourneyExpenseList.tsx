@@ -8,7 +8,12 @@ import { HiChevronDown } from "react-icons/hi2";
 import { useNavigate, useParams } from "react-router-dom";
 import { useJourney } from "store/useJourney";
 import { useJourneyExpense } from "store/useJourneyExpense";
-import { ReactComponent as ShotCutIcon } from "../assets/svg/shotcut.svg";
+import { ReactComponent as BusCheckedButton } from "../assets/svg/status=icn_bus_on.svg";
+import { ReactComponent as FoodCheckedButton } from "../assets/svg/status=icn_food_on.svg";
+import { ReactComponent as HotelCheckedButton } from "../assets/svg/status=icn_hotel_on.svg";
+import { ReactComponent as EtcCheckedButton } from "../assets/svg/status=icn_input_on.svg";
+import { ReactComponent as ShoppingCheckedButton } from "../assets/svg/status=icn_shopping_on.svg";
+import { ReactComponent as TicketCheckedButton } from "../assets/svg/status=icn_ticket_on.svg";
 import {
   SortBottomSheet,
   SortOption,
@@ -37,6 +42,7 @@ export const JourneyExpenseList = () => {
 
   const handleChangeCurrency = (newCurrency: string) => {
     setCurrency(newCurrency);
+    fetchJourneyExpenseList(id!, newCurrency);
   };
 
   const totalAmount = useMemo(() => {
@@ -145,7 +151,7 @@ export const JourneyExpenseList = () => {
 
       {Object.entries(expenseList).map(([date, expenses]) => (
         <div key={date} className="mb-4">
-          <div className="text-[12px] font-semibold mb-3">
+          <div className="text-[12px] font-semibold mb-2">
             {dayjs(date).format("M월 D일")}
           </div>
           {expenses.map(expense => (
@@ -159,7 +165,27 @@ export const JourneyExpenseList = () => {
               <div className="flex justify-between items-center">
                 <div>
                   <div className="flex items-center">
-                    <ShotCutIcon className="mr-2" />
+                    <div className="w-[20px] h-[20px] mr-2 bg-[#DCEAFF] rounded-sm flex items-center justify-center">
+                      {expense.category === "기타" && (
+                        <EtcCheckedButton className="w-[15px]" />
+                      )}
+                      {expense.category === "식비" && (
+                        <FoodCheckedButton className="w-[15px]" />
+                      )}
+                      {expense.category === "교통" && (
+                        <BusCheckedButton className="w-[15px]" />
+                      )}
+                      {expense.category === "관광" && (
+                        <TicketCheckedButton className="w-[15px]" />
+                      )}
+                      {expense.category === "쇼핑" && (
+                        <ShoppingCheckedButton className="w-[15px]" />
+                      )}
+                      {expense.category === "숙소" && (
+                        <HotelCheckedButton className="w-[15px]" />
+                      )}
+                    </div>
+
                     <span className="text-[14px] font-semibold">항목명</span>
                   </div>
                   <div className="text-[12px] text-[#343942]">
