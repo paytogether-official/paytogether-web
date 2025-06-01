@@ -25,6 +25,10 @@ function App() {
         <Route path="/journey" element={<Navigate to="/journey/-1" />} />
         <Route path="/journey/:id" element={<Journey />} />
         <Route
+          path="/journey/:id/expense-setting"
+          element={<ExpenseSetting />}
+        />
+        <Route
           path="/journey/:id/:journeyExpenseId"
           element={<JourneyExpense />}
         />
@@ -32,7 +36,6 @@ function App() {
           path="/journey/:id/:journeyExpenseId/edit"
           element={<JourneyExpenseEdit />}
         />
-        <Route path="/journey/expense-setting" element={<ExpenseSetting />} />
       </Routes>
       <LoadingLayer />
       <ToastLayer />

@@ -3,6 +3,7 @@ import { Journey } from "interfaces/Journey";
 import { create } from "zustand";
 import { useAddJourneyExpense } from "./useAddJourneyExpense";
 import { useCommon } from "./useCommon";
+import { useJourneyExpenseSetting } from "./useJourneyExpenseSetting";
 
 interface State {
   journey: Journey | null;
@@ -30,6 +31,8 @@ export const useJourney = create<State>((set, get) => ({
             amount: 0
           }))
         );
+
+        useJourneyExpenseSetting.getState().initialize(response.data);
       } else {
         useCommon.getState().addToast({
           type: "error",

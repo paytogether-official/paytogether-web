@@ -2,7 +2,7 @@ import dayjs from "dayjs";
 import React from "react";
 import { Form, Tab, Tabs } from "react-bootstrap";
 import { HiOutlineCalendar } from "react-icons/hi";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { useAddJourneyExpense } from "store/useAddJourneyExpense";
 import { ReactComponent as BusNormalButton } from "../assets/svg/status=icn_bus.svg";
 import { ReactComponent as BusCheckedButton } from "../assets/svg/status=icn_bus_on.svg";
@@ -25,6 +25,8 @@ import { SvgButton } from "../components/SvgButton";
 import "./JourneyAddExpense.scss";
 
 export const JourneyAddExpense = () => {
+  const { id } = useParams<{ id: string }>();
+
   const [showDateModal, setShowDateModal] = React.useState(false);
   const [expenseName, setExpenserName] = React.useState<string>("");
   const [tab, setTab] = React.useState("1/N");
@@ -133,7 +135,7 @@ export const JourneyAddExpense = () => {
         <div className="flex flex-col gap-2">
           <div className="text-right">
             <Link
-              to="/journey/expense-setting"
+              to={`/journey/${id}/expense-setting`}
               className="inline-flex justify-between items-center h-[20px] rounded-lg bg-[#DCEAFF] px-2 text-[14px] text-[#2C7EFF] font-semibold"
             >
               정산설정

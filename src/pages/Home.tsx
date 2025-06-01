@@ -118,7 +118,7 @@ export const Home = () => {
           {journeyList.map(journey => (
             <div
               key={journey.journeyId}
-              className="rounded-2lg bg-[#FAFAFB] text-[#151719] text-[14px] h-[48px] font-medium mb-2 cursor-pointer flex items-center pl-4"
+              className="rounded-2xl bg-[#FAFAFB] text-[#151719] text-[14px] h-[48px] font-medium mb-2 cursor-pointer flex items-center pl-4"
               onClick={() => {
                 navigate(`/journey/${journey.journeyId}`);
               }}
