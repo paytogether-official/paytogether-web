@@ -1,34 +1,36 @@
 import dayjs from "dayjs";
 import {
   AddJourneyExpenseRequestDto,
-  AddJourneyExpenseRequestDtoMember,
   initialAddJourneyExpenseRequestDto
 } from "interfaces/AddJourneyExpenseRequestDto";
+import { Journey } from "interfaces/Journey";
 import { create } from "zustand";
+import { useJourneyExpenseSetting } from "./useJourneyExpenseSetting";
 
 interface State {
   addJourneyExpenseData: AddJourneyExpenseRequestDto;
   ///////////////////////////////////////////////////////////////////////////////////////////////
-  initialize: (
-    currency: string,
-    members: AddJourneyExpenseRequestDtoMember[]
-  ) => void;
+  initialize: (journey: Journey) => void;
   changeData: (key: keyof AddJourneyExpenseRequestDto, value: any) => void;
 }
 
 export const useAddJourneyExpense = create<State>((set, get) => ({
   addJourneyExpenseData: { ...initialAddJourneyExpenseRequestDto },
   ///////////////////////////////////////////////////////////////////////////////////////////////
-  initialize: (
-    currency: string,
-    members: AddJourneyExpenseRequestDtoMember[]
-  ) => {
+  initialize: (journey: Journey) => {
+    const setting = useJourneyExpenseSetting.getState().initialize(journey);
+
     set(() => ({
       addJourneyExpenseData: {
         ...initialAddJourneyExpenseRequestDto,
-        currency,
+        currency: journey.baseCurrency,
         expenseDate: dayjs().format("YYYY-MM-DD"),
-        members
+        members: journey.members
+          .filter(member => !setting.disabledMembers.includes(member.name))
+          .map(member => ({
+            name: member.name,
+            amount: 0
+          }))
       }
     }));
   },

@@ -7,7 +7,7 @@ interface State {
   journeyId: string;
   journeyExpenseSettingData: JourneyExpenseSetting;
   ///////////////////////////////////////////////////////////////////////////////////////////////
-  initialize: (journey: Journey) => void;
+  initialize: (journey: Journey) => JourneyExpenseSetting;
   changeData: (key: keyof JourneyExpenseSetting, value: any) => void;
 }
 
@@ -49,6 +49,8 @@ export const useJourneyExpenseSetting = create<State>((set, get) => ({
       CONST.LOCAL_STORAGE_KEY.JOURNEY_EXPENSE_SETTING,
       JSON.stringify(journeyExpenseSettingMap)
     );
+
+    return journeyExpenseSetting;
   },
   changeData: (key, value) => {
     const journeyExpenseSettingData = {
