@@ -1,32 +1,29 @@
-import React, { useState, useEffect } from "react";
-import { Header } from "../components/Header";
-import { useNavigate, useParams } from "react-router-dom";
-import { Form } from "react-bootstrap";
 import dayjs from "dayjs";
+import React, { useState } from "react";
+import { Form, Modal, Tab, Tabs } from "react-bootstrap";
 import { HiOutlineCalendar } from "react-icons/hi";
-import { DateBottomSheet } from "../components/bottomSheets/DateBottomSheet";
-import { ReactComponent as EtcNormalButton } from "../assets/svg/status=icn_input.svg";
-import { ReactComponent as EtcCheckedButton } from "../assets/svg/status=icn_input_on.svg";
-import { ReactComponent as FoodNormalButton } from "../assets/svg/status=icn_food.svg";
-import { ReactComponent as FoodCheckedButton } from "../assets/svg/status=icn_food_on.svg";
+import { Link, useNavigate, useParams } from "react-router-dom";
+import { ReactComponent as DeleteIcon } from "../assets/svg/Delete.svg";
 import { ReactComponent as BusNormalButton } from "../assets/svg/status=icn_bus.svg";
 import { ReactComponent as BusCheckedButton } from "../assets/svg/status=icn_bus_on.svg";
-import { ReactComponent as TicketNormalButton } from "../assets/svg/status=icn_ticket.svg";
-import { ReactComponent as TicketCheckedButton } from "../assets/svg/status=icn_ticket_on.svg";
-import { ReactComponent as ShoppingNormalButton } from "../assets/svg/status=icn_shopping.svg";
-import { ReactComponent as ShoppingCheckedButton } from "../assets/svg/status=icn_shopping_on.svg";
+import { ReactComponent as FoodNormalButton } from "../assets/svg/status=icn_food.svg";
+import { ReactComponent as FoodCheckedButton } from "../assets/svg/status=icn_food_on.svg";
 import { ReactComponent as HotelNormalButton } from "../assets/svg/status=icn_hotel.svg";
 import { ReactComponent as HotelCheckedButton } from "../assets/svg/status=icn_hotel_on.svg";
+import { ReactComponent as EtcNormalButton } from "../assets/svg/status=icn_input.svg";
+import { ReactComponent as EtcCheckedButton } from "../assets/svg/status=icn_input_on.svg";
+import { ReactComponent as ShoppingNormalButton } from "../assets/svg/status=icn_shopping.svg";
+import { ReactComponent as ShoppingCheckedButton } from "../assets/svg/status=icn_shopping_on.svg";
+import { ReactComponent as TicketNormalButton } from "../assets/svg/status=icn_ticket.svg";
+import { ReactComponent as TicketCheckedButton } from "../assets/svg/status=icn_ticket_on.svg";
 import { ReactComponent as MemoNormalButton } from "../assets/svg/status=memo.svg";
 import { ReactComponent as MemoCheckedButton } from "../assets/svg/status=memo_on.svg";
-import { CategoryButton } from "../components/CategoryButton";
-import { SvgButton } from "../components/SvgButton";
-import { Tab, Tabs } from "react-bootstrap";
-import { Link } from "react-router-dom";
-import "./JourneyAddExpense.scss";
+import { DateBottomSheet } from "../components/bottomSheets/DateBottomSheet";
 import { MemoBottomSheet } from "../components/bottomSheets/MemoBottomSheet";
-import { Modal } from "react-bootstrap";
-import { ReactComponent as DeleteIcon } from "../assets/svg/Delete.svg";
+import { CategoryButton } from "../components/CategoryButton";
+import { Header } from "../components/Header";
+import { SvgButton } from "../components/SvgButton";
+import "./JourneyAddExpense.scss";
 
 export const JourneyExpenseEdit = () => {
   const navigate = useNavigate();
@@ -202,6 +199,7 @@ export const JourneyExpenseEdit = () => {
         />
 
         <MemoBottomSheet
+          initMemo=""
           showModal={showMemoModal}
           onClose={() => setShowMemoModal(false)}
           onChange={memo => console.log(memo)}

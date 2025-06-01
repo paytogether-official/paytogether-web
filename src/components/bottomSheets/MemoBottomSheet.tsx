@@ -1,8 +1,9 @@
-import { Form } from "react-bootstrap";
 import React, { useEffect } from "react";
+import { Form } from "react-bootstrap";
 import { BottomSheet } from "../BottomSheet";
 
 interface Props {
+  initMemo: string;
   showModal: boolean;
   onClose: () => void;
   onChange: (memo: string) => void;
@@ -13,9 +14,9 @@ export const MemoBottomSheet = (props: Props) => {
 
   useEffect(() => {
     if (props.showModal) {
-      setMemo("");
+      setMemo(props.initMemo);
     }
-  }, [props.showModal]);
+  }, [props.showModal, props.initMemo]);
 
   return (
     <BottomSheet title="메모" isOpen={props.showModal} onClose={props.onClose}>

@@ -26,7 +26,7 @@ import "./JourneyAddExpense.scss";
 
 export const JourneyAddExpense = () => {
   const [showDateModal, setShowDateModal] = React.useState(false);
-  const [payerName, setPayerName] = React.useState<string>("");
+  const [expenseName, setExpenserName] = React.useState<string>("");
   const [tab, setTab] = React.useState("1/N");
   const [amount, setAmount] = React.useState<number>(0);
   const [showMemoModal, setShowMemoModal] = React.useState(false);
@@ -102,8 +102,8 @@ export const JourneyAddExpense = () => {
           className="text-[14px] mr-2"
           type="text"
           placeholder="어디에 사용하셨나요?"
-          value={payerName}
-          onChange={e => setPayerName(e.target.value)}
+          value={expenseName}
+          onChange={e => setExpenserName(e.target.value)}
         />
         <div>
           <SvgButton
@@ -191,9 +191,10 @@ export const JourneyAddExpense = () => {
       />
 
       <MemoBottomSheet
+        initMemo={addJourneyExpenseData.memo}
         showModal={showMemoModal}
         onClose={() => setShowMemoModal(false)}
-        onChange={memo => console.log(memo)}
+        onChange={memo => changeData("memo", memo)}
       />
     </div>
   );
