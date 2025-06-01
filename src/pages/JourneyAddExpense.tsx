@@ -25,17 +25,40 @@ import { CategoryButton } from "../components/CategoryButton";
 import { SvgButton } from "../components/SvgButton";
 import "./JourneyAddExpense.scss";
 
+type ExpenseType = "1/N" | "DIRECT";
+
 export const JourneyAddExpense = () => {
   const { id } = useParams<{ id: string }>();
 
   const [showDateModal, setShowDateModal] = React.useState(false);
   const [expenseName, setExpenserName] = React.useState<string>("");
-  const [tab, setTab] = React.useState("1/N");
-  const [amount, setAmount] = React.useState<number>(0);
+  const [tab, setTab] = React.useState<ExpenseType>("1/N");
   const [showMemoModal, setShowMemoModal] = React.useState(false);
 
   const { addJourneyExpenseData, changeData } = useAddJourneyExpense();
   const { journeyExpenseSettingData } = useJourneyExpenseSetting();
+
+  const handleChangeAmount = (value: number) => {
+    changeData("amount", value);
+    if (tab === "1/N") {
+      // 소수점 둘째 자리에서 버림
+      const memberAmount =
+        Math.floor((value / addJourneyExpenseData.members.length) * 100) / 100;
+      changeData(
+        "members",
+        addJourneyExpenseData.members.map(member => ({
+          ...member,
+          amount: memberAmount
+        }))
+      );
+      let remainingAmount = value;
+      addJourneyExpenseData.members.forEach(() => {
+        remainingAmount =
+          Math.round((remainingAmount - memberAmount) * 100) / 100;
+      });
+      changeData("remainingAmount", remainingAmount);
+    }
+  };
 
   return (
     <div className="journey-add-expense pb-16">
@@ -117,7 +140,11 @@ export const JourneyAddExpense = () => {
           />
         </div>
       </div>
-      <Tabs activeKey={tab} onSelect={k => setTab(k!)} className="mb-3">
+      <Tabs
+        activeKey={tab}
+        onSelect={k => setTab(k as ExpenseType)}
+        className="mb-3"
+      >
         <Tab eventKey="1/N" title="1/N 하기" />
         <Tab eventKey="DIRECT" title="직접입력" />
       </Tabs>
@@ -125,12 +152,13 @@ export const JourneyAddExpense = () => {
       <div>
         <Form.Group className="mb-[16px] border-b-2 border-[#2C7EFF]">
           <Form.Control
-            className="text-[28px] mb-1 transparent"
+            className="text-[28px] mb-1 transparent disabled:text-[#B1B8C0]"
             type="number"
             placeholder={`금액입력(${addJourneyExpenseData.currency})`}
-            value={amount || ""}
+            value={addJourneyExpenseData.amount || ""}
             max={9999999999}
-            onChange={e => setAmount(Number(e.target.value))}
+            onChange={e => handleChangeAmount(Number(e.target.value))}
+            disabled={tab === "DIRECT"}
           />
         </Form.Group>
 
