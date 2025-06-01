@@ -24,6 +24,7 @@ export const useJourney = create<State>((set, get) => ({
         }));
 
         useAddJourneyExpense.getState().initialize(
+          response.data.baseCurrency,
           response.data.members.map(member => ({
             name: member.name,
             amount: 0

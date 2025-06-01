@@ -123,7 +123,7 @@ export const JourneyAddExpense = () => {
           <Form.Control
             className="text-[28px] mb-1 transparent"
             type="number"
-            placeholder="금액(JPN)"
+            placeholder={`금액입력(${addJourneyExpenseData.currency})`}
             value={amount || ""}
             max={9999999999}
             onChange={e => setAmount(Number(e.target.value))}

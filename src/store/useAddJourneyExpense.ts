@@ -9,17 +9,24 @@ import { create } from "zustand";
 interface State {
   addJourneyExpenseData: AddJourneyExpenseRequestDto;
   ///////////////////////////////////////////////////////////////////////////////////////////////
-  initialize: (members: AddJourneyExpenseRequestDtoMember[]) => void;
+  initialize: (
+    currency: string,
+    members: AddJourneyExpenseRequestDtoMember[]
+  ) => void;
   changeData: (key: keyof AddJourneyExpenseRequestDto, value: any) => void;
 }
 
 export const useAddJourneyExpense = create<State>((set, get) => ({
   addJourneyExpenseData: { ...initialAddJourneyExpenseRequestDto },
   ///////////////////////////////////////////////////////////////////////////////////////////////
-  initialize: (members: AddJourneyExpenseRequestDtoMember[]) => {
+  initialize: (
+    currency: string,
+    members: AddJourneyExpenseRequestDtoMember[]
+  ) => {
     set(() => ({
       addJourneyExpenseData: {
         ...initialAddJourneyExpenseRequestDto,
+        currency,
         expenseDate: dayjs().format("YYYY-MM-DD"),
         members
       }
