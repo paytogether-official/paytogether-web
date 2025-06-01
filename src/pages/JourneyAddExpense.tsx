@@ -4,7 +4,6 @@ import { Form, Tab, Tabs } from "react-bootstrap";
 import { HiOutlineCalendar } from "react-icons/hi";
 import { Link, useParams } from "react-router-dom";
 import { useAddJourneyExpense } from "store/useAddJourneyExpense";
-import { useJourneyExpenseSetting } from "store/useJourneyExpenseSetting";
 import { ReactComponent as BusNormalButton } from "../assets/svg/status=icn_bus.svg";
 import { ReactComponent as BusCheckedButton } from "../assets/svg/status=icn_bus_on.svg";
 import { ReactComponent as FoodNormalButton } from "../assets/svg/status=icn_food.svg";
@@ -35,8 +34,8 @@ export const JourneyAddExpense = () => {
   const [tab, setTab] = React.useState<ExpenseType>("1/N");
   const [showMemoModal, setShowMemoModal] = React.useState(false);
 
-  const { addJourneyExpenseData, changeData } = useAddJourneyExpense();
-  const { journeyExpenseSettingData } = useJourneyExpenseSetting();
+  const { addJourneyExpenseData, changeData, addExpense } =
+    useAddJourneyExpense();
 
   const handleChangeAmount = (value: number) => {
     const newValue = Math.floor(value * 100) / 100;
@@ -202,7 +201,7 @@ export const JourneyAddExpense = () => {
                 <span className="journey-add-expense__user-name">
                   {member.name}
                 </span>
-                {journeyExpenseSettingData.payer === member.name && (
+                {addJourneyExpenseData.payerName === member.name && (
                   <span className="journey-add-expense__calculate-badge">
                     계산
                   </span>
@@ -241,6 +240,7 @@ export const JourneyAddExpense = () => {
           disabled={
             !addJourneyExpenseData.amount || addJourneyExpenseData.amount <= 0
           }
+          onClick={addExpense}
         >
           지출추가
         </button>

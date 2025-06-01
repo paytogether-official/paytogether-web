@@ -70,7 +70,7 @@ export const useCreateJourney = create<State>((set, get) => ({
 
       console.log(response);
 
-      if (response.status === 200 || response.status === 201) {
+      if (response.status === 200) {
         useCommon.getState().addToast({
           type: "success",
           text: "생성된 여정으로 이동합니다!"
