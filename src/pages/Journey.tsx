@@ -1,6 +1,8 @@
 import classNames from "classnames";
+import { BottomSheet } from "components/BottomSheet";
 import React, { useEffect } from "react";
-import { Tab, Tabs } from "react-bootstrap";
+import { Modal, Tab, Tabs } from "react-bootstrap";
+import { HiDotsVertical } from "react-icons/hi";
 import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 import { useJourney } from "store/useJourney";
 import { useJourneyList } from "store/useJourneyList";
@@ -16,6 +18,9 @@ export const Journey = () => {
 
   const [tab, setTab] = React.useState("ADD");
   const [showSideModal, setShowSideModal] = React.useState(false);
+  const [showBottomSheet, setShowBottomSheet] = React.useState(false);
+  const [showCloseConfirmModal, setShowCloseConfirmModal] =
+    React.useState(false);
 
   const { journeyList, fetchJourneyList } = useJourneyList();
   const { journey, fetchJourney } = useJourney();
@@ -40,10 +45,19 @@ export const Journey = () => {
         onClickLeft={() => setShowSideModal(true)}
       />
       <div className="pt-3">
-        <Tabs activeKey={tab} onSelect={k => setTab(k!)} className="mb-3">
-          <Tab eventKey="ADD" title="지출 추가" />
-          <Tab eventKey="LIST" title="목록 보기" />
-        </Tabs>
+        <div className="flex justify-between items-center mb-3">
+          <Tabs activeKey={tab} onSelect={k => setTab(k!)}>
+            <Tab eventKey="ADD" title="지출 추가" />
+            <Tab eventKey="LIST" title="목록 보기" />
+          </Tabs>
+          <div
+            className="cursor-pointer"
+            onClick={() => setShowBottomSheet(true)}
+          >
+            <HiDotsVertical className="text-[22px]" />
+          </div>
+        </div>
+
         {tab === "ADD" && <JourneyAddExpense />}
         {tab === "LIST" && <JourneyExpenseList />}
       </div>
@@ -101,6 +115,63 @@ export const Journey = () => {
           </div>
         </div>
       </SideModal>
+
+      <BottomSheet
+        isOpen={showBottomSheet}
+        onClose={() => setShowBottomSheet(false)}
+      >
+        <div className="flex flex-col gap-2 mb-5">
+          <div
+            className="rounded-lg bg-[#FAFAFB] text-[14px] font-medium h-[48px] flex justify-center items-center cursor-pointer"
+            onClick={() => {
+              setShowBottomSheet(false);
+              setShowCloseConfirmModal(true);
+            }}
+          >
+            여정 마무리
+          </div>
+        </div>
+      </BottomSheet>
+
+      <Modal
+        centered
+        show={showCloseConfirmModal}
+        onHide={() => setShowCloseConfirmModal(false)}
+      >
+        <Modal.Body>
+          <div className="text-center">
+            <img
+              src="/images/Travel_Insurance.png"
+              alt="Close Confirm"
+              className="inline-block mb-1"
+            />
+            <div className="text-[18px] font-bold mb-1">
+              여정을 마무리하시겠어요?
+            </div>
+            <div className="text-[14px] mb-4">
+              더 이상 항목을 추가할 수 없어요
+            </div>
+            <div className="flex justify-center gap-2">
+              <button
+                className="btn btn-light btn-lg text-[16px] font-semibold flex-1"
+                onClick={() => setShowCloseConfirmModal(false)}
+              >
+                닫기
+              </button>
+              <button
+                className="btn btn-primary btn-lg text-[16px] font-semibold flex-1"
+                onClick={() => {
+                  // TODO: 항목 삭제 로직 추가
+                  setShowCloseConfirmModal(false);
+                  // navigate(`/journey/${id}?menu=LIST`); // 여정 페이지로 돌아가기
+                }}
+              >
+                마무리하기
+              </button>
+            </div>
+          </div>
+        </Modal.Body>
+      </Modal>
     </div>
   );
 };
