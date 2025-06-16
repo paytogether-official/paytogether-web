@@ -47,7 +47,7 @@ export const JourneyExpenseList = () => {
 
   const totalAmount = useMemo(() => {
     let total = 0;
-    journeyExpenseList.forEach(expense => {
+    journeyExpenseList?.expenses?.forEach(expense => {
       if (expense.amount) {
         total = Math.round((total + expense.amount) * 100) / 100; // 소수점 둘째 자리에서 버림
       }
@@ -87,20 +87,24 @@ export const JourneyExpenseList = () => {
   const expenseList = useMemo(() => {
     let list: JourneyExpense[] = [];
     if (tab === "ALL") {
-      list = journeyExpenseList;
+      list = journeyExpenseList?.expenses ?? [];
     } else if (tab === "ETC") {
-      list = journeyExpenseList.filter(
-        expense =>
-          expense.expenseDate < journey?.startDate! ||
-          expense.expenseDate > journey?.endDate!
-      );
+      list =
+        journeyExpenseList?.expenses?.filter(
+          expense =>
+            expense.expenseDate < journey?.startDate! ||
+            expense.expenseDate > journey?.endDate!
+        ) ?? [];
     } else {
       const day = Number(tab);
       if (isNaN(day)) return [];
       const date = dayjs(journey?.startDate)
         .add(day - 1, "day")
         .format("YYYY-MM-DD");
-      list = journeyExpenseList.filter(expense => expense.expenseDate === date);
+      list =
+        journeyExpenseList?.expenses?.filter(
+          expense => expense.expenseDate === date
+        ) ?? [];
     }
 
     if (sort === "oldest") {

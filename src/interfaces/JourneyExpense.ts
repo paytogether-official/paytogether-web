@@ -35,6 +35,7 @@ export interface JourneyExpense {
   payerName: string; // Name of the person who paid for the expense
   expenseDate: string; // Date of the expense in ISO 8601 format (e.g., "2025-03-24")
   category: string; // Category of the expense (e.g., "식사", "교통", "숙박", "기타")
+  categoryDescription: string;
   baseCurrency: string; // Base currency code (e.g., "USD", "EUR")
   quoteCurrency: string; // Quote currency code (e.g., "KRW")
   amount: number; // Total amount of the expense

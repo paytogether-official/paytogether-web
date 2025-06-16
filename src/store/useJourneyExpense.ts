@@ -1,11 +1,12 @@
 import axios from "api";
+import { GetJourneyExpensesResponseDto } from "interfaces/getJourneyExpensesResponseDto";
 import { JourneyExpense } from "interfaces/JourneyExpense";
 import { create } from "zustand";
 import { useCommon } from "./useCommon";
 
 interface State {
   journeyExpense: JourneyExpense | null;
-  journeyExpenseList: JourneyExpense[];
+  journeyExpenseList: GetJourneyExpensesResponseDto | null;
   ///////////////////////////////////////////////////////////////////////////////////////////////
   fetchJourneyExpense: (
     journeyId: string,
@@ -17,7 +18,7 @@ interface State {
 
 export const useJourneyExpense = create<State>((set, get) => ({
   journeyExpense: null,
-  journeyExpenseList: [],
+  journeyExpenseList: null,
   ///////////////////////////////////////////////////////////////////////////////////////////////
   fetchJourneyExpense: async (
     journeyId: string,
@@ -49,7 +50,7 @@ export const useJourneyExpense = create<State>((set, get) => ({
   },
   fetchJourneyExpenseList: async (journeyId: string, quoteCurrency: string) => {
     try {
-      const response = await axios.get<JourneyExpense[]>(
+      const response = await axios.get<GetJourneyExpensesResponseDto>(
         `https://api.paytogether.kr/journeys/${journeyId}/expenses?quoteCurrency=${quoteCurrency}`
       );
       if (response.status === 200) {
