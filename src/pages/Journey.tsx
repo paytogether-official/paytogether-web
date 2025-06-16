@@ -22,7 +22,7 @@ export const Journey = () => {
   const [showCloseConfirmModal, setShowCloseConfirmModal] =
     React.useState(false);
 
-  const { journeyList, fetchJourneyList } = useJourneyList();
+  const { journeyList, fetchJourneyList, closeJourney } = useJourneyList();
   const { journey, fetchJourney } = useJourney();
 
   useEffect(() => {
@@ -161,9 +161,8 @@ export const Journey = () => {
               <button
                 className="btn btn-primary btn-lg text-[16px] font-semibold flex-1"
                 onClick={() => {
-                  // TODO: 항목 삭제 로직 추가
                   setShowCloseConfirmModal(false);
-                  // navigate(`/journey/${id}?menu=LIST`); // 여정 페이지로 돌아가기
+                  closeJourney(id!);
                 }}
               >
                 마무리하기
