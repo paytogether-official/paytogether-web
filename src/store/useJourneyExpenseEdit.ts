@@ -15,7 +15,7 @@ interface State {
     journeyExpenseId: string,
     data: Partial<JourneyExpense>
   ) => Promise<boolean>;
-  resetJourneyExpenseEdit: () => void;
+  isModified: boolean;
   changeJourneyExpenseEdit: <K extends keyof JourneyExpense>(
     key: K,
     value: JourneyExpense[K]
@@ -24,6 +24,7 @@ interface State {
 
 export const useJourneyExpenseEdit = create<State>(set => ({
   journeyExpenseEdit: null,
+  isModified: false,
 
   fetchJourneyExpenseEdit: async (
     journeyId,
@@ -35,7 +36,7 @@ export const useJourneyExpenseEdit = create<State>(set => ({
         `https://api.paytogether.kr/journeys/${journeyId}/expenses/${journeyExpenseId}?quoteCurrency=${quoteCurrency}`
       );
       if (response.status === 200) {
-        set({ journeyExpenseEdit: response.data });
+        set({ journeyExpenseEdit: response.data, isModified: false });
       } else {
         useCommon.getState().addToast({
           type: "error",
@@ -81,12 +82,13 @@ export const useJourneyExpenseEdit = create<State>(set => ({
     }
   },
 
-  resetJourneyExpenseEdit: () => set({ journeyExpenseEdit: null }),
-
   changeJourneyExpenseEdit: (key, value) =>
     set(state =>
       state.journeyExpenseEdit
-        ? { journeyExpenseEdit: { ...state.journeyExpenseEdit, [key]: value } }
+        ? {
+            journeyExpenseEdit: { ...state.journeyExpenseEdit, [key]: value },
+            isModified: true
+          }
         : {}
     )
 }));

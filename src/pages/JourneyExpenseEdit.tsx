@@ -46,6 +46,7 @@ export const JourneyExpenseEdit = () => {
   // zustand 스토어
   const {
     journeyExpenseEdit,
+    isModified,
     fetchJourneyExpenseEdit,
     updateJourneyExpenseEdit,
     changeJourneyExpenseEdit
@@ -105,11 +106,11 @@ export const JourneyExpenseEdit = () => {
         title="항목 수정"
         leftType="back"
         onClickLeft={() => {
-          // 수정한 내용이 있을 때
-          setShowExitModal(true); // 수정 완료 후 모달 표시
-
-          // 수정한 내용이 없을 때
-          // navigate(`/journey/${id}/${journeyExpenseId}`);
+          if (isModified) {
+            setShowExitModal(true); // 수정 내용 있으면 모달 표시
+          } else {
+            navigate(`/journey/${id}/${journeyExpenseId}`); // 없으면 바로 이동
+          }
         }}
         rightType="edit" // TODO: 완료된 아이콘은 표시 안함
         onClickRight={async () => {
