@@ -50,6 +50,40 @@ export const JourneyExpenseEdit = () => {
     updateJourneyExpenseEdit,
     changeJourneyExpenseEdit
   } = useJourneyExpenseEdit();
+
+  // 금액 변경 핸들러 (JourneyAddExpense와 동일)
+  const handleChangeAmount = (value: number) => {
+    const newValue = Math.floor(value * 100) / 100;
+    changeJourneyExpenseEdit("amount", newValue);
+    if (tab === "1/N" && journeyExpenseEdit?.members) {
+      const memberAmount =
+        Math.floor((newValue / journeyExpenseEdit.members.length) * 100) / 100;
+      const updatedMembers = journeyExpenseEdit.members.map(member => ({
+        ...member,
+        amount: memberAmount
+      }));
+      changeJourneyExpenseEdit("members", updatedMembers);
+
+      let remainingAmount = newValue;
+      journeyExpenseEdit.members.forEach(() => {
+        remainingAmount =
+          Math.round((remainingAmount - memberAmount) * 100) / 100;
+      });
+      changeJourneyExpenseEdit("remainingAmount", remainingAmount);
+    }
+  };
+
+  // 멤버별 금액 직접입력 핸들러
+  const handleChangeMemberAmount = (memberName: string, value: number) => {
+    const newValue = Math.floor(value * 100) / 100;
+    if (!journeyExpenseEdit?.members) return;
+    const updatedMembers = journeyExpenseEdit.members.map(m =>
+      m.name === memberName ? { ...m, amount: newValue } : m
+    );
+    const totalAmount = updatedMembers.reduce((sum, m) => sum + m.amount, 0);
+    changeJourneyExpenseEdit("members", updatedMembers);
+    changeJourneyExpenseEdit("amount", totalAmount);
+  };
   const { journey, fetchJourney } = useJourney();
 
   useEffect(() => {
@@ -173,14 +207,17 @@ export const JourneyExpenseEdit = () => {
         <div>
           <Form.Group className="mb-[16px] border-b-2 border-[#2C7EFF]">
             <Form.Control
-              className="text-[28px] mb-1 transparent"
+              className="text-[28px] mb-1 transparent disabled:text-[#B1B8C0]"
               type="number"
               placeholder={`금액입력(${journey?.baseCurrency})`}
-              value={journeyExpenseEdit?.amount ?? ""}
+              value={journeyExpenseEdit?.amount || ""}
               max={9999999999}
-              onChange={e =>
-                changeJourneyExpenseEdit("amount", Number(e.target.value))
-              }
+              onChange={e => {
+                if (Number(e.target.value) <= 9999999999) {
+                  handleChangeAmount(Number(e.target.value));
+                }
+              }}
+              disabled={tab === "DIRECT"}
             />
           </Form.Group>
 
@@ -205,9 +242,24 @@ export const JourneyExpenseEdit = () => {
                     </span>
                   )}
                 </div>
-                <div className="journey-add-expense__user-amount">
-                  {member.amount}
-                </div>
+                {tab === "1/N" && (
+                  <div className="journey-add-expense__user-amount">
+                    {member.amount}
+                  </div>
+                )}
+                {tab === "DIRECT" && (
+                  <Form.Control
+                    className="journey-add-expense__user-amount w-[unset] transparent pr-0"
+                    type="number"
+                    value={member.amount || ""}
+                    max={9999999999}
+                    onChange={e => {
+                      if (Number(e.target.value) <= 9999999999) {
+                        handleChangeMemberAmount(member.name, Number(e.target.value));
+                      }
+                    }}
+                  />
+                )}
               </div>
             ))}
           </div>
