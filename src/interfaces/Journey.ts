@@ -26,12 +26,13 @@ import { Member } from "./Member";
 export interface Journey {
   journeyId: string; // Unique identifier for the journey
   baseCurrency: string; // Base currency code (e.g., "USD", "EUR")
-  quoteCurrency: string; // Quote currency code (e.g., "KRW")
   exchangeRate: number; // Exchange rate against the quote currency
   title: string; // Title of the journey
   startDate: string; // Start date in ISO 8601 format (e.g., "2025-03-21")
   endDate: string; // End date in ISO 8601 format (e.g., "2025-03-22")
   localeCode: string; // Locale code for the country (e.g., "US", "KR")
+  totalExpenseAmount: number;
+  totalExpenseCount: number;
   closedAt: string | null; // Date when the journey was closed, or null if still open
   createdAt: string; // Creation date in ISO 8601 format
   members: Array<Member>; // List of members in the journey

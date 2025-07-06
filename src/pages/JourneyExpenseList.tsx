@@ -122,7 +122,7 @@ export const JourneyExpenseList = () => {
         <div className="text-[16px] font-bold">{journey?.title}</div>
         <ToggleSwitch
           options={[
-            { label: journey?.quoteCurrency!, value: journey?.quoteCurrency! },
+            { label: "KRW", value: "KRW" },
             { label: journey?.baseCurrency!, value: journey?.baseCurrency! }
           ]}
           value={currency}

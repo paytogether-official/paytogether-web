@@ -55,7 +55,7 @@ export const JourneyExpense = () => {
         <div className="text-[18px] font-bold">{journeyExpense?.category}</div>
         <ToggleSwitch
           options={[
-            { label: journey?.quoteCurrency!, value: journey?.quoteCurrency! },
+            { label: "KRW", value: "KRW" },
             { label: journey?.baseCurrency!, value: journey?.baseCurrency! }
           ]}
           value={currency}
