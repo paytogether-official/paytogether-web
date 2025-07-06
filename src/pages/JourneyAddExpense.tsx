@@ -5,6 +5,8 @@ import { HiOutlineCalendar } from "react-icons/hi";
 import { Link, useParams } from "react-router-dom";
 import { useAddJourneyExpense } from "store/useAddJourneyExpense";
 import { useJourney } from "store/useJourney";
+import { ReactComponent as AirplaneNormalButton } from "../assets/svg/status=icn_Airplane.svg";
+import { ReactComponent as AirplaneCheckedButton } from "../assets/svg/status=icn_Airplane_on.svg";
 import { ReactComponent as BusNormalButton } from "../assets/svg/status=icn_bus.svg";
 import { ReactComponent as BusCheckedButton } from "../assets/svg/status=icn_bus_on.svg";
 import { ReactComponent as FoodNormalButton } from "../assets/svg/status=icn_food.svg";
@@ -143,6 +145,14 @@ export const JourneyAddExpense = () => {
           checkedSvg={<HotelCheckedButton />}
           checked={addJourneyExpenseData.category === "숙소"}
           onClick={() => changeData("category", "숙소")}
+        />
+
+        <CategoryButton
+          label="항공"
+          normalSvg={<AirplaneNormalButton />}
+          checkedSvg={<AirplaneCheckedButton />}
+          checked={addJourneyExpenseData.category === "항공"}
+          onClick={() => changeData("category", "항공")}
         />
       </div>
       <div className="d-flex mb-2">
