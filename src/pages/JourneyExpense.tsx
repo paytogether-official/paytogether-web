@@ -52,7 +52,7 @@ export const JourneyExpense = () => {
         onClickRight={() => setShowModal(true)}
       />
       <div className="flex justify-between items-center mt-2">
-        <div className="text-[18px] font-bold">항목명</div>
+        <div className="text-[18px] font-bold">{journeyExpense?.category}</div>
         <ToggleSwitch
           options={[
             { label: journey?.quoteCurrency!, value: journey?.quoteCurrency! },
@@ -62,9 +62,9 @@ export const JourneyExpense = () => {
           onChange={handleChangeCurrency}
         />
       </div>
-      <div className="text-[12px] text-[#6D7582] mb-2">{`${
-        journeyExpense?.payerName ?? ""
-      } 외 ${(journeyExpense?.members.length ?? 1) - 1}명`}</div>
+      <div className="text-[12px] text-[#6D7582] mb-2">
+        {journeyExpense?.expenseDate}
+      </div>
       <div className="mb-3">
         <span className="text-[24px] font-bold text-[#2C7EFF] mr-1">
           {journeyExpense?.amount?.toLocaleString()}
