@@ -14,9 +14,12 @@ interface State {
     journeyId: string,
     journeyExpenseId: string,
     data: Partial<JourneyExpense>
-  ) => Promise<void>;
+  ) => Promise<boolean>;
   resetJourneyExpenseEdit: () => void;
-  changeJourneyExpenseEdit: <K extends keyof JourneyExpense>(key: K, value: JourneyExpense[K]) => void;
+  changeJourneyExpenseEdit: <K extends keyof JourneyExpense>(
+    key: K,
+    value: JourneyExpense[K]
+  ) => void;
 }
 
 export const useJourneyExpenseEdit = create<State>(set => ({
@@ -56,22 +59,25 @@ export const useJourneyExpenseEdit = create<State>(set => ({
         data
       );
       if (response.status === 200) {
-        set({ journeyExpenseEdit: response.data });
+        // set({ journeyExpenseEdit: response.data });
         useCommon.getState().addToast({
           type: "success",
           text: "지출 항목이 성공적으로 수정되었습니다."
         });
+        return true;
       } else {
         useCommon.getState().addToast({
           type: "error",
           text: "지출 항목 수정에 실패했습니다."
         });
+        return false;
       }
     } catch (error: any) {
       useCommon.getState().addToast({
         type: "error",
         text: error?.response?.data?.message || "지출 항목 수정에 실패했습니다."
       });
+      return false;
     }
   },
 

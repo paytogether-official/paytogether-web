@@ -112,9 +112,20 @@ export const JourneyExpenseEdit = () => {
           // navigate(`/journey/${id}/${journeyExpenseId}`);
         }}
         rightType="edit" // TODO: 완료된 아이콘은 표시 안함
-        onClickRight={() => {
-          // TODO: 수정 처리
-          navigate(`/journey/${id}/${journeyExpenseId}`);
+        onClickRight={async () => {
+          if (!id || !journeyExpenseId || !journeyExpenseEdit) return;
+          try {
+            const result = await updateJourneyExpenseEdit(
+              id,
+              journeyExpenseId,
+              journeyExpenseEdit
+            );
+            if (result) {
+              navigate(`/journey/${id}/${journeyExpenseId}`);
+            }
+          } catch (e) {
+            // 실패 시 이동하지 않음 (토스트는 store에서 처리)
+          }
         }}
       />
       <div className="journey-add-expense mt-3 pb-16">
@@ -255,7 +266,10 @@ export const JourneyExpenseEdit = () => {
                     max={9999999999}
                     onChange={e => {
                       if (Number(e.target.value) <= 9999999999) {
-                        handleChangeMemberAmount(member.name, Number(e.target.value));
+                        handleChangeMemberAmount(
+                          member.name,
+                          Number(e.target.value)
+                        );
                       }
                     }}
                   />
