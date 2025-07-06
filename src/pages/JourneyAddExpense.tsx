@@ -4,6 +4,7 @@ import { Form, Tab, Tabs } from "react-bootstrap";
 import { HiOutlineCalendar } from "react-icons/hi";
 import { Link, useParams } from "react-router-dom";
 import { useAddJourneyExpense } from "store/useAddJourneyExpense";
+import { useJourney } from "store/useJourney";
 import { ReactComponent as BusNormalButton } from "../assets/svg/status=icn_bus.svg";
 import { ReactComponent as BusCheckedButton } from "../assets/svg/status=icn_bus_on.svg";
 import { ReactComponent as FoodNormalButton } from "../assets/svg/status=icn_food.svg";
@@ -30,10 +31,10 @@ export const JourneyAddExpense = () => {
   const { id } = useParams<{ id: string }>();
 
   const [showDateModal, setShowDateModal] = React.useState(false);
-  const [expenseName, setExpenserName] = React.useState<string>("");
   const [tab, setTab] = React.useState<ExpenseType>("1/N");
   const [showMemoModal, setShowMemoModal] = React.useState(false);
 
+  const { journey } = useJourney();
   const { addJourneyExpenseData, changeData, addExpense } =
     useAddJourneyExpense();
 
@@ -149,8 +150,8 @@ export const JourneyAddExpense = () => {
           className="text-[14px] mr-2"
           type="text"
           placeholder="어디에 사용하셨나요?"
-          value={expenseName}
-          onChange={e => setExpenserName(e.target.value)}
+          value={addJourneyExpenseData.categoryDescription}
+          onChange={e => changeData("categoryDescription", e.target.value)}
         />
         <div>
           <SvgButton
@@ -174,7 +175,7 @@ export const JourneyAddExpense = () => {
           <Form.Control
             className="text-[28px] mb-1 transparent disabled:text-[#B1B8C0]"
             type="number"
-            placeholder={`금액입력(${addJourneyExpenseData.currency})`}
+            placeholder={`금액입력(${journey?.baseCurrency})`}
             value={addJourneyExpenseData.amount || ""}
             max={9999999999}
             onChange={e => {

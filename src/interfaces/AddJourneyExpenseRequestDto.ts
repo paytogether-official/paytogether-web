@@ -20,8 +20,8 @@ export interface AddJourneyExpenseRequestDtoMember {
 export interface AddJourneyExpenseRequestDto {
   payerName: string; // Name of the person who paid for the expense
   category: string; // Category of the expense (e.g., "식사", "교통", "숙박", "기타")
+  categoryDescription: string;
   expenseDate: string; // Date of the expense in ISO 8601 format (e.g., "2025-03-24")
-  currency: string; // Currency code of the expense (e.g., "USD", "EUR")
   amount: number; // Total amount of the expense
   remainingAmount: number; // Remaining amount to be settled, if any
   memo: string; // Optional memo or note about the expense
@@ -31,8 +31,8 @@ export interface AddJourneyExpenseRequestDto {
 export const initialAddJourneyExpenseRequestDto: AddJourneyExpenseRequestDto = {
   payerName: "",
   category: "기타", // Default category set to "기타"
+  categoryDescription: "",
   expenseDate: "",
-  currency: "",
   amount: 0,
   remainingAmount: 0,
   memo: "",

@@ -30,7 +30,6 @@ export const useAddJourneyExpense = create<State>((set, get) => ({
       addJourneyExpenseData: {
         ...initialAddJourneyExpenseRequestDto,
         payerName: setting.payer,
-        currency: journey.baseCurrency,
         expenseDate: dayjs().format("YYYY-MM-DD"),
         members: journey.members
           .filter(member => !setting.disabledMembers.includes(member.name))
