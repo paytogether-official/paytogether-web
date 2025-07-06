@@ -8,6 +8,7 @@ import { HiChevronDown } from "react-icons/hi2";
 import { useNavigate, useParams } from "react-router-dom";
 import { useJourney } from "store/useJourney";
 import { useJourneyExpense } from "store/useJourneyExpense";
+import { ReactComponent as AirplaneCheckedButton } from "../assets/svg/status=icn_Airplane_on.svg";
 import { ReactComponent as BusCheckedButton } from "../assets/svg/status=icn_bus_on.svg";
 import { ReactComponent as FoodCheckedButton } from "../assets/svg/status=icn_food_on.svg";
 import { ReactComponent as HotelCheckedButton } from "../assets/svg/status=icn_hotel_on.svg";
@@ -187,6 +188,9 @@ export const JourneyExpenseList = () => {
                       )}
                       {expense.category === "숙소" && (
                         <HotelCheckedButton className="w-[15px]" />
+                      )}
+                      {expense.category === "항공" && (
+                        <AirplaneCheckedButton className="w-[15px]" />
                       )}
                     </div>
 
