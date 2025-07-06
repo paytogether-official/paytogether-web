@@ -52,7 +52,9 @@ export const JourneyExpense = () => {
         onClickRight={() => setShowModal(true)}
       />
       <div className="flex justify-between items-center mt-2">
-        <div className="text-[18px] font-bold">{journeyExpense?.category}</div>
+        <div className="text-[18px] font-bold">
+          {journeyExpense?.categoryDescription}
+        </div>
         <ToggleSwitch
           options={[
             { label: "KRW", value: "KRW" },

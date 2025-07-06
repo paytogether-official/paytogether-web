@@ -190,7 +190,9 @@ export const JourneyExpenseList = () => {
                       )}
                     </div>
 
-                    <span className="text-[14px] font-semibold">항목명</span>
+                    <span className="text-[14px] font-semibold">
+                      {expense.categoryDescription}
+                    </span>
                   </div>
                   <div className="text-[12px] text-[#343942]">
                     {`${expense.payerName} 외 ${
