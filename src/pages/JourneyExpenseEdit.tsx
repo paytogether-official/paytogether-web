@@ -1,9 +1,12 @@
 import dayjs from "dayjs";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Form, Modal, Tab, Tabs } from "react-bootstrap";
 import { HiOutlineCalendar } from "react-icons/hi";
 import { Link, useNavigate, useParams } from "react-router-dom";
+import { useJourney } from "store/useJourney";
 import { ReactComponent as DeleteIcon } from "../assets/svg/Delete.svg";
+import { ReactComponent as AirplaneNormalButton } from "../assets/svg/status=icn_Airplane.svg";
+import { ReactComponent as AirplaneCheckedButton } from "../assets/svg/status=icn_Airplane_on.svg";
 import { ReactComponent as BusNormalButton } from "../assets/svg/status=icn_bus.svg";
 import { ReactComponent as BusCheckedButton } from "../assets/svg/status=icn_bus_on.svg";
 import { ReactComponent as FoodNormalButton } from "../assets/svg/status=icn_food.svg";
@@ -23,6 +26,7 @@ import { MemoBottomSheet } from "../components/bottomSheets/MemoBottomSheet";
 import { CategoryButton } from "../components/CategoryButton";
 import { Header } from "../components/Header";
 import { SvgButton } from "../components/SvgButton";
+import { useJourneyExpenseEdit } from "../store/useJourneyExpenseEdit";
 import "./JourneyAddExpense.scss";
 
 export const JourneyExpenseEdit = () => {
@@ -33,14 +37,33 @@ export const JourneyExpenseEdit = () => {
     journeyExpenseId: string;
   }>();
 
+  const [currency, setCurrency] = React.useState("");
   const [showDateModal, setShowDateModal] = React.useState(false);
-  const [expenseDate, setExpenseDate] = React.useState<Date>(new Date());
-  const [category, setCategory] = React.useState<string>("기타");
-  const [payerName, setPayerName] = React.useState<string>("");
-  const [tab, setTab] = React.useState("1/N");
-  const [amount, setAmount] = React.useState<number>(0);
   const [showMemoModal, setShowMemoModal] = React.useState(false);
   const [showExitModal, setShowExitModal] = useState(false);
+  const [tab, setTab] = React.useState("1/N");
+
+  // zustand 스토어
+  const {
+    journeyExpenseEdit,
+    fetchJourneyExpenseEdit,
+    updateJourneyExpenseEdit,
+    changeJourneyExpenseEdit
+  } = useJourneyExpenseEdit();
+  const { journey, fetchJourney } = useJourney();
+
+  useEffect(() => {
+    if (!journey) {
+      fetchJourney(id!); // 여정 정보가 없으면 가져오기
+    }
+  }, []);
+
+  useEffect(() => {
+    if (journey?.baseCurrency) {
+      setCurrency(journey.baseCurrency);
+      fetchJourneyExpenseEdit(id!, journeyExpenseId!, journey.baseCurrency);
+    }
+  }, [journey?.baseCurrency]);
 
   return (
     <div className="journey-expense-edit">
@@ -66,7 +89,11 @@ export const JourneyExpenseEdit = () => {
             className="form-control flex justify-between items-center cursor-pointer"
             onClick={() => setShowDateModal(true)}
           >
-            <div>{dayjs(expenseDate).format("YY.MM.DD")}</div>
+            <div>
+              {journeyExpenseEdit
+                ? dayjs(journeyExpenseEdit.expenseDate).format("YY.MM.DD")
+                : "-"}
+            </div>
             <HiOutlineCalendar className="text-[22px]" />
           </div>
         </Form.Group>
@@ -75,48 +102,50 @@ export const JourneyExpenseEdit = () => {
             label="기타"
             normalSvg={<EtcNormalButton />}
             checkedSvg={<EtcCheckedButton />}
-            checked={category === "기타"}
-            onClick={() => setCategory("기타")}
+            checked={journeyExpenseEdit?.category === "기타"}
+            onClick={() => changeJourneyExpenseEdit("category", "기타")}
           />
-
           <CategoryButton
             label="식비"
             normalSvg={<FoodNormalButton />}
             checkedSvg={<FoodCheckedButton />}
-            checked={category === "식비"}
-            onClick={() => setCategory("식비")}
+            checked={journeyExpenseEdit?.category === "식비"}
+            onClick={() => changeJourneyExpenseEdit("category", "식비")}
           />
-
           <CategoryButton
             label="교통"
             normalSvg={<BusNormalButton />}
             checkedSvg={<BusCheckedButton />}
-            checked={category === "교통"}
-            onClick={() => setCategory("교통")}
+            checked={journeyExpenseEdit?.category === "교통"}
+            onClick={() => changeJourneyExpenseEdit("category", "교통")}
           />
-
           <CategoryButton
             label="관광"
             normalSvg={<TicketNormalButton />}
             checkedSvg={<TicketCheckedButton />}
-            checked={category === "관광"}
-            onClick={() => setCategory("관광")}
+            checked={journeyExpenseEdit?.category === "관광"}
+            onClick={() => changeJourneyExpenseEdit("category", "관광")}
           />
-
           <CategoryButton
             label="쇼핑"
             normalSvg={<ShoppingNormalButton />}
             checkedSvg={<ShoppingCheckedButton />}
-            checked={category === "쇼핑"}
-            onClick={() => setCategory("쇼핑")}
+            checked={journeyExpenseEdit?.category === "쇼핑"}
+            onClick={() => changeJourneyExpenseEdit("category", "쇼핑")}
           />
-
           <CategoryButton
             label="숙소"
             normalSvg={<HotelNormalButton />}
             checkedSvg={<HotelCheckedButton />}
-            checked={category === "숙소"}
-            onClick={() => setCategory("숙소")}
+            checked={journeyExpenseEdit?.category === "숙소"}
+            onClick={() => changeJourneyExpenseEdit("category", "숙소")}
+          />
+          <CategoryButton
+            label="항공"
+            normalSvg={<AirplaneNormalButton />}
+            checkedSvg={<AirplaneCheckedButton />}
+            checked={journeyExpenseEdit?.category === "항공"}
+            onClick={() => changeJourneyExpenseEdit("category", "항공")}
           />
         </div>
         <div className="d-flex mb-2">
@@ -124,16 +153,17 @@ export const JourneyExpenseEdit = () => {
             className="text-[14px] mr-2"
             type="text"
             placeholder="어디에 사용하셨나요?"
-            value={payerName}
-            onChange={e => setPayerName(e.target.value)}
+            value={journeyExpenseEdit?.categoryDescription || ""}
+            onChange={e =>
+              changeJourneyExpenseEdit("categoryDescription", e.target.value)
+            }
           />
-          <div>
-            <SvgButton
-              normalSvg={<MemoNormalButton />}
-              hoverSvg={<MemoCheckedButton />}
-              onClick={() => setShowMemoModal(true)}
-            />
-          </div>
+          <SvgButton
+            normalSvg={<MemoNormalButton />}
+            checkedSvg={<MemoCheckedButton />}
+            checked={!!journeyExpenseEdit?.memo}
+            onClick={() => setShowMemoModal(true)}
+          />
         </div>
         <Tabs activeKey={tab} onSelect={k => setTab(k!)} className="mb-3">
           <Tab eventKey="1/N" title="1/N 하기" />
@@ -145,10 +175,12 @@ export const JourneyExpenseEdit = () => {
             <Form.Control
               className="text-[28px] mb-1 transparent"
               type="number"
-              placeholder="금액(JPN)"
-              value={amount || ""}
+              placeholder={`금액입력(${journey?.baseCurrency})`}
+              value={journeyExpenseEdit?.amount ?? ""}
               max={9999999999}
-              onChange={e => setAmount(Number(e.target.value))}
+              onChange={e =>
+                changeJourneyExpenseEdit("amount", Number(e.target.value))
+              }
             />
           </Form.Group>
 
@@ -161,40 +193,40 @@ export const JourneyExpenseEdit = () => {
                 정산설정
               </Link>
             </div>
-            <div className="journey-add-expense__user">
-              <div className="flex gap-2">
-                <span className="journey-add-expense__user-name">가망이</span>
-                <span className="journey-add-expense__calculate-badge">
-                  계산
-                </span>
+            {journeyExpenseEdit?.members.map(member => (
+              <div key={member.name} className="journey-add-expense__user">
+                <div className="flex gap-2">
+                  <span className="journey-add-expense__user-name">
+                    {member.name}
+                  </span>
+                  {journeyExpenseEdit.payerName === member.name && (
+                    <span className="journey-add-expense__calculate-badge">
+                      계산
+                    </span>
+                  )}
+                </div>
+                <div className="journey-add-expense__user-amount">
+                  {member.amount}
+                </div>
               </div>
-              <div className="journey-add-expense__user-amount">3,423</div>
-            </div>
-            <div className="journey-add-expense__user">
-              <div className="flex gap-2">
-                <span className="journey-add-expense__user-name">나망이</span>
-              </div>
-              <div className="journey-add-expense__user-amount">3,423</div>
-            </div>
-            <div className="journey-add-expense__user">
-              <div className="flex gap-2">
-                <span className="journey-add-expense__user-name">다망이</span>
-              </div>
-              <div className="journey-add-expense__user-amount">3,423</div>
-            </div>
-            <div className="journey-add-expense__user">
-              <div className="flex gap-2">
-                <span className="journey-add-expense__user-name">라망이</span>
-              </div>
-              <div className="journey-add-expense__user-amount">3,423</div>
-            </div>
+            ))}
           </div>
         </div>
 
         <DateBottomSheet
-          selectedDate={expenseDate}
+          selectedDate={
+            journeyExpenseEdit
+              ? new Date(journeyExpenseEdit.expenseDate)
+              : new Date()
+          }
           showModal={showDateModal}
-          onChange={setExpenseDate}
+          onChange={date =>
+            journeyExpenseEdit &&
+            changeJourneyExpenseEdit(
+              "expenseDate",
+              dayjs(date).format("YYYY-MM-DD")
+            )
+          }
           onClose={() => setShowDateModal(false)}
         />
 
