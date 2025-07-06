@@ -36,4 +36,5 @@ export interface Journey {
   closedAt: string | null; // Date when the journey was closed, or null if still open
   createdAt: string; // Creation date in ISO 8601 format
   members: Array<Member>; // List of members in the journey
+  dailyExpenseSumByDate: Array<{ date: string; totalAmount: number }>;
 }
