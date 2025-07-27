@@ -82,7 +82,7 @@ export const Join = () => {
   };
 
   return (
-    <div className="journey-expense">
+    <div className="join">
       <Header
         leftType="back"
         onClickLeft={() => {

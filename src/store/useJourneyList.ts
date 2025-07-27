@@ -19,13 +19,19 @@ export const useJourneyList = create<State>((set, get) => ({
   closedJourneyList: [],
   ///////////////////////////////////////////////////////////////////////////////////////////////
   fetchJourneyList: async () => {
-    const journeyIds: string =
-      localStorage.getItem(CONST.LOCAL_STORAGE_KEY.JOURNEY_IDS) ?? "";
-    if (!journeyIds) return;
+    const journeyIds: string[] = _.uniq([
+      ...(
+        localStorage.getItem(CONST.LOCAL_STORAGE_KEY.JOURNEY_IDS) ?? ""
+      ).split(","),
+      ...(
+        localStorage.getItem(CONST.LOCAL_STORAGE_KEY.CLOSED_JOURNEY_IDS) ?? ""
+      ).split(",")
+    ]);
+    if (_.isEmpty(journeyIds)) return;
 
     try {
       const response = await axios.get<Journey[]>(
-        `https://api.paytogether.kr/journeys?journeyIds=${journeyIds}`
+        `https://api.paytogether.kr/journeys?journeyIds=${journeyIds.join(",")}`
       );
       if (response.status === 200) {
         const journeyList = response.data.filter(journey => !journey.closedAt);
@@ -42,16 +48,9 @@ export const useJourneyList = create<State>((set, get) => ({
           journeyList.map(journey => journey.journeyId).join(",")
         );
 
-        const closedJourneyIds = (
-          localStorage.getItem(CONST.LOCAL_STORAGE_KEY.CLOSED_JOURNEY_IDS) ?? ""
-        ).split(",");
-
         localStorage.setItem(
           CONST.LOCAL_STORAGE_KEY.CLOSED_JOURNEY_IDS,
-          _.uniq([
-            ...closedJourneyIds,
-            ...closedJourneyList.map(journey => journey.journeyId)
-          ]).join(",")
+          closedJourneyList.map(journey => journey.journeyId).join(",")
         );
       } else {
         useCommon.getState().addToast({
