@@ -1,16 +1,26 @@
 import axios from "api";
 import { Journey } from "interfaces/Journey";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Form } from "react-bootstrap";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useCommon } from "store/useCommon";
 import { Header } from "../components/Header";
 import { CONST } from "../CONST";
 
 export const Join = () => {
+  const location = useLocation();
   const navigate = useNavigate();
 
   const [inviteCode, setInviteCode] = useState("");
+
+  // 쿼리스트링에서 code 파라미터가 있으면 자동 세팅
+  useEffect(() => {
+    const params = new URLSearchParams(location.search);
+    const code = params.get("code");
+    if (code) {
+      setInviteCode(code);
+    }
+  }, [location.search]);
 
   const handleClickJoin = async () => {
     try {
