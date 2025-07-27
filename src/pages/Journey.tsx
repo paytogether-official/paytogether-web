@@ -4,6 +4,7 @@ import React, { useEffect } from "react";
 import { Modal, Tab, Tabs } from "react-bootstrap";
 import { HiDotsVertical } from "react-icons/hi";
 import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
+import { useCommon } from "store/useCommon";
 import { useJourney } from "store/useJourney";
 import { useJourneyList } from "store/useJourneyList";
 import { Header } from "../components/Header";
@@ -43,12 +44,39 @@ export const Journey = () => {
     }
   }, [journey]);
 
+  const handleShare = async () => {
+    const shareUrl =
+      window.location.origin + location.pathname + location.search;
+    if (navigator.share) {
+      try {
+        await navigator.share({
+          title: document.title,
+          url: shareUrl
+        });
+      } catch (e) {
+        // 사용자가 취소했거나 에러
+      }
+    } else {
+      await navigator.clipboard.writeText(shareUrl);
+      useCommon.getState().addToast({
+        type: "success",
+        text: "링크가 복사되었습니다"
+      });
+    }
+  };
+
   return (
     <div className="journey">
       <Header
         leftType="menu"
         title={journey?.title}
         onClickLeft={() => setShowSideModal(true)}
+        rightType={journey?.closedAt ? "share" : "none"}
+        onClickRight={() => {
+          if (journey?.closedAt) {
+            handleShare();
+          }
+        }}
       />
       <div className="pt-3">
         {!journey?.closedAt && (

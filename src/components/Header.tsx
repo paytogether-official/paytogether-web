@@ -7,7 +7,7 @@ import {
 } from "react-icons/hi";
 import "./Header.scss";
 
-export type HeaderType = "back" | "menu" | "kebab" | "edit" | "share";
+export type HeaderType = "back" | "menu" | "kebab" | "edit" | "share" | "none";
 
 interface Props {
   title?: string;
