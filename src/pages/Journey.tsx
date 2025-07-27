@@ -37,6 +37,12 @@ export const Journey = () => {
     }
   }, [id]);
 
+  useEffect(() => {
+    if (journey?.closedAt) {
+      setTab("LIST");
+    }
+  }, [journey]);
+
   return (
     <div className="journey">
       <Header
@@ -45,18 +51,20 @@ export const Journey = () => {
         onClickLeft={() => setShowSideModal(true)}
       />
       <div className="pt-3">
-        <div className="flex justify-between items-center mb-3">
-          <Tabs activeKey={tab} onSelect={k => setTab(k!)}>
-            <Tab eventKey="ADD" title="지출 추가" />
-            <Tab eventKey="LIST" title="목록 보기" />
-          </Tabs>
-          <div
-            className="cursor-pointer"
-            onClick={() => setShowBottomSheet(true)}
-          >
-            <HiDotsVertical className="text-[22px]" />
+        {!journey?.closedAt && (
+          <div className="flex justify-between items-center mb-3">
+            <Tabs activeKey={tab} onSelect={k => setTab(k!)}>
+              <Tab eventKey="ADD" title="지출 추가" />
+              <Tab eventKey="LIST" title="목록 보기" />
+            </Tabs>
+            <div
+              className="cursor-pointer"
+              onClick={() => setShowBottomSheet(true)}
+            >
+              <HiDotsVertical className="text-[22px]" />
+            </div>
           </div>
-        </div>
+        )}
 
         {tab === "ADD" && <JourneyAddExpense />}
         {tab === "LIST" && <JourneyExpenseList />}
