@@ -48,8 +48,12 @@ export const JourneyExpense = () => {
         onClickLeft={() => {
           navigate(`/journey/${id}?menu=LIST`); // 여정 페이지로 돌아가기
         }}
-        rightType="kebab" // TODO: 완료된 아이콘은 표시 안함
-        onClickRight={() => setShowModal(true)}
+        rightType={journey?.closedAt ? "share" : "kebab"}
+        onClickRight={() => {
+          if (!journey?.closedAt) {
+            setShowModal(true);
+          }
+        }}
       />
       <div className="flex justify-between items-center mt-2">
         <div className="text-[18px] font-bold">

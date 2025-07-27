@@ -1,9 +1,13 @@
 import classNames from "classnames";
-import { HiMenuAlt2, HiOutlineChevronLeft } from "react-icons/hi";
+import { FiShare } from "react-icons/fi";
+import {
+  HiDotsVertical,
+  HiMenuAlt2,
+  HiOutlineChevronLeft
+} from "react-icons/hi";
 import "./Header.scss";
-import { HiDotsVertical } from "react-icons/hi";
 
-export type HeaderType = "back" | "menu" | "kebab" | "edit";
+export type HeaderType = "back" | "menu" | "kebab" | "edit" | "share";
 
 interface Props {
   title?: string;
@@ -32,6 +36,7 @@ export const Header = (props: Props) => {
           className={classNames(props.rightType && "cursor-pointer")}
         >
           {props.rightType === "kebab" && <HiDotsVertical />}
+          {props.rightType === "share" && <FiShare />}
           {props.rightType === "edit" && (
             <span className="text-[14px] text-[#2C7EFF] font-semibold pr-2">
               수정
