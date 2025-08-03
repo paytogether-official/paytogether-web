@@ -7,8 +7,10 @@ import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 import { useCommon } from "store/useCommon";
 import { useJourney } from "store/useJourney";
 import { useJourneyList } from "store/useJourneyList";
+import { ReactComponent as DeleteIcon } from "../assets/svg/Delete.svg";
 import { Header } from "../components/Header";
 import { SideModal } from "../components/SideModal";
+import { CONST } from "../CONST";
 import { JourneyAddExpense } from "./JourneyAddExpense";
 import { JourneyExpenseList } from "./JourneyExpenseList";
 
@@ -22,6 +24,7 @@ export const Journey = () => {
   const [showBottomSheet, setShowBottomSheet] = React.useState(false);
   const [showCloseConfirmModal, setShowCloseConfirmModal] =
     React.useState(false);
+  const [showExitModal, setShowExitModal] = React.useState(false);
 
   const { journeyList, fetchJourneyList, closeJourney } = useJourneyList();
   const { journey, fetchJourney } = useJourney();
@@ -166,6 +169,15 @@ export const Journey = () => {
           >
             여정 마무리
           </div>
+          <div
+            className="rounded-lg bg-[#FAFAFB] text-[14px] text-[#E6533E] font-medium h-[48px] flex justify-center items-center cursor-pointer"
+            onClick={() => {
+              setShowBottomSheet(false);
+              setShowExitModal(true);
+            }}
+          >
+            여정 나가기
+          </div>
         </div>
       </BottomSheet>
 
@@ -202,6 +214,62 @@ export const Journey = () => {
                 }}
               >
                 마무리하기
+              </button>
+            </div>
+          </div>
+        </Modal.Body>
+      </Modal>
+
+      <Modal
+        centered
+        show={showExitModal}
+        onHide={() => setShowExitModal(false)}
+      >
+        <Modal.Body>
+          <div className="text-center">
+            <DeleteIcon className="inline-block mb-1" />
+            <div className="text-[18px] font-bold mb-1">
+              여정을 나가시겠어요?
+            </div>
+            <div className="text-[14px] mb-4">
+              목록에서 해당 여정이 사라집니다.
+            </div>
+            <div className="flex justify-center gap-2">
+              <button
+                className="btn btn-light btn-lg text-[16px] font-semibold flex-1"
+                onClick={() => setShowExitModal(false)}
+              >
+                닫기
+              </button>
+              <button
+                className="btn btn-danger btn-lg text-[16px] font-semibold flex-1"
+                onClick={() => {
+                  setShowExitModal(false);
+                  // 로컬 스토리지에서 여정 ID 제거
+                  if (id) {
+                    const journeyIds = (
+                      localStorage.getItem(
+                        CONST.LOCAL_STORAGE_KEY.JOURNEY_IDS
+                      ) ?? ""
+                    ).split(",");
+                    localStorage.setItem(
+                      CONST.LOCAL_STORAGE_KEY.JOURNEY_IDS,
+                      journeyIds.filter(jid => jid !== id).join(",")
+                    );
+                    const closedJourneyIds = (
+                      localStorage.getItem(
+                        CONST.LOCAL_STORAGE_KEY.CLOSED_JOURNEY_IDS
+                      ) ?? ""
+                    ).split(",");
+                    localStorage.setItem(
+                      CONST.LOCAL_STORAGE_KEY.CLOSED_JOURNEY_IDS,
+                      closedJourneyIds.filter(jid => jid !== id).join(",")
+                    );
+                  }
+                  navigate("/");
+                }}
+              >
+                나가기
               </button>
             </div>
           </div>
