@@ -21,7 +21,8 @@ export const JourneyExpense = () => {
   const [showDeleteModal, setShowDeleteModal] = React.useState(false);
 
   const { journey, fetchJourney } = useJourney();
-  const { journeyExpense, fetchJourneyExpense } = useJourneyExpense();
+  const { journeyExpense, fetchJourneyExpense, deleteJourneyExpense } =
+    useJourneyExpense();
 
   useEffect(() => {
     if (!journey) {
@@ -158,9 +159,10 @@ export const JourneyExpense = () => {
               <button
                 className="btn btn-danger btn-lg text-[16px] font-semibold flex-1"
                 onClick={() => {
-                  // TODO: 항목 삭제 로직 추가
                   setShowDeleteModal(false);
-                  navigate(`/journey/${id}?menu=LIST`); // 여정 페이지로 돌아가기
+                  deleteJourneyExpense(id!, journeyExpenseId!, () => {
+                    navigate(`/journey/${id}?menu=LIST`); // 여정 페이지로 돌아가기
+                  });
                 }}
               >
                 삭제하기

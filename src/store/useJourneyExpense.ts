@@ -14,6 +14,11 @@ interface State {
     quoteCurrency: string
   ) => void;
   fetchJourneyExpenseList: (journeyId: string, quoteCurrency: string) => void;
+  deleteJourneyExpense: (
+    journeyId: string,
+    journeyExpenseId: string,
+    onSuccess?: () => void
+  ) => void;
 }
 
 export const useJourneyExpense = create<State>((set, get) => ({
@@ -69,6 +74,34 @@ export const useJourneyExpense = create<State>((set, get) => ({
       useCommon.getState().addToast({
         type: "error",
         text: "지출 목록 정보를 가져오는 데 실패했습니다."
+      });
+    }
+  },
+  deleteJourneyExpense: async (
+    journeyId: string,
+    journeyExpenseId: string,
+    onSuccess?: () => void
+  ) => {
+    try {
+      const response = await axios.delete(
+        `https://api.paytogether.kr/journeys/${journeyId}/expenses/${journeyExpenseId}`
+      );
+      if (response.status === 204) {
+        set(() => ({
+          journeyExpense: null
+        }));
+        if (onSuccess) onSuccess();
+      } else {
+        useCommon.getState().addToast({
+          type: "error",
+          text: "지출 정보를 삭제하는 데 실패했습니다."
+        });
+      }
+    } catch (error) {
+      console.error((error as any).response?.data?.message);
+      useCommon.getState().addToast({
+        type: "error",
+        text: "지출 정보를 삭제하는 데 실패했습니다."
       });
     }
   }
