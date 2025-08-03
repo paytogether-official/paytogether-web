@@ -298,10 +298,10 @@ export const JourneyExpenseEdit = () => {
         />
 
         <MemoBottomSheet
-          initMemo=""
+          initMemo={journeyExpenseEdit?.memo ?? ""}
           showModal={showMemoModal}
           onClose={() => setShowMemoModal(false)}
-          onChange={memo => console.log(memo)}
+          onChange={memo => changeJourneyExpenseEdit("memo", memo)}
         />
 
         <Modal
