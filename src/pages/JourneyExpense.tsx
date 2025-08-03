@@ -5,7 +5,7 @@ import { useJourney } from "store/useJourney";
 import { useJourneyExpense } from "store/useJourneyExpense";
 import { ReactComponent as DeleteIcon } from "../assets/svg/Delete.svg";
 import { BottomSheet } from "../components/BottomSheet";
-import { Header } from "../components/Header";
+import { Header, HeaderType } from "../components/Header";
 import { ToggleSwitch } from "../components/ToggleSwitch";
 
 export const JourneyExpense = () => {
@@ -49,9 +49,9 @@ export const JourneyExpense = () => {
         onClickLeft={() => {
           navigate(`/journey/${id}?menu=LIST`); // 여정 페이지로 돌아가기
         }}
-        rightType={journey?.closedAt ? "share" : "kebab"}
-        onClickRight={() => {
-          if (!journey?.closedAt) {
+        rightType={journey?.closedAt ? ["share"] : ["kebab"]}
+        onClickRight={(type: HeaderType) => {
+          if (type === "kebab") {
             setShowModal(true);
           }
         }}

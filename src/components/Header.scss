@@ -6,12 +6,18 @@
   height: 48px;
 
   &__left,
-  &__right {
+  &__right > div {
     width: 48px;
     display: flex;
     justify-content: center;
     align-items: center;
     font-size: 22px;
+  }
+
+  &__right {
+    display: flex;
+    align-items: center;
+    height: 48px;
   }
 
   &__title {

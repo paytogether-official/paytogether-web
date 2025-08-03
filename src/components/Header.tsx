@@ -5,16 +5,24 @@ import {
   HiMenuAlt2,
   HiOutlineChevronLeft
 } from "react-icons/hi";
+import { RiDeleteBin5Line } from "react-icons/ri";
 import "./Header.scss";
 
-export type HeaderType = "back" | "menu" | "kebab" | "edit" | "share" | "none";
+export type HeaderType =
+  | "back"
+  | "menu"
+  | "kebab"
+  | "edit"
+  | "share"
+  | "delete"
+  | "none";
 
 interface Props {
   title?: string;
   leftType?: HeaderType;
-  rightType?: HeaderType;
+  rightType?: HeaderType[];
   onClickLeft?: () => void;
-  onClickRight?: () => void;
+  onClickRight?: (type: HeaderType) => void;
 }
 
 export const Header = (props: Props) => {
@@ -31,18 +39,22 @@ export const Header = (props: Props) => {
       </div>
       <div className="header__title">{props.title}</div>
       <div className="header__right">
-        <div
-          onClick={props.onClickRight}
-          className={classNames(props.rightType && "cursor-pointer")}
-        >
-          {props.rightType === "kebab" && <HiDotsVertical />}
-          {props.rightType === "share" && <FiShare />}
-          {props.rightType === "edit" && (
-            <span className="text-[14px] text-[#2C7EFF] font-semibold pr-2">
-              수정
-            </span>
-          )}
-        </div>
+        {props.rightType?.map(type => (
+          <div
+            key={type}
+            onClick={() => props.onClickRight?.(type)}
+            className={classNames(type && "cursor-pointer")}
+          >
+            {type === "kebab" && <HiDotsVertical />}
+            {type === "share" && <FiShare />}
+            {type === "delete" && <RiDeleteBin5Line />}
+            {type === "edit" && (
+              <span className="text-[14px] text-[#2C7EFF] font-semibold pr-2">
+                수정
+              </span>
+            )}
+          </div>
+        ))}
       </div>
     </div>
   );

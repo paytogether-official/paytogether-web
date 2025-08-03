@@ -112,7 +112,7 @@ export const JourneyExpenseEdit = () => {
             navigate(`/journey/${id}/${journeyExpenseId}`); // 없으면 바로 이동
           }
         }}
-        rightType="edit" // TODO: 완료된 아이콘은 표시 안함
+        rightType={["edit"]} // TODO: 완료된 아이콘은 표시 안함
         onClickRight={async () => {
           if (!id || !journeyExpenseId || !journeyExpenseEdit) return;
           try {

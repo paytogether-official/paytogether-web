@@ -1,5 +1,6 @@
 import classNames from "classnames";
 import { BottomSheet } from "components/BottomSheet";
+import { ExitJourneyModal } from "components/modals/ExitJourneyModal";
 import React, { useEffect } from "react";
 import { Modal, Tab, Tabs } from "react-bootstrap";
 import { HiDotsVertical } from "react-icons/hi";
@@ -7,8 +8,7 @@ import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 import { useCommon } from "store/useCommon";
 import { useJourney } from "store/useJourney";
 import { useJourneyList } from "store/useJourneyList";
-import { ReactComponent as DeleteIcon } from "../assets/svg/Delete.svg";
-import { Header } from "../components/Header";
+import { Header, HeaderType } from "../components/Header";
 import { SideModal } from "../components/SideModal";
 import { CONST } from "../CONST";
 import { JourneyAddExpense } from "./JourneyAddExpense";
@@ -72,12 +72,14 @@ export const Journey = () => {
     <div className="journey">
       <Header
         leftType="menu"
-        title={journey?.title}
+        title={journey?.closedAt ? "" : journey?.title}
         onClickLeft={() => setShowSideModal(true)}
-        rightType={journey?.closedAt ? "share" : "none"}
-        onClickRight={() => {
-          if (journey?.closedAt) {
+        rightType={journey?.closedAt ? ["share", "delete"] : ["none"]}
+        onClickRight={(type: HeaderType) => {
+          if (type === "share") {
             handleShare();
+          } else if (type === "delete") {
+            setShowExitModal(true);
           }
         }}
       />
@@ -220,61 +222,33 @@ export const Journey = () => {
         </Modal.Body>
       </Modal>
 
-      <Modal
-        centered
+      <ExitJourneyModal
         show={showExitModal}
-        onHide={() => setShowExitModal(false)}
-      >
-        <Modal.Body>
-          <div className="text-center">
-            <DeleteIcon className="inline-block mb-1" />
-            <div className="text-[18px] font-bold mb-1">
-              여정을 나가시겠어요?
-            </div>
-            <div className="text-[14px] mb-4">
-              목록에서 해당 여정이 사라집니다.
-            </div>
-            <div className="flex justify-center gap-2">
-              <button
-                className="btn btn-light btn-lg text-[16px] font-semibold flex-1"
-                onClick={() => setShowExitModal(false)}
-              >
-                닫기
-              </button>
-              <button
-                className="btn btn-danger btn-lg text-[16px] font-semibold flex-1"
-                onClick={() => {
-                  setShowExitModal(false);
-                  // 로컬 스토리지에서 여정 ID 제거
-                  if (id) {
-                    const journeyIds = (
-                      localStorage.getItem(
-                        CONST.LOCAL_STORAGE_KEY.JOURNEY_IDS
-                      ) ?? ""
-                    ).split(",");
-                    localStorage.setItem(
-                      CONST.LOCAL_STORAGE_KEY.JOURNEY_IDS,
-                      journeyIds.filter(jid => jid !== id).join(",")
-                    );
-                    const closedJourneyIds = (
-                      localStorage.getItem(
-                        CONST.LOCAL_STORAGE_KEY.CLOSED_JOURNEY_IDS
-                      ) ?? ""
-                    ).split(",");
-                    localStorage.setItem(
-                      CONST.LOCAL_STORAGE_KEY.CLOSED_JOURNEY_IDS,
-                      closedJourneyIds.filter(jid => jid !== id).join(",")
-                    );
-                  }
-                  navigate("/");
-                }}
-              >
-                나가기
-              </button>
-            </div>
-          </div>
-        </Modal.Body>
-      </Modal>
+        onClose={() => setShowExitModal(false)}
+        onSubmit={() => {
+          setShowExitModal(false);
+          // 로컬 스토리지에서 여정 ID 제거
+          if (id) {
+            const journeyIds = (
+              localStorage.getItem(CONST.LOCAL_STORAGE_KEY.JOURNEY_IDS) ?? ""
+            ).split(",");
+            localStorage.setItem(
+              CONST.LOCAL_STORAGE_KEY.JOURNEY_IDS,
+              journeyIds.filter(jid => jid !== id).join(",")
+            );
+            const closedJourneyIds = (
+              localStorage.getItem(
+                CONST.LOCAL_STORAGE_KEY.CLOSED_JOURNEY_IDS
+              ) ?? ""
+            ).split(",");
+            localStorage.setItem(
+              CONST.LOCAL_STORAGE_KEY.CLOSED_JOURNEY_IDS,
+              closedJourneyIds.filter(jid => jid !== id).join(",")
+            );
+          }
+          navigate("/");
+        }}
+      />
     </div>
   );
 };
