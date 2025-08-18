@@ -4,6 +4,13 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useJourney } from "store/useJourney";
 import { useJourneyExpense } from "store/useJourneyExpense";
 import { ReactComponent as DeleteIcon } from "../assets/svg/Delete.svg";
+import { ReactComponent as AirplaneCheckedButton } from "../assets/svg/status=icn_Airplane_on.svg";
+import { ReactComponent as BusCheckedButton } from "../assets/svg/status=icn_bus_on.svg";
+import { ReactComponent as FoodCheckedButton } from "../assets/svg/status=icn_food_on.svg";
+import { ReactComponent as HotelCheckedButton } from "../assets/svg/status=icn_hotel_on.svg";
+import { ReactComponent as EtcCheckedButton } from "../assets/svg/status=icn_input_on.svg";
+import { ReactComponent as ShoppingCheckedButton } from "../assets/svg/status=icn_shopping_on.svg";
+import { ReactComponent as TicketCheckedButton } from "../assets/svg/status=icn_ticket_on.svg";
 import { BottomSheet } from "../components/BottomSheet";
 import { Header, HeaderType } from "../components/Header";
 import { ToggleSwitch } from "../components/ToggleSwitch";
@@ -56,9 +63,39 @@ export const JourneyExpense = () => {
           }
         }}
       />
-      <div className="flex justify-between items-center mt-2">
-        <div className="text-[18px] font-bold">
-          {journeyExpense?.categoryDescription}
+      <div className="flex justify-between items-start mt-2 mb-2">
+        <div className="flex items-center">
+          <div className="w-[36px] h-[36px] mr-2 bg-[#DCEAFF] rounded-lg flex items-center justify-center">
+            {journeyExpense?.category === "기타" && (
+              <EtcCheckedButton className="w-[30px]" />
+            )}
+            {journeyExpense?.category === "식비" && (
+              <FoodCheckedButton className="w-[30px]" />
+            )}
+            {journeyExpense?.category === "교통" && (
+              <BusCheckedButton className="w-[30px]" />
+            )}
+            {journeyExpense?.category === "관광" && (
+              <TicketCheckedButton className="w-[30px]" />
+            )}
+            {journeyExpense?.category === "쇼핑" && (
+              <ShoppingCheckedButton className="w-[30px]" />
+            )}
+            {journeyExpense?.category === "숙소" && (
+              <HotelCheckedButton className="w-[30px]" />
+            )}
+            {journeyExpense?.category === "항공" && (
+              <AirplaneCheckedButton className="w-[30px]" />
+            )}
+          </div>
+          <div>
+            <div className="text-[18px] font-bold">
+              {journeyExpense?.categoryDescription}
+            </div>
+            <div className="text-[12px] text-[#6D7582]">
+              {journeyExpense?.expenseDate}
+            </div>
+          </div>
         </div>
         <ToggleSwitch
           options={[
@@ -69,9 +106,7 @@ export const JourneyExpense = () => {
           onChange={handleChangeCurrency}
         />
       </div>
-      <div className="text-[12px] text-[#6D7582] mb-2">
-        {journeyExpense?.expenseDate}
-      </div>
+
       <div className="mb-3">
         <span className="text-[24px] font-bold text-[#2C7EFF] mr-1">
           {journeyExpense?.amount?.toLocaleString()}
