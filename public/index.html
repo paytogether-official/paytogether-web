@@ -2,7 +2,12 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="referrer" content="strict-origin-when-cross-origin" />
+    <link rel="icon" href="%PUBLIC_URL%/favicon.png" />
+    <!-- Preconnect to external domains -->
+    <link rel="preconnect" href="https://cdn.jsdelivr.net" />
+    <link rel="preconnect" href="https://www.googletagmanager.com" />
     <link
       rel="stylesheet"
       as="style"
@@ -11,10 +16,40 @@
     />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content="#000000" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+    <meta name="apple-mobile-web-app-title" content="PayTogether" />
+    <meta
+      name="format-detection"
+      content="telephone=no, date=no, address=no, email=no"
+    />
     <meta
       name="description"
-      content="Web site created using create-react-app"
+      content="간편한 정산 관리를 위한 페이투게더. 정산 관리를 쉽고 편리하게 해보세요."
     />
+    <meta name="application-name" content="PayTogether" />
+
+    <!-- Open Graph / Social Media Meta Tags -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://app.paytogether.kr/" />
+    <meta property="og:title" content="PayTogether" />
+    <meta
+      property="og:description"
+      content="간편한 정산 관리를 위한 페이투게더"
+    />
+    <meta property="og:image" content="%PUBLIC_URL%/og-image.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+
+    <!-- Twitter Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="PayTogether" />
+    <meta
+      name="twitter:description"
+      content="간편한 정산 관리를 위한 페이투게더"
+    />
+    <meta name="twitter:image" content="%PUBLIC_URL%/og-image.png" />
+
     <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
     <!--
       manifest.json provides metadata used when your web app is installed on a
@@ -32,13 +67,18 @@
     -->
     <title>Pay Together</title>
     <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-LBK8RD1BE4"></script>
+    <script
+      async
+      src="https://www.googletagmanager.com/gtag/js?id=G-LBK8RD1BE4"
+    ></script>
     <script>
       window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag("js", new Date());
 
-      gtag('config', 'G-LBK8RD1BE4');
+      gtag("config", "G-LBK8RD1BE4");
     </script>
 
     <!-- Start Single Page Apps for GitHub Pages -->
