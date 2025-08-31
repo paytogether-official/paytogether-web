@@ -1,6 +1,7 @@
 import "bootstrap/dist/css/bootstrap.min.css";
 import { LoadingLayer } from "components/LoadingLayer";
 import { ToastLayer } from "components/ToastLayer";
+import { JourneyResult } from "pages/JourneyResult";
 import "react-date-range/dist/styles.css"; // main style file
 import "react-date-range/dist/theme/default.css"; // theme css file
 import { Navigate, Route, Routes } from "react-router-dom";
@@ -24,6 +25,7 @@ function App() {
         <Route path="/journey/create" element={<Create />} />
         <Route path="/journey" element={<Navigate to="/journey/-1" />} />
         <Route path="/journey/:id" element={<Journey />} />
+        <Route path="/journey/:id/result" element={<JourneyResult />} />
         <Route
           path="/journey/:id/expense-setting"
           element={<ExpenseSetting />}
