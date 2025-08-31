@@ -8,6 +8,7 @@ import { useJourney } from "store/useJourney";
 import { useJourneyResult } from "store/useJourneyResult";
 import { Header, HeaderType } from "../components/Header";
 import { JourneyResultRatio } from "./JourneyResultRatio";
+import { JourneyResultResult } from "./JourneyResultResult";
 
 export const JourneyResult = () => {
   const navigate = useNavigate();
@@ -120,6 +121,7 @@ export const JourneyResult = () => {
       </Tabs>
 
       {tab === "RATIO" && <JourneyResultRatio />}
+      {tab === "RESULT" && <JourneyResultResult />}
     </div>
   );
 };
