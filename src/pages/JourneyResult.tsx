@@ -5,7 +5,7 @@ import { Tab, Tabs } from "react-bootstrap";
 import { HiChevronDown, HiChevronUp } from "react-icons/hi2";
 import { useNavigate, useParams } from "react-router-dom";
 import { useJourney } from "store/useJourney";
-import { useJourneyExpense } from "store/useJourneyExpense";
+import { useJourneyResult } from "store/useJourneyResult";
 import { Header, HeaderType } from "../components/Header";
 import { JourneyResultRatio } from "./JourneyResultRatio";
 
@@ -21,7 +21,7 @@ export const JourneyResult = () => {
   const [showSummary, setShowSummary] = useState(false);
 
   const { journey, fetchJourney, fetchJourneyWithCurrency } = useJourney();
-  const { journeyExpenseList, fetchJourneyExpenseList } = useJourneyExpense();
+  const { fetchJourneyResult } = useJourneyResult();
 
   useEffect(() => {
     // 여정 정보를 불러온다.
@@ -31,15 +31,15 @@ export const JourneyResult = () => {
   useEffect(() => {
     if (journey?.baseCurrency) {
       setCurrency(journey.baseCurrency);
-      fetchJourneyExpenseList(id!, journey.baseCurrency);
       fetchJourneyWithCurrency(id!, journey.baseCurrency);
+      fetchJourneyResult(id!, journey.baseCurrency);
     }
   }, [journey?.baseCurrency]);
 
   const handleChangeCurrency = (newCurrency: string) => {
     setCurrency(newCurrency);
-    fetchJourneyExpenseList(id!, newCurrency);
     fetchJourneyWithCurrency(id!, newCurrency);
+    fetchJourneyResult(id!, newCurrency);
   };
 
   useEffect(() => {
@@ -48,16 +48,6 @@ export const JourneyResult = () => {
       navigate(`/journey/${id}`);
     }
   }, [journey]);
-
-  const totalAmount = useMemo(() => {
-    let total = 0;
-    journeyExpenseList?.expenses?.forEach(expense => {
-      if (expense.amount) {
-        total = Math.round((total + expense.amount) * 100) / 100; // 소수점 둘째 자리에서 버림
-      }
-    });
-    return total;
-  }, [journeyExpenseList]);
 
   const journeyDate = useMemo(() => {
     if (!journey?.startDate || !journey?.endDate) return "";
@@ -102,7 +92,7 @@ export const JourneyResult = () => {
         journey?.members[0].name ?? ""
       } 외 ${(journey?.members.length ?? 1) - 1}명`}</div>
       <div className="text-[24px] font-bold flex items-center gap-1">
-        총 {totalAmount.toLocaleString()}{" "}
+        총 {journey?.totalExpenseAmount.toLocaleString()}{" "}
         <span
           className="cursor-pointer"
           onClick={() => setShowSummary(!showSummary)}

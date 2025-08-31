@@ -1,5 +1,6 @@
 import { HiOutlineChevronRight } from "react-icons/hi";
-import { useJourneyExpense } from "store/useJourneyExpense";
+import { useJourneyResult } from "store/useJourneyResult";
+
 import { ReactComponent as AirplaneCheckedButton } from "../assets/svg/status=icn_Airplane_on.svg";
 import { ReactComponent as BusCheckedButton } from "../assets/svg/status=icn_bus_on.svg";
 import { ReactComponent as FoodCheckedButton } from "../assets/svg/status=icn_food_on.svg";
@@ -9,7 +10,7 @@ import { ReactComponent as ShoppingCheckedButton } from "../assets/svg/status=ic
 import { ReactComponent as TicketCheckedButton } from "../assets/svg/status=icn_ticket_on.svg";
 
 export const JourneyResultRatio = () => {
-  const { journeyExpenseList, fetchJourneyExpenseList } = useJourneyExpense();
+  const { journeyResult } = useJourneyResult();
 
   const list = [
     {
@@ -42,30 +43,23 @@ export const JourneyResultRatio = () => {
     }
   ];
 
-  const percentageList = list
-    .map(item => item.category)
-    .map(category => {
-      const amount = journeyExpenseList?.expenses
-        .filter(expense => expense.category === category)
-        .map(expense => expense.amount)
-        .reduce((a, b) => a + b, 0);
-      const ratio = (amount ?? 0) / (journeyExpenseList?.totalAmount ?? 1);
-      const percentage = (ratio * 100).toFixed(1);
-      return Number(percentage);
-    });
-
   return (
     <div className="journey-result-ratio pt-[30px]">
       <div className="flex flex-col gap-4">
         {list.map((item, index) => {
-          const amount = journeyExpenseList?.expenses
-            .filter(expense => expense.category === item.category)
-            .map(expense => expense.amount)
-            .reduce((a, b) => a + b, 0);
+          const expenseCategory = journeyResult?.expenseCategories.find(
+            expenseCategory => expenseCategory.category === item.category
+          );
 
-          const ratio = (amount ?? 0) / (journeyExpenseList?.totalAmount ?? 1);
-          const percentage = Number((ratio * 100).toFixed(2));
-          const maxPercentage = Math.max(...percentageList);
+          const amount = expenseCategory?.amount ?? 0;
+
+          const percentage = expenseCategory?.percentage ?? 0;
+
+          const maxPercentage = Math.max(
+            ...(journeyResult?.expenseCategories.map(
+              expenseCategory => expenseCategory.percentage
+            ) ?? [100])
+          );
 
           return (
             <div key={index} className="flex items-center">
@@ -82,17 +76,16 @@ export const JourneyResultRatio = () => {
 
               {/* Ratio Bar */}
               <div
-                style={{ width: `${(percentage / maxPercentage) * 55}%` }}
+                style={{
+                  width: `${(percentage / maxPercentage) * 55}%`
+                }}
                 className="w-[55%] flex items-center justify-end relative"
               >
                 <div className="text-[12px] font-semibold text-[#2C7EFF] absolute right-full pr-1 whitespace-nowrap">
                   {percentage}%
                 </div>
                 <div className="w-full h-[36px] bg-gray-100 rounded-lg overflow-hidden">
-                  <div
-                    className="h-full bg-[#2C7EFF] rounded-lg"
-                    style={{ width: `${percentage}%` }}
-                  />
+                  <div className="w-full h-full bg-[#2C7EFF] rounded-lg" />
                 </div>
               </div>
             </div>

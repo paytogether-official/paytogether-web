@@ -49,16 +49,6 @@ export const JourneyExpenseList = () => {
     fetchJourneyWithCurrency(id!, newCurrency);
   };
 
-  const totalAmount = useMemo(() => {
-    let total = 0;
-    journeyExpenseList?.expenses?.forEach(expense => {
-      if (expense.amount) {
-        total = Math.round((total + expense.amount) * 100) / 100; // 소수점 둘째 자리에서 버림
-      }
-    });
-    return total;
-  }, [journeyExpenseList]);
-
   const journeyDate = useMemo(() => {
     if (!journey?.startDate || !journey?.endDate) return "";
 
@@ -137,7 +127,7 @@ export const JourneyExpenseList = () => {
         journey?.members[0].name ?? ""
       } 외 ${(journey?.members.length ?? 1) - 1}명`}</div>
       <div className="text-[24px] font-bold flex items-center gap-1">
-        총 {totalAmount.toLocaleString()}{" "}
+        총 {journey?.totalExpenseAmount.toLocaleString()}{" "}
         <span
           className="cursor-pointer"
           onClick={() => setShowSummary(!showSummary)}
