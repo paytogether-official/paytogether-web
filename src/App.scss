@@ -108,6 +108,7 @@
   overflow-y: hidden;
   padding-bottom: 1px;
   flex-wrap: nowrap;
+  gap: 16px;
 
   .nav-item {
     .nav-link {
@@ -120,8 +121,8 @@
       border: 0;
       padding-left: 2px;
       padding-right: 2px;
-      margin-left: 8px;
-      margin-right: 8px;
+      // margin-left: 8px;
+      // margin-right: 8px;
 
       &.active {
         color: #2c7eff;

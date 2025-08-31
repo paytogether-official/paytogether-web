@@ -1,11 +1,13 @@
 import { ToggleSwitch } from "components/ToggleSwitch";
 import dayjs from "dayjs";
 import { useEffect, useMemo, useState } from "react";
+import { Tab, Tabs } from "react-bootstrap";
 import { HiChevronDown, HiChevronUp } from "react-icons/hi2";
 import { useNavigate, useParams } from "react-router-dom";
 import { useJourney } from "store/useJourney";
 import { useJourneyExpense } from "store/useJourneyExpense";
 import { Header, HeaderType } from "../components/Header";
+import { JourneyResultRatio } from "./JourneyResultRatio";
 
 export const JourneyResult = () => {
   const navigate = useNavigate();
@@ -14,11 +16,12 @@ export const JourneyResult = () => {
     id: string;
   }>();
 
+  const [tab, setTab] = useState("RATIO");
   const [currency, setCurrency] = useState("");
   const [showSummary, setShowSummary] = useState(false);
 
   const { journey, fetchJourney, fetchJourneyWithCurrency } = useJourney();
-  const { journeyExpenseList, fetchJourneyExpenseList } = useJourneyExpense(); // Assuming this is a custom hook to fetch journey expense data
+  const { journeyExpenseList, fetchJourneyExpenseList } = useJourneyExpense();
 
   useEffect(() => {
     // 여정 정보를 불러온다.
@@ -120,6 +123,13 @@ export const JourneyResult = () => {
         </div>
       )}
       <div className="text-[12px] mb-3">{journeyDate}</div>
+
+      <Tabs activeKey={tab} onSelect={k => setTab(k!)}>
+        <Tab eventKey="RATIO" title="비율보기" />
+        <Tab eventKey="RESULT" title="정산결과" />
+      </Tabs>
+
+      {tab === "RATIO" && <JourneyResultRatio />}
     </div>
   );
 };
