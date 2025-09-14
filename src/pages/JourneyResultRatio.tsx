@@ -1,6 +1,6 @@
 import { HiOutlineChevronRight } from "react-icons/hi";
+import { useNavigate, useParams } from "react-router-dom";
 import { useJourneyResult } from "store/useJourneyResult";
-
 import { ReactComponent as AirplaneCheckedButton } from "../assets/svg/status=icn_Airplane_on.svg";
 import { ReactComponent as BusCheckedButton } from "../assets/svg/status=icn_bus_on.svg";
 import { ReactComponent as FoodCheckedButton } from "../assets/svg/status=icn_food_on.svg";
@@ -10,6 +10,12 @@ import { ReactComponent as ShoppingCheckedButton } from "../assets/svg/status=ic
 import { ReactComponent as TicketCheckedButton } from "../assets/svg/status=icn_ticket_on.svg";
 
 export const JourneyResultRatio = () => {
+  const navigate = useNavigate();
+
+  const { id } = useParams<{
+    id: string;
+  }>();
+
   const { journeyResult } = useJourneyResult();
 
   const list = [
@@ -67,7 +73,14 @@ export const JourneyResultRatio = () => {
                 {item.icon}
               </div>
               <div className="flex-1">
-                <div className="flex items-center">
+                <div
+                  className="inline-flex items-center cursor-pointer"
+                  onClick={() =>
+                    navigate(
+                      `/journey/${id}/result/detail?category=${item.category}`
+                    )
+                  }
+                >
                   <div className="text-[14px] font-bold">{item.category}</div>
                   <HiOutlineChevronRight />
                 </div>
