@@ -37,7 +37,6 @@ export const JourneyExpenseEdit = () => {
     journeyExpenseId: string;
   }>();
 
-  const [currency, setCurrency] = React.useState("");
   const [showDateModal, setShowDateModal] = React.useState(false);
   const [showMemoModal, setShowMemoModal] = React.useState(false);
   const [showExitModal, setShowExitModal] = useState(false);
@@ -47,6 +46,7 @@ export const JourneyExpenseEdit = () => {
   const {
     journeyExpenseEdit,
     isModified,
+    initJourneyExpenseEdit,
     fetchJourneyExpenseEdit,
     updateJourneyExpenseEdit,
     changeJourneyExpenseEdit
@@ -94,8 +94,7 @@ export const JourneyExpenseEdit = () => {
   }, []);
 
   useEffect(() => {
-    if (journey?.baseCurrency) {
-      setCurrency(journey.baseCurrency);
+    if (journey?.baseCurrency && !journeyExpenseEdit) {
       fetchJourneyExpenseEdit(id!, journeyExpenseId!, journey.baseCurrency);
     }
   }, [journey?.baseCurrency]);
@@ -109,6 +108,7 @@ export const JourneyExpenseEdit = () => {
           if (isModified) {
             setShowExitModal(true); // 수정 내용 있으면 모달 표시
           } else {
+            initJourneyExpenseEdit();
             navigate(`/journey/${id}/${journeyExpenseId}`); // 없으면 바로 이동
           }
         }}
@@ -122,6 +122,7 @@ export const JourneyExpenseEdit = () => {
               journeyExpenseEdit
             );
             if (result) {
+              initJourneyExpenseEdit();
               navigate(`/journey/${id}/${journeyExpenseId}`);
             }
           } catch (e) {
@@ -236,7 +237,7 @@ export const JourneyExpenseEdit = () => {
           <div className="flex flex-col gap-2">
             <div className="text-right">
               <Link
-                to="/journey/expense-setting"
+                to={`/journey/${id}/${journeyExpenseId}/expense-setting`}
                 className="inline-flex justify-between items-center h-[20px] rounded-lg bg-[#DCEAFF] px-2 text-[14px] text-[#2C7EFF] font-semibold"
               >
                 정산설정
@@ -329,6 +330,7 @@ export const JourneyExpenseEdit = () => {
                   className="btn btn-danger btn-lg text-[16px] font-semibold flex-1"
                   onClick={() => {
                     setShowExitModal(false);
+                    initJourneyExpenseEdit();
                     navigate(`/journey/${id}/${journeyExpenseId}`);
                   }}
                 >

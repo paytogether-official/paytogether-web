@@ -5,6 +5,7 @@ import { useCommon } from "./useCommon";
 
 interface State {
   journeyExpenseEdit: JourneyExpense | null;
+  initJourneyExpenseEdit: () => void;
   fetchJourneyExpenseEdit: (
     journeyId: string,
     journeyExpenseId: string,
@@ -25,6 +26,10 @@ interface State {
 export const useJourneyExpenseEdit = create<State>(set => ({
   journeyExpenseEdit: null,
   isModified: false,
+
+  initJourneyExpenseEdit: () => {
+    set({ journeyExpenseEdit: null, isModified: false });
+  },
 
   fetchJourneyExpenseEdit: async (
     journeyId,

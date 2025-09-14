@@ -8,6 +8,7 @@ import { Navigate, Route, Routes } from "react-router-dom";
 import "./App.scss";
 import { Create } from "./pages/Create";
 import { ExpenseSetting } from "./pages/ExpenseSetting";
+import { ExpenseSettingEdit } from "./pages/ExpenseSettingEdit";
 import { History } from "./pages/History";
 import { Home } from "./pages/Home";
 import { Join } from "./pages/Join";
@@ -37,6 +38,10 @@ function App() {
         <Route
           path="/journey/:id/:journeyExpenseId/edit"
           element={<JourneyExpenseEdit />}
+        />
+        <Route
+          path="/journey/:id/:journeyExpenseId/expense-setting"
+          element={<ExpenseSettingEdit />}
         />
       </Routes>
       <LoadingLayer />
