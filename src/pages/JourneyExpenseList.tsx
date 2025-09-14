@@ -148,6 +148,16 @@ export const JourneyExpenseList = () => {
         </div>
       )}
       <div className="text-[12px] mb-3">{journeyDate}</div>
+
+      {journey?.closedAt && (
+        <div
+          className="h-[32px] flex items-center justify-center text-[14px] cursor-pointer font-semibold rounded-2xl text-[#2C7EFF] bg-[#DCEAFF] mb-2"
+          onClick={() => navigate(`/journey/${id}/result`)}
+        >
+          정산결과
+        </div>
+      )}
+
       <div className="bg-[#F3F4F8] h-[4px] ml-[-16px] mr-[-16px]" />
       <div className="text-[16px] font-bold pt-3 pb-2">상세내역</div>
       <Tabs activeKey={tab} onSelect={t => setTab(t!)}>
