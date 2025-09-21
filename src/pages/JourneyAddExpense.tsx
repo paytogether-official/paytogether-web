@@ -167,6 +167,8 @@ export const JourneyAddExpense = () => {
           <SvgButton
             normalSvg={<MemoNormalButton />}
             hoverSvg={<MemoCheckedButton />}
+            checkedSvg={<MemoCheckedButton />}
+            checked={!!addJourneyExpenseData.memo}
             onClick={() => setShowMemoModal(true)}
           />
         </div>

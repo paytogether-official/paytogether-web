@@ -35,7 +35,6 @@ export const MemoBottomSheet = (props: Props) => {
       </div>
       <button
         className="btn btn-primary w-[calc(100%+2rem)] ml-[-1rem] text-center rounded-0 h-[48px]"
-        disabled={!memo}
         onClick={() => {
           props.onChange(memo);
           props.onClose();
