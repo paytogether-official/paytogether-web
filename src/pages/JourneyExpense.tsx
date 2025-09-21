@@ -120,11 +120,11 @@ export const JourneyExpense = () => {
         {journeyExpense?.members.map(member => (
           <div className="journey-add-expense__user">
             <div className="flex gap-2">
-              <span className="journey-add-expense__user-name">
+              <span className="journey-add-expense__user-name whitespace-nowrap">
                 {member.name}
               </span>
               {journeyExpense?.payerName === member.name && (
-                <span className="journey-add-expense__calculate-badge">
+                <span className="journey-add-expense__calculate-badge whitespace-nowrap">
                   계산
                 </span>
               )}

@@ -211,11 +211,11 @@ export const JourneyAddExpense = () => {
           {addJourneyExpenseData.members.map(member => (
             <div key={member.name} className="journey-add-expense__user">
               <div className="flex gap-2">
-                <span className="journey-add-expense__user-name">
+                <span className="journey-add-expense__user-name whitespace-nowrap">
                   {member.name}
                 </span>
                 {addJourneyExpenseData.payerName === member.name && (
-                  <span className="journey-add-expense__calculate-badge">
+                  <span className="journey-add-expense__calculate-badge whitespace-nowrap">
                     계산
                   </span>
                 )}
