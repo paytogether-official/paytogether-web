@@ -87,14 +87,16 @@ export const JourneyResultDetail = () => {
         >
           {`${category}에`} <FaCaretDown className="text-[22px] ml-1" />
         </div>
-        <ToggleSwitch
-          options={[
-            { label: "KRW", value: "KRW" },
-            { label: journey?.baseCurrency!, value: journey?.baseCurrency! }
-          ]}
-          value={currency}
-          onChange={handleChangeCurrency}
-        />
+        {journey?.baseCurrency !== "KRW" && (
+          <ToggleSwitch
+            options={[
+              { label: "KRW", value: "KRW" },
+              { label: journey?.baseCurrency!, value: journey?.baseCurrency! }
+            ]}
+            value={currency}
+            onChange={handleChangeCurrency}
+          />
+        )}
       </div>
       <div className="text-[24px] font-bold mb-4">
         <span className="text-[#2C7EFF]">{`${totalAmountByCategory?.toLocaleString()} `}</span>

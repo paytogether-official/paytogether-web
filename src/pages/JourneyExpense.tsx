@@ -97,14 +97,16 @@ export const JourneyExpense = () => {
             </div>
           </div>
         </div>
-        <ToggleSwitch
-          options={[
-            { label: "KRW", value: "KRW" },
-            { label: journey?.baseCurrency!, value: journey?.baseCurrency! }
-          ]}
-          value={currency}
-          onChange={handleChangeCurrency}
-        />
+        {journey?.baseCurrency !== "KRW" && (
+          <ToggleSwitch
+            options={[
+              { label: "KRW", value: "KRW" },
+              { label: journey?.baseCurrency!, value: journey?.baseCurrency! }
+            ]}
+            value={currency}
+            onChange={handleChangeCurrency}
+          />
+        )}
       </div>
 
       <div className="mb-3">

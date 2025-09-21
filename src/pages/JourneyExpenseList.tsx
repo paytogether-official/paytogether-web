@@ -114,14 +114,16 @@ export const JourneyExpenseList = () => {
     <div className="journey-expense-list">
       <div className="flex justify-between items-center">
         <div className="text-[16px] font-bold">{journey?.title}</div>
-        <ToggleSwitch
-          options={[
-            { label: "KRW", value: "KRW" },
-            { label: journey?.baseCurrency!, value: journey?.baseCurrency! }
-          ]}
-          value={currency}
-          onChange={handleChangeCurrency}
-        />
+        {journey?.baseCurrency !== "KRW" && (
+          <ToggleSwitch
+            options={[
+              { label: "KRW", value: "KRW" },
+              { label: journey?.baseCurrency!, value: journey?.baseCurrency! }
+            ]}
+            value={currency}
+            onChange={handleChangeCurrency}
+          />
+        )}
       </div>
       <div className="text-[12px] font-semibold mb-2">{`${
         journey?.members[0].name ?? ""
