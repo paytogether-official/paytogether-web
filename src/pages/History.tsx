@@ -83,7 +83,7 @@ export const History = () => {
                       </span>
                     </div>
                     <div className="text-[12px] font-semibold pb-1">
-                      총 {journey.totalExpenseCount} 항목
+                      총 {journey.totalExpenseCount} 지출
                     </div>
                   </div>
                 </div>

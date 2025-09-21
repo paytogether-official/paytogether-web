@@ -168,7 +168,7 @@ export const JourneyResultDetail = () => {
       ))}
 
       <BottomSheet
-        title="항목"
+        title="지출"
         isOpen={showCategoryChangeModal}
         onClose={() => setShowCategoryChangeModal(false)}
       >

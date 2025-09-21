@@ -102,7 +102,7 @@ export const JourneyExpenseEdit = () => {
   return (
     <div className="journey-expense-edit">
       <Header
-        title="항목 수정"
+        title="지출 수정"
         leftType="back"
         onClickLeft={() => {
           if (isModified) {

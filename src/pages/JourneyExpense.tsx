@@ -153,13 +153,13 @@ export const JourneyExpense = () => {
           className="rounded-lg bg-[#FAFAFB] text-[#151719] text-[14px] py-3 text-center font-medium mb-2 cursor-pointer"
           onClick={() => {
             setShowModal(false);
-            navigate(`/journey/${id}/${journeyExpenseId}/edit`); // 항목 수정 페이지로 이동
+            navigate(`/journey/${id}/${journeyExpenseId}/edit`); // 지출 수정 페이지로 이동
           }}
         >
-          항목 수정하기
+          지출 수정하기
         </div>
         <div className="rounded-lg bg-[#FAFAFB] text-[#151719] text-[14px] py-3 text-center font-medium mb-2 cursor-pointer">
-          항목 공유하기
+          지출 공유하기
         </div>
         <div
           className="rounded-lg bg-[#FAFAFB] text-[#E6533E] text-[14px] py-3 text-center font-medium mb-2 cursor-pointer"
@@ -168,7 +168,7 @@ export const JourneyExpense = () => {
             setShowDeleteModal(true);
           }}
         >
-          항목 삭제하기
+          지출 삭제하기
         </div>
       </BottomSheet>
 
@@ -181,7 +181,7 @@ export const JourneyExpense = () => {
           <div className="text-center">
             <DeleteIcon className="inline-block mb-1" />
             <div className="text-[18px] font-bold mb-1">
-              항목을 삭제하시겠어요?
+              지출을 삭제하시겠어요?
             </div>
             <div className="text-[14px] mb-4">
               삭제시 모든 데이터가 사라집니다.

@@ -199,7 +199,7 @@ export const Journey = () => {
               여정을 마무리하시겠어요?
             </div>
             <div className="text-[14px] mb-4">
-              더 이상 항목을 추가할 수 없어요
+              더 이상 지출을 추가할 수 없어요
             </div>
             <div className="flex justify-center gap-2">
               <button

@@ -68,20 +68,20 @@ export const useJourneyExpenseEdit = create<State>(set => ({
         // set({ journeyExpenseEdit: response.data });
         useCommon.getState().addToast({
           type: "success",
-          text: "지출 항목이 성공적으로 수정되었습니다."
+          text: "지출이 성공적으로 수정되었습니다."
         });
         return true;
       } else {
         useCommon.getState().addToast({
           type: "error",
-          text: "지출 항목 수정에 실패했습니다."
+          text: "지출 수정에 실패했습니다."
         });
         return false;
       }
     } catch (error: any) {
       useCommon.getState().addToast({
         type: "error",
-        text: error?.response?.data?.message || "지출 항목 수정에 실패했습니다."
+        text: error?.response?.data?.message || "지출 수정에 실패했습니다."
       });
       return false;
     }

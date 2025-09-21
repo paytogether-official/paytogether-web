@@ -58,7 +58,7 @@ export const useAddJourneyExpense = create<State>((set, get) => ({
       if (response.status === 200) {
         useCommon.getState().addToast({
           type: "success",
-          text: "항목이 추가됐습니다."
+          text: "지출이 추가됐습니다."
         });
 
         set(state => ({
