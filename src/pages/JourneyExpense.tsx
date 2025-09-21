@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import { Modal } from "react-bootstrap";
-import { useNavigate, useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
+import { useCommon } from "store/useCommon";
 import { useJourney } from "store/useJourney";
 import { useJourneyExpense } from "store/useJourneyExpense";
 import { ReactComponent as DeleteIcon } from "../assets/svg/Delete.svg";
@@ -22,6 +23,8 @@ export const JourneyExpense = () => {
     id: string;
     journeyExpenseId: string;
   }>();
+
+  const location = useLocation();
 
   const [currency, setCurrency] = React.useState("");
   const [showModal, setShowModal] = React.useState(false);
@@ -49,6 +52,27 @@ export const JourneyExpense = () => {
     fetchJourneyExpense(id!, journeyExpenseId!, newCurrency);
   };
 
+  const handleShare = async () => {
+    const shareUrl =
+      window.location.origin + location.pathname + location.search;
+    if (navigator.share) {
+      try {
+        await navigator.share({
+          title: document.title,
+          url: shareUrl
+        });
+      } catch (e) {
+        // 사용자가 취소했거나 에러
+      }
+    } else {
+      await navigator.clipboard.writeText(shareUrl);
+      useCommon.getState().addToast({
+        type: "success",
+        text: "링크가 복사되었습니다"
+      });
+    }
+  };
+
   return (
     <div className="journey-expense">
       <Header
@@ -60,6 +84,8 @@ export const JourneyExpense = () => {
         onClickRight={(type: HeaderType) => {
           if (type === "kebab") {
             setShowModal(true);
+          } else if (type === "share") {
+            handleShare();
           }
         }}
       />
