@@ -182,6 +182,19 @@ export const Journey = () => {
             여정 공유하기
           </div>
           <div
+            className="rounded-lg bg-[#FAFAFB] text-[14px] font-medium h-[48px] flex justify-center items-center cursor-pointer"
+            onClick={() => {
+              setShowBottomSheet(false);
+              navigate(`/journey/${id}/setting`, {
+                state: {
+                  from: location.pathname
+                }
+              });
+            }}
+          >
+            설정변경
+          </div>
+          <div
             className="rounded-lg bg-[#FAFAFB] text-[14px] text-[#E6533E] font-medium h-[48px] flex justify-center items-center cursor-pointer"
             onClick={() => {
               setShowBottomSheet(false);

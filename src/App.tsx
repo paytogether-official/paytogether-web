@@ -16,6 +16,7 @@ import { Journey } from "./pages/Journey";
 import { JourneyExpense } from "./pages/JourneyExpense";
 import { JourneyExpenseEdit } from "./pages/JourneyExpenseEdit";
 import { JourneyResultDetail } from "./pages/JourneyResultDetail";
+import { JourneySetting } from "./pages/JourneySetting";
 
 function App() {
   return (
@@ -28,6 +29,7 @@ function App() {
         <Route path="/journey" element={<Navigate to="/journey/-1" />} />
         <Route path="/journey/:id" element={<Journey />} />
         <Route path="/journey/:id/result" element={<JourneyResult />} />
+        <Route path="/journey/:id/setting" element={<JourneySetting />} />
         <Route
           path="/journey/:id/result/detail"
           element={<JourneyResultDetail />}
