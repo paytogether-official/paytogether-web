@@ -222,7 +222,7 @@ export const JourneyExpenseEdit = () => {
             <Form.Control
               className="text-[28px] mb-1 transparent disabled:text-[#B1B8C0]"
               type="number"
-              placeholder={`금액입력(${journey?.baseCurrency})`}
+              placeholder={`금액입력(${journey?.baseCurrency ?? ""})`}
               value={journeyExpenseEdit?.amount || ""}
               max={9999999999}
               onChange={e => {

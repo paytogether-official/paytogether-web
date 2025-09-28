@@ -54,6 +54,7 @@ export const Journey = () => {
       try {
         await navigator.share({
           title: document.title,
+          text: "페이투게더에서 공유된 여정을 확인해보세요!",
           url: shareUrl
         });
       } catch (e) {
@@ -170,6 +171,15 @@ export const Journey = () => {
             }}
           >
             여정 마무리
+          </div>
+          <div
+            className="rounded-lg bg-[#FAFAFB] text-[14px] font-medium h-[48px] flex justify-center items-center cursor-pointer"
+            onClick={() => {
+              setShowBottomSheet(false);
+              handleShare();
+            }}
+          >
+            여정 공유하기
           </div>
           <div
             className="rounded-lg bg-[#FAFAFB] text-[14px] text-[#E6533E] font-medium h-[48px] flex justify-center items-center cursor-pointer"
