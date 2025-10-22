@@ -184,7 +184,13 @@ export const JourneyExpense = () => {
         >
           지출 수정하기
         </div>
-        <div className="rounded-lg bg-[#FAFAFB] text-[#151719] text-[14px] py-3 text-center font-medium mb-2 cursor-pointer">
+        <div
+          className="rounded-lg bg-[#FAFAFB] text-[#151719] text-[14px] py-3 text-center font-medium mb-2 cursor-pointer"
+          onClick={() => {
+            setShowModal(false);
+            handleShare();
+          }}
+        >
           지출 공유하기
         </div>
         <div
