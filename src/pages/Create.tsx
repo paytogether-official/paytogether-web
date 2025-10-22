@@ -8,7 +8,7 @@ import { FaEquals } from "react-icons/fa";
 import { FaCaretDown } from "react-icons/fa6";
 import { HiOutlineCalendar } from "react-icons/hi";
 import { IoAddCircleOutline } from "react-icons/io5";
-import { useNavigate } from "react-router";
+import { useLocation, useNavigate } from "react-router";
 import { useCommon } from "store/useCommon";
 import { useCurrency } from "store/useCurrency";
 import { BottomSheet } from "../components/BottomSheet";
@@ -34,6 +34,9 @@ export const Create = () => {
   const { addToast } = useCommon();
 
   const navigate = useNavigate();
+  const location = useLocation();
+  const queryParams = new URLSearchParams(location.search);
+  const isNew = queryParams.get("new") === "true";
 
   const selectionRange = useMemo(() => {
     return {
@@ -140,7 +143,7 @@ export const Create = () => {
     <div className="create pb-16">
       <Header
         leftType="back"
-        title="여정 참여하기"
+        title={isNew ? "새 여정 만들기" : "여정 만들기"}
         onClickLeft={() => {
           navigate("/");
         }}

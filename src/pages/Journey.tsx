@@ -143,7 +143,7 @@ export const Journey = () => {
           </div>
           <div className="flex flex-col gap-2">
             <Link
-              to="/journey/create"
+              to="/journey/create?new=true"
               className="btn btn-primary w-full h-[48px] flex justify-center items-center"
             >
               새 여정 만들기
