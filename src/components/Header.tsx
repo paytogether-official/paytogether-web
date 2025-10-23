@@ -1,4 +1,5 @@
 import classNames from "classnames";
+import _ from "lodash";
 import { FiShare } from "react-icons/fi";
 import {
   HiDotsVertical,
@@ -55,6 +56,9 @@ export const Header = (props: Props) => {
             )}
           </div>
         ))}
+        {props.leftType && _.isEmpty(props.rightType) && (
+          <div className="w-[48px]" />
+        )}
       </div>
     </div>
   );
